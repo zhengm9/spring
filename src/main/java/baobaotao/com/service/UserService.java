@@ -1,12 +1,12 @@
-package com.baobaotao.service;
+package baobaotao.com.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.baobaotao.dao.LoginLogDao;
-import com.baobaotao.dao.UserDao;
-import com.baobaotao.domain.LoginLog;
-import com.baobaotao.domain.User;
+import baobaotao.com.dao.LoginLogDao;
+import baobaotao.com.dao.UserDao;
+import baobaotao.com.domain.LoginLog;
+import baobaotao.com.domain.User;
 
 @Service
 public class UserService {

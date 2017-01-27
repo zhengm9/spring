@@ -1,10 +1,10 @@
-package com.baobaotao.dao;
+package baobaotao.com.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.baobaotao.domain.LoginLog;
+import baobaotao.com.domain.LoginLog;
 
 @Repository
 public class LoginLogDao {

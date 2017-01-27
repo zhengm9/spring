@@ -1,4 +1,4 @@
-package com.baobaotao.service;
+package main.java.baobaotao.com.service;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.baobaotao.domain.User;
+import main.java.baobaotao.com.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext.xml"})

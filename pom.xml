@@ -145,11 +145,11 @@
             <version>4.1.7.RELEASE</version>
         </dependency>
         <!--4) spring test相关依赖 -->
-        <dependency>
+        <!--dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>4.1.7.RELEASE</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
@@ -173,4 +173,23 @@
 
     </dependencies>
 
+    <build>
+        <!--finalName>simple-webapp</finalName-->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>WebRoot</directory>
+                        </resource>
+                    </webResources>
+                    <!--sourceDirectory>src</sourceDirectory-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

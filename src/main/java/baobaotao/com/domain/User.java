@@ -1,4 +1,4 @@
-package com.baobaotao.domain;
+package baobaotao.com.domain;
 
 import java.io.Serializable;
 import java.util.Date;

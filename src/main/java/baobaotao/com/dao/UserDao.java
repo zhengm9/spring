@@ -1,4 +1,4 @@
-package com.baobaotao.dao;
+package baobaotao.com.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
-import com.baobaotao.domain.User;
+import baobaotao.com.domain.User;
 
 @Repository
 public class UserDao {
