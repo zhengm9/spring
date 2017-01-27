@@ -1,4 +1,4 @@
-package baobaotao.com.web;
+package com.future.web;
 
 import java.util.Date;
 
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import baobaotao.com.domain.User;
-import baobaotao.com.service.UserService;
+import com.future.domain.User;
+import com.future.service.UserService;
 
 @Controller
 public class LoginController{

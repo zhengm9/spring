@@ -1,14 +1,14 @@
-package baobaotao.com.dao;
+package com.future.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import baobaotao.com.domain.LoginLog;
+import com.future.domain.LoginLog;
 
 @Repository
 public class LoginLogDao {
-	@Autowired
+//	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	public void insertLoginLog(LoginLog loginLog) {

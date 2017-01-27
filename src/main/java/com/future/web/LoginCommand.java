@@ -1,4 +1,4 @@
-package baobaotao.com.web;
+package com.future.web;
 
 public class LoginCommand {
 	private String userName;
