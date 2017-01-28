@@ -17,13 +17,13 @@ import java.util.Date;
 
 @Controller
 public class MyController {
-//    private static Logger LOGGER = Logger.getLogger(MyController.class);
+    private static final Logger LOGGER = Logger.getLogger(MyController.class);
     @Autowired
     private UserService userService;
 
     @RequestMapping({"/hello", "lj", "/"})
     public ModelAndView hello(HttpServletRequest request) {
-//        LOGGER.info("spring mvc begin");
+        LOGGER.info("spring mvc begin");
         System.out.println("hello");
         User user = new User();
         user.setLastIp(request.getLocalAddr());
