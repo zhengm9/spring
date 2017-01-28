@@ -15,7 +15,7 @@
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
     <context:component-scan base-package="com.future.dao"/>
     <context:component-scan base-package="com.future.service"/>
-    
+    <bean id="WebUser" class="com.future.entity.WebUser" />
     <!-- 配置数据源 -->
 	<!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 
