@@ -15,13 +15,21 @@
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
     <context:component-scan base-package="com.future.dao"/>
     <context:component-scan base-package="com.future.service"/>
-    <bean id="WebUser" class="com.future.entity.WebUser" />
+    <bean id="WebUser" class="com.future.entity.WebUser">
+        <property name="userName">
+            <value>name_from_bean</value>
+        </property>
+        <property name="passwd">
+            <value>passwd_from_bean</value>
+        </property>
+    </bean>
+
     <!-- 配置数据源 -->
 	<!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 
 		p:driverClassName="com.mysql.jdbc.Driver"
 		p:url="jdbc:mysql://localhost:3306/sampledb" 
-		p:username="root"
+		p:userName="root"
 		p:password="1234" />-->
 
 	<!-- 配置Jdbc模板  -->

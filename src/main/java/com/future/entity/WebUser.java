@@ -4,15 +4,16 @@ package com.future.entity;
  * Created by Administrator on 2017/1/28.
  */
 public class WebUser {
-    private String username;
+    private String userName;
     private String passwd;
+    private int credits;
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPasswd() {
@@ -23,10 +24,18 @@ public class WebUser {
         this.passwd = passwd;
     }
 
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
     @Override
     public String toString() {
         return "WebUser{" +
-                "username='" + username + '\'' +
+                "userName='" + userName + '\'' +
                 ", passwd='" + passwd + '\'' +
                 '}';
     }
