@@ -1,9 +1,14 @@
 package com.future.entity;
 
+import com.future.controller.MyController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Created by Administrator on 2017/1/28.
  */
 public class WebUser {
+    private static Logger LOGGER = LogManager.getLogger(WebUser.class);
     private String userName;
     private String passwd;
     private int credits;
@@ -38,5 +43,13 @@ public class WebUser {
                 "userName='" + userName + '\'' +
                 ", passwd='" + passwd + '\'' +
                 '}';
+    }
+
+    public void init() {
+        LOGGER.info("xml init method called");
+    }
+
+    public void destroy() {
+        LOGGER.info("xml destroy method called");
     }
 }

@@ -36,6 +36,7 @@ private static Logger LOGGER = LogManager.getLogger(MyController.class);
         ctx.setServletContext(ContextLoader.getCurrentWebApplicationContext().getServletContext());
         ctx.refresh();
         WebUser webUser = (WebUser) ctx.getBean("WebUser");
+        LOGGER.info( "web ctx webUser:"+webUser);
         LOGGER.info( "web ctx webUser:"+webUser.getUserName());
         LOGGER.info( "web ctx webUser:"+webUser.getPasswd());
         WebLogin webLogin = (WebLogin) ctx.getBean("WebLogin");
