@@ -18,16 +18,16 @@ public class User {
     private String passwd;
     private int credits;
     private String country;
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDate birthDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthDate;
     private Gender gender;
 
 
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
