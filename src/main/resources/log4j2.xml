@@ -44,6 +44,7 @@
         </File>
     </Appenders>
     <!--重要-->
+
     <Loggers>
         <Logger name="com.future" level="trace" additivity="true">
             <appender-ref ref="Console"/>
@@ -51,6 +52,48 @@
             <appender-ref ref="app_info"/>
             <appender-ref ref="app_error"/>
         </Logger>
+        <logger name="org.springframework.core" level="error" additivity="true" >
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="org.springframework.context" level="error"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="org.springframework.web" level="info" additivity="true" >
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="org.apache.http" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="java.sql.Connection" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="java.sql.Statement" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="java.sql.ResultSet" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="java.sql.PreparedStatement" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="com.ibatis.common.jdbc.ScriptRunner" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="com.ibatis.common.jdbc.ScriptRunner" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
+        <logger name="com.ibatis" level="info"  additivity="true">
+            <appender-ref ref="app_info"/>
+        </logger>
         <root level="Info">
             <appender-ref ref="Console" />
         </root>

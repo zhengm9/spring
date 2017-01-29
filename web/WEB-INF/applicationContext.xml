@@ -15,6 +15,8 @@
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
     <context:component-scan base-package="com.future.dao"/>
     <context:component-scan base-package="com.future.service"/>
+    <context:component-scan base-package="com.future.entity"/>
+
     <bean id="WebUser" class="com.future.entity.WebUser">
         <property name="userName">
             <value>name_from_bean</value>
@@ -23,7 +25,8 @@
             <value>passwd_from_bean</value>
         </property>
     </bean>
-
+    <!--配置属性变量文件的存放位置，用于@Value("$(xxx)")注解中的占位符-->
+    <context:property-placeholder location="WEB-INF/classes/springproperties/webuser.properties"/>
     <!-- 配置数据源 -->
 	<!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 

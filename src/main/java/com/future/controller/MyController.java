@@ -1,5 +1,6 @@
 package com.future.controller;
 
+import com.future.entity.WebLogin;
 import com.future.entity.WebUser;
 import com.future.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -35,9 +36,12 @@ private static Logger LOGGER = LogManager.getLogger(MyController.class);
         ctx.setServletContext(ContextLoader.getCurrentWebApplicationContext().getServletContext());
         ctx.refresh();
         WebUser webUser = (WebUser) ctx.getBean("WebUser");
-        LOGGER.info( "ctx webUser:"+webUser.getUserName());
-        LOGGER.info( "ctx webUser:"+webUser.getPasswd());
+        LOGGER.info( "web ctx webUser:"+webUser.getUserName());
+        LOGGER.info( "web ctx webUser:"+webUser.getPasswd());
+        WebLogin webLogin = (WebLogin) ctx.getBean("WebLogin");
+//                WebLogin webLogin = (WebLogin) ctx.getBean("webLogin", WebLogin.class);
 
+        LOGGER.info("new ctx webLogin:{}", webLogin);
         request.getSession().setAttribute("user", webUser);
         return new ModelAndView("main");
     }
