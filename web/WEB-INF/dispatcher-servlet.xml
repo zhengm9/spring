@@ -5,7 +5,7 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:contex="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -30,6 +30,10 @@
     </bean>
 
     <!-- 处理器 -->
-    <mvc:annotation-driven />
+    <contex:annotation-config/>
+    <mvc:annotation-driven/>
     <context:component-scan base-package="com.future.controller"/>
+
+    <!--注册处理器映射器/处理器适配器 ，添加conversion-service属性-->
+
 </beans>

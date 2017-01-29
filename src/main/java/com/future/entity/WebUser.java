@@ -1,6 +1,5 @@
 package com.future.entity;
 
-import com.future.controller.MyController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

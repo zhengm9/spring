@@ -19,13 +19,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Controller
-public class MyController {
-private static Logger LOGGER = LogManager.getLogger(MyController.class);
+public class IndexController {
+private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping({"/hello", "lj", "/"})
+    @RequestMapping({"/hello", "zhengm", "/"})
     public ModelAndView hello(HttpServletRequest request) {
         LOGGER.info("spring mvc begin:{}", request.getParameter("u"));
         //1.通过XmlWebApplicationContext取得BeanFactory
