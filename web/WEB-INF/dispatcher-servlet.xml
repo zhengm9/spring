@@ -34,6 +34,25 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.future.controller"/>
 
-    <!--注册处理器映射器/处理器适配器 ，添加conversion-service属性-->
+    <!--todo:配置属性变量文件的存放位置，用于@Value("${xxx}")注解中的占位符-->
+    <context:property-placeholder location="WEB-INF/classes/springproperties/mvc.properties"/>
 
+
+    <!--multipart解析-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="uploadTempDir" value="/WEB-INF/uploadFile"/>
+        <property name="maxUploadSize" value="10485760"/>
+        <property name="maxInMemorySize" value="5242880"/>
+    </bean>
+
+
+    <!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/jsp/error_fileupload.jsp页面 -->
+                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">error_fileupload</prop>
+            </props>
+        </property>
+    </bean>
 </beans>

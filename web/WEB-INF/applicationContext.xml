@@ -33,7 +33,7 @@
         </property>
     </bean>
     <!--todo:配置属性变量文件的存放位置，用于@Value("${xxx}")注解中的占位符-->
-    <context:property-placeholder location="WEB-INF/classes/springproperties/webuser.properties"/>
+    <context:property-placeholder location="WEB-INF/classes/springproperties/application.properties"/>
 
     <!-- 配置数据源 -->
 	<!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"

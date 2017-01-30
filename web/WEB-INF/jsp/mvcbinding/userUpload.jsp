@@ -12,7 +12,7 @@
 		<form action="<%=request.getContextPath()%>/result">
 			<tr><td><%=request.getContextPath()+"/result"%></td></tr>
 		</form>
-		<mvc:form modelAttribute="user" action="<%=actionPath%>" enctype="multipart/form-data">
+		<mvc:form modelAttribute="user" action="<%=actionPath%>">
 			<table>
 				<tr>
 					<td>
@@ -33,12 +33,6 @@
 					<td>
 						<mvc:label path="Country">Country</mvc:label>
 						<mvc:select path="Country" items="${countries}"></mvc:select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<mvc:label path="file">Choose File</mvc:label>
-						<mvc:input path="file" type="file"/>
 					</td>
 				</tr>
 				<tr>

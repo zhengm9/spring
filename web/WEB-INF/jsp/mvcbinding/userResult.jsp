@@ -34,6 +34,11 @@
 					</td>
 				</tr>
 				<tr>
+					<td>
+						file:${fileLength}
+					</td>
+				</tr>
+				<tr>
 					<input type="submit" />
 					</td>
 				</tr>

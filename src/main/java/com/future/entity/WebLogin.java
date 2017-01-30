@@ -26,7 +26,7 @@ public class WebLogin {
     private WebUser webUser;
     private String loginTime;
     @Value("${defaultRole}")    //todo:读取配置文件中的属性
-    // todo:参见<context:property-placeholder location="WEB-INF/classes/springproperties/webuser.properties"/>
+    // todo:参见<context:property-placeholder location="WEB-INF/classes/springproperties/application.properties"/>
     private String role;
 
     public String getLoginTime() {

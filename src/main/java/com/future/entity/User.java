@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -21,7 +21,15 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
     private Gender gender;
+    private MultipartFile file;
 
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public Date getBirthDate() {
         return birthDate;
@@ -80,8 +88,7 @@ public class User {
         LOGGER.info("xml destroy method called");
     }
 
-    public enum Gender
-    {
+    public enum Gender {
         Male, Female;
     }
 
