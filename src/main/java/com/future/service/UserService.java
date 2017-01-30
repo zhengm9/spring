@@ -2,6 +2,8 @@ package com.future.service;
 
 import com.future.dao.idao.UserMapper;
 import com.future.dao.po.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -9,9 +11,9 @@ import javax.annotation.Resource;
 /**
  * Created by Administrator on 2017/1/30.
  */
-@Service(value = "userService")
+@Repository(value = "userService")
 public class UserService implements UserMapper {
-    @Resource
+    @Autowired
     private UserMapper userDao;
 
     public int deleteByPrimaryKey(Integer id) {
@@ -20,6 +22,10 @@ public class UserService implements UserMapper {
 
     public int insert(User record) {
         return 0;
+    }
+
+    public int insertDefault(User record) {
+        return this.userDao.insertDefault(record);
     }
 
     public int insertSelective(User record) {

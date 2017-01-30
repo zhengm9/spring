@@ -41,4 +41,17 @@ public class RestfulController {
         com.future.dao.po.User user = userService.getUserById(Integer.parseInt(userId));
         return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/restful/insertDefault", method = RequestMethod.POST)
+    public ResponseEntity<com.future.dao.po.User> insertDefault()
+    {
+        LOGGER.info("request insertDefault:{}");
+        UserService userService = (UserService) ContextLoader.getCurrentWebApplicationContext().getBean("userService");
+        com.future.dao.po.User user = (com.future.dao.po.User) ContextLoader.getCurrentWebApplicationContext().getBean("userPo");
+        user.setUserName("test");
+        user.setAge(11);
+        user.setPassword("123");
+        userService.insertDefault(user);
+        return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);
+    }
 }
