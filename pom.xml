@@ -158,6 +158,12 @@
             <artifactId>spring-beans</artifactId>
             <version>4.1.7.RELEASE</version>
         </dependency>
+        <!--AspectJ依赖 -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.9</version>
+        </dependency>
         <!--spring 扩展依赖 -->
         <dependency>
             <groupId>org.springframework</groupId>
