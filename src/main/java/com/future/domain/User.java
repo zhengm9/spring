@@ -1,5 +1,7 @@
 package com.future.domain;
 
+import com.future.entity.UserDetails;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +17,8 @@ public class User implements Serializable{
 	private String lastIp;
 
 	private Date lastVisit;
+
+	private UserDetails userDetails;
 
 	public String getLastIp() {
 		return lastIp;

@@ -22,6 +22,15 @@ public class User {
     private Date birthDate;
     private Gender gender;
     private MultipartFile file;
+    private UserDetails userDetails;
+
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
 
     public MultipartFile getFile() {
         return file;
@@ -96,9 +105,13 @@ public class User {
     public String toString() {
         return "User{" +
                 "userName='" + userName + '\'' +
+                ", passwd='" + passwd + '\'' +
+                ", credits=" + credits +
                 ", country='" + country + '\'' +
                 ", birthDate=" + birthDate +
                 ", gender=" + gender +
+                ", file=" + file +
+                ", userDetails=" + userDetails +
                 '}';
     }
 }
