@@ -1,6 +1,7 @@
 package com.future.controller;
 
 import com.future.entity.User;
+import com.future.exception.GlobalException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +39,6 @@ public class BindingController {
         User user = (User) webApplicationContext.getBean("user");
         LOGGER.info("username:{}, method:{}, p:{}", username, request.getMethod(), request.getParameter("p"));
         ModelAndView modelAndView = new ModelAndView("/mvcbinding/userForm", "user", user);
-//        user.setBirthDate(new Date());
         LOGGER.info("user.getBirthDate()", user.getBirthDate());
         modelAndView.addObject("currentTime", user.getBirthDate());
         modelAndView.addObject("genders", User.Gender.values());
@@ -48,7 +48,7 @@ public class BindingController {
     }
 
     @RequestMapping("result")
-    public ModelAndView processUser(User user, HttpServletRequest request) throws IOException {
+    public ModelAndView processUser(User user, HttpServletRequest request) throws IOException, GlobalException {
         LOGGER.info("request received:{}", user);
         LOGGER.info("username:{}, method:{}, gender:{}, file:{}", user.getUserName()
                                                         , request.getMethod(), request.getParameter("gender")
@@ -57,13 +57,9 @@ public class BindingController {
         if(user.getFile() == null || user.getFile().isEmpty())
         {
             LOGGER.error("file is empty or null");
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("/mvcbinding/userResult");
-            modelAndView.addObject("u", user);
-            modelAndView.addObject("fileLength", 0);
-            return modelAndView;
+            throw new GlobalException("file is empty or null");
         }
-        LOGGER.info("uploadFileDir:{}", uploadFileDir);
+
         LOGGER.info("filePath:{}", (ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/WEB-INF")
                 + "/" + uploadFileDir + "/" + user.getFile().getOriginalFilename()));
         user.getFile().transferTo(new File(ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/WEB-INF")
@@ -72,6 +68,7 @@ public class BindingController {
         modelAndView.setViewName("/mvcbinding/userResult");
         modelAndView.addObject("u", user);
         modelAndView.addObject("fileLength", user.getFile().getBytes().length);
+
         return modelAndView;
     }
 
