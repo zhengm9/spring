@@ -1,10 +1,7 @@
 package com.future.controller;
 
-import com.future.entity.WebLogin;
-import com.future.entity.WebUser;
 import com.future.entity.message.LoginInfo;
-import com.future.service.UserService;
-import org.apache.commons.lang.time.DateUtils;
+import com.future.service.UserBakService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +24,7 @@ public class MsgController {
 private static Logger LOGGER = LogManager.getLogger(MsgController.class);
 
     @Autowired
-    private UserService userService;
+    private UserBakService userBakService;
 
     @RequestMapping("msgProducer")
     public ModelAndView getMsg(HttpServletRequest request) {

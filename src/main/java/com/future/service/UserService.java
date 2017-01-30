@@ -1,39 +1,45 @@
 package com.future.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.future.dao.idao.UserMapper;
+import com.future.dao.po.User;
 import org.springframework.stereotype.Service;
 
-import com.future.dao.LoginLogDao;
-import com.future.dao.UserDao;
-import com.future.domain.LoginLog;
-import com.future.domain.User;
+import javax.annotation.Resource;
 
-@Service
-public class UserService {
-    
-	@Autowired
-	private UserDao userDao;
-	
-	@Autowired
-	private LoginLogDao loginLogDao;
+/**
+ * Created by Administrator on 2017/1/30.
+ */
+@Service(value = "userService")
+public class UserService implements UserMapper {
+    @Resource
+    private UserMapper userDao;
 
-	public boolean hasMatchUser(String userName, String password) {
-		int matchCount =userDao.getMatchCount(userName, password);
-		return matchCount > 0;
-	}
-	
-	public User findUserByUserName(String userName) {
-		return userDao.findUserByUserName(userName);
-	}
-	
-	public void loginSuccess(User user) {
-		user.setCredits( 5 + user.getCredits());
-		LoginLog loginLog = new LoginLog();
-		loginLog.setUserId(user.getUserId());
-		loginLog.setIp(user.getLastIp());
-		loginLog.setLoginDate(user.getLastVisit());
-        userDao.updateLoginInfo(user);
-        loginLogDao.insertLoginLog(loginLog);
-	}	
+    public int deleteByPrimaryKey(Integer id) {
+        return 0;
+    }
 
+    public int insert(User record) {
+        return 0;
+    }
+
+    public int insertSelective(User record) {
+        return 0;
+    }
+
+    public User selectByPrimaryKey(Integer id) {
+        return null;
+    }
+
+    public User getUserById(Integer userId)
+    {
+        return this.userDao.selectByPrimaryKey(userId);
+    }
+
+    public int updateByPrimaryKeySelective(User record) {
+        return 0;
+    }
+
+    public int updateByPrimaryKey(User record) {
+        return 0;
+    }
 }

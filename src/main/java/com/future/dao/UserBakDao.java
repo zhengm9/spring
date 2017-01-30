@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.future.domain.User;
 
 @Repository
-public class UserDao {
+public class UserBakDao {
 	
 //	@Autowired
 	private JdbcTemplate jdbcTemplate;

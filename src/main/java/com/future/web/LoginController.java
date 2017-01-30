@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.future.domain.User;
-import com.future.service.UserService;
+import com.future.service.UserBakService;
 
 @Controller
 public class LoginController{
 	
 	@Autowired
-	private UserService userService;
+	private UserBakService userBakService;
     
 	@RequestMapping(value = "/index.html")
 	public String loginPage(){
@@ -27,16 +27,16 @@ public class LoginController{
 	@RequestMapping(value = "/loginCheck.html")
 	public ModelAndView loginCheck(HttpServletRequest request,LoginCommand loginCommand){
 		boolean isValidUser = 
-			   userService.hasMatchUser(loginCommand.getUserName(),
+			   userBakService.hasMatchUser(loginCommand.getUserName(),
 					                    loginCommand.getPassword());
 		if (!isValidUser) {
 			return new ModelAndView("login", "error", "用户名或密码错误。");
 		} else {
-			User user = userService.findUserByUserName(loginCommand
+			User user = userBakService.findUserByUserName(loginCommand
 					.getUserName());
 			user.setLastIp(request.getLocalAddr());
 			user.setLastVisit(new Date());
-			userService.loginSuccess(user);
+			userBakService.loginSuccess(user);
 			request.getSession().setAttribute("user", user);
 			return new ModelAndView("main");
 		}

@@ -2,7 +2,7 @@ package com.future.controller;
 
 import com.future.entity.WebLogin;
 import com.future.entity.WebUser;
-import com.future.service.UserService;
+import com.future.service.UserBakService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class IndexController {
 private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     @Autowired
-    private UserService userService;
+    private UserBakService userBakService;
 
     @RequestMapping({"/hello", "zhengm", "/"})
     public ModelAndView hello(HttpServletRequest request) {
