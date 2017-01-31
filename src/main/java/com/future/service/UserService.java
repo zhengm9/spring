@@ -1,5 +1,6 @@
 package com.future.service;
 
+import com.future.dao.idao.IUserDao;
 import com.future.dao.idao.UserMapper;
 import com.future.dao.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import javax.annotation.Resource;
 @Repository(value = "userService")
 public class UserService implements UserMapper {
     @Autowired
-    private UserMapper userDao;
+    private IUserDao userDao;
 
     public int deleteByPrimaryKey(Integer id) {
         return 0;
