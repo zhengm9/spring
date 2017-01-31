@@ -52,6 +52,7 @@ public class RestfulController {
         user.setAge(11);
         user.setPassword("123");
         userService.insertDefault(user);
+
         return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);
     }
 }

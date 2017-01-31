@@ -26,7 +26,11 @@ public class UserService implements UserMapper {
     }
 
     public int insertDefault(User record) {
-        return this.userDao.insertDefault(record);
+        this.userDao.insertDefault(record);
+        this.userDao.insertDefault(record);
+
+        this.userDao.insert(record);
+        return 1;
     }
 
     public int insertSelective(User record) {
