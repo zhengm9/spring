@@ -23,6 +23,7 @@
     <context:component-scan base-package="com.future.service"/>
     <context:component-scan base-package="com.future.entity"/>
     <context:component-scan base-package="com.future.util"/>
+    <context:component-scan base-package="com.future.annotationservice"/>
 
     <bean id="WebUser" class="com.future.entity.WebUser" init-method="init" destroy-method="destroy">
         <property name="userName">
