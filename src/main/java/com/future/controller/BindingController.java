@@ -60,10 +60,10 @@ public class BindingController {
             throw new GlobalException("file is empty or null");
         }
 
-        LOGGER.info("filePath:{}", (ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/WEB-INF")
-                + "/" + uploadFileDir + "/" + user.getFile().getOriginalFilename()));
-        user.getFile().transferTo(new File(ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/WEB-INF")
-                + "/" + uploadFileDir + "/" + user.getFile().getOriginalFilename()));
+        LOGGER.info("filePath:{}", (ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
+                                                                                             + "/" + user.getFile().getOriginalFilename()));
+        user.getFile().transferTo(new File(ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
+                + "/" + user.getFile().getOriginalFilename()));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/mvcbinding/userResult");
         modelAndView.addObject("u", user);

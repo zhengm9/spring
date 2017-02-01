@@ -24,6 +24,7 @@
     <context:component-scan base-package="com.future.entity"/>
     <context:component-scan base-package="com.future.util"/>
     <context:component-scan base-package="com.future.annotationservice"/>
+    <context:component-scan base-package="com.future.controller"/>
 
     <bean id="WebUser" class="com.future.entity.WebUser" init-method="init" destroy-method="destroy">
         <property name="userName">
@@ -34,8 +35,10 @@
         </property>
     </bean>
     <!--todo:配置属性变量文件的存放位置，用于@Value("${xxx}")注解中的占位符-->
-    <context:property-placeholder location="WEB-INF/classes/springproperties/application.properties, WEB-INF/classes/jdbc/jdbc4mysql.properties"/>
-
+    <context:property-placeholder
+            location="WEB-INF/classes/springproperties/application.properties,
+                        WEB-INF/classes/jdbc/jdbc4mysql.properties,
+                            WEB-INF/classes/springproperties/mvc.properties"/>
     <!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 
