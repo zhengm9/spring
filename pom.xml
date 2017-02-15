@@ -224,6 +224,12 @@
             <artifactId>spring-test</artifactId>
             <version>3.2.9.RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
 
 
     </dependencies>

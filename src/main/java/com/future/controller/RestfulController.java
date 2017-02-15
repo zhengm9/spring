@@ -4,6 +4,8 @@ import com.future.annotationservice.AnnotationUserService;
 import com.future.entity.User;
 import com.future.entity.UserDetails;
 import com.future.service.UserService;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.ContextLoader;
+
+import java.util.concurrent.Executors;
 
 /**
  * Created by Administrator on 2017/1/30.
@@ -47,7 +51,7 @@ public class RestfulController {
     @RequestMapping(value = "/restful/insertDefault", method = RequestMethod.POST)
     public ResponseEntity<com.future.dao.po.User> insertDefault()
     {
-        LOGGER.info("request insertDefault:{}");
+        LOGGER.info("request insertDefault update:{}");
         UserService userService = (UserService) ContextLoader.getCurrentWebApplicationContext().getBean("userService");
         com.future.dao.po.User user = (com.future.dao.po.User) ContextLoader.getCurrentWebApplicationContext().getBean("userPo");
         user.setUserName("test");
@@ -72,4 +76,22 @@ public class RestfulController {
 
         return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/restful/mysql/transaction", method = RequestMethod.GET)
+    public ResponseEntity<com.future.dao.po.User> multiThread()
+    {
+        LOGGER.info("request annotationInsertDefault:{}");
+        ListeningExecutorService listeningExecutorService = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(100));
+
+        AnnotationUserService userService = (AnnotationUserService) ContextLoader.getCurrentWebApplicationContext().getBean("annotationUserService");
+        com.future.dao.po.User user = (com.future.dao.po.User) ContextLoader.getCurrentWebApplicationContext().getBean("userPo");
+        user.setUserName("test");
+        user.setAge(11);
+        user.setPassword("123");
+        userService.insertTwice(user);
+        userService.insertDefault(user);
+
+        return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);
+    }
+
 }
