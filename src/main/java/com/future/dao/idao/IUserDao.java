@@ -8,9 +8,9 @@ public interface IUserDao extends UserMapper{
 
     @Insert({
             "insert into user_t (id, user_name, ",
-            "password, age)",
+            "password, age, ver)",
             "values (9, \"defaultname\", ",
-            "#{password,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER})"
+            "#{password,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 1)"
     })
     public int insertDefault(User record);
 

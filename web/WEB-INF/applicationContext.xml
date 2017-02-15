@@ -25,7 +25,9 @@
     <context:component-scan base-package="com.future.util"/>
     <context:component-scan base-package="com.future.annotationservice"/>
     <context:component-scan base-package="com.future.controller"/>
-
+    <context:component-scan base-package="com.future.aop"/>
+    <!--使用注解创建aop代理-->
+    <aop:aspectj-autoproxy/>
     <bean id="WebUser" class="com.future.entity.WebUser" init-method="init" destroy-method="destroy">
         <property name="userName">
             <value>name_from_bean</value>

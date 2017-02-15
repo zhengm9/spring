@@ -2,6 +2,7 @@ package com.future.entity;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.Scope;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +13,8 @@ import java.util.Date;
  * Created by Administrator on 2017/1/28.
  */
 @Service("user")
-public class User {
+@Scope("prototype")
+public class User implements Comparable<User>{
     private static Logger LOGGER = LogManager.getLogger(User.class);
     private String userName;
     private String passwd;
@@ -95,6 +97,19 @@ public class User {
 
     public void destroy() {
         LOGGER.info("xml destroy method called");
+    }
+
+    public int compareTo(User other) {
+       if(this.credits > other.credits)
+       {
+           return -1;
+       }else if(this.credits < other.credits)
+       {
+           return 1;
+       }else {
+           return 0;
+       }
+
     }
 
     public enum Gender {

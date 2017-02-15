@@ -28,10 +28,10 @@ public class GlobalExceptionController {
     public ModelAndView handleException(RuntimeException e)
     {
         LOGGER.error("RuntimeException handled, e:{}", e);
-        String errorMsgShow = null;
-        if (e instanceof DuplicateKeyException) {
+        String errorMsgShow = e.getMessage();
+        /*if (e instanceof DuplicateKeyException) {
             errorMsgShow = "error occurred during database operation. error info: Duplicate Key.";
-        }
+        }*/
         ModelAndView errorModelAndView = new ModelAndView("error/errorPage");
         errorModelAndView.addObject("errormsg", errorMsgShow);
         return errorModelAndView;
