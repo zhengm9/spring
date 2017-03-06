@@ -90,57 +90,5 @@ public class RestfulController {
         return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/restful/collection/treemap", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> treeMap() {
-
-        TreeMap<User, Integer> treeMap = new TreeMap<User, Integer>(new Comparator<User>() {
-            public int compare(User o1, User o2) {
-
-                if (o1.getCredits() > o2.getCredits()) {
-                    return 1;
-                } else if (o1.getCredits() < o2.getCredits()) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }
-        });
-        List<User> list = new ArrayList();
-        User user1 = (User) ContextLoader.getCurrentWebApplicationContext().getBean("user");
-        User user2 = (User) ContextLoader.getCurrentWebApplicationContext().getBean("user");
-        User user3 = (User) ContextLoader.getCurrentWebApplicationContext().getBean("user");
-        User user4 = (User) ContextLoader.getCurrentWebApplicationContext().getBean("user");
-        User user5 = (User) ContextLoader.getCurrentWebApplicationContext().getBean("user");
-
-        user1.setCredits(1);
-        user2.setCredits(6);
-        user3.setCredits(3);
-        user4.setCredits(4);
-        user5.setCredits(5);
-
-        list.add(user1);
-        list.add(user2);
-        list.add(user3);
-        Collections.sort(list);
-
-        treeMap.put(user1, 1);
-        treeMap.put(user2, 2);
-        treeMap.put(user3, 3);
-        treeMap.put(user4, 4);
-        treeMap.put(user5, 5);
-
-        LOGGER.info("headMap:{}", treeMap.headMap(user3));
-        LOGGER.info("tailMap:{}", treeMap.tailMap(user3));
-        LOGGER.info("subMap:{}", treeMap.subMap(user2, user3));
-//        LOGGER.info("headMap:{}", treeMap.subMap(user3, user2));
-
-
-        TreeMap<User, Integer> treeMap2 = new TreeMap<User, Integer>();
-
-        for (User user : treeMap.keySet()) {
-            LOGGER.info("treemap key:{}, object:{}", user.getCredits(), treeMap.get(user));
-        }
-        return new ResponseEntity<List<User>>(list, HttpStatus.OK);
-    }
 
 }

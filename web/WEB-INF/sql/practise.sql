@@ -26,7 +26,8 @@ DROP TABLE IF EXISTS SC;
 CREATE TABLE SC(
 Sid int(11) NOT NULL,
 Cid int(11) NOT NULL,
-score int(4)
+score int(4),
+FOREIGN KEY (Sid) REFERENCES Student(Sid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ###############################
 DROP TABLE IF EXISTS Teacher;
