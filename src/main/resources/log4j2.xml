@@ -61,6 +61,9 @@
         <logger name="org.springframework.web" level="debug" additivity="true" >
             <appender-ref ref="app_info"/>
         </logger>
+        <logger name="org.springframework.amqp" level="info" additivity="true" >
+            <appender-ref ref="app_info"/>
+        </logger>
         <logger name="org.apache.http" level="debug"  additivity="true">
             <appender-ref ref="app_info"/>
         </logger>

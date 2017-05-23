@@ -3,11 +3,19 @@ package com.future.controller;
 import com.future.annotationservice.AnnotationUserService;
 import com.future.entity.User;
 import com.future.entity.UserDetails;
+import com.future.facade.MQProducer;
 import com.future.service.UserService;
+import com.future.service.mq.producer.MQProducerImpl;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.ValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.ContextLoader;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.*;
 import java.util.concurrent.Executors;
 
@@ -28,6 +38,9 @@ import java.util.concurrent.Executors;
 public class RestfulController {
     private static Logger LOGGER = LogManager.getLogger(RestfulController.class);
 
+    @Autowired
+//    MQProducer mqProducer;
+     MQProducerImpl mqProducer;
     @RequestMapping(value = "/restful/update/{username}", method = RequestMethod.PUT)
     public ResponseEntity<User> update(@PathVariable String username, @RequestBody User updateUser) {
         LOGGER.info("request username:{}, updateUser:{}", username, updateUser);
@@ -39,9 +52,34 @@ public class RestfulController {
         return new ResponseEntity<User>(updateUser, HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/restful/mq/{msg}", method = RequestMethod.GET)
+    public ResponseEntity<String> sendMQMsg(@PathVariable String msg) {
+        LOGGER.info("request message:{}, updateUser:{}", msg);
+        mqProducer.sendDataToQueue("test_queue_key_1", msg);
+        mqProducer.sendDataToQueue("test_queue_key_2", msg);
+
+        return new ResponseEntity<String>("OK", HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "/restful/query/{userId}", method = RequestMethod.GET)
     public ResponseEntity<com.future.dao.po.User> query(@PathVariable String userId) {
         LOGGER.info("request username:{}", userId);
+
+        Mapping mapping = new Mapping();
+        mapping = null;
+        try {
+//            mapping.loadMapping(mappingFilePath);
+//            StringReader sr = new StringReader(xmlString);
+            Unmarshaller unMarshaller = new Unmarshaller(mapping);
+            unMarshaller.unmarshal(new StringReader("test"));
+        } catch (MappingException e) {
+            e.printStackTrace();
+        } catch (MarshalException e) {
+            e.printStackTrace();
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
+
         UserService userService = (UserService) ContextLoader.getCurrentWebApplicationContext().getBean("userService");
         com.future.dao.po.User user = userService.getUserById(Integer.parseInt(userId));
         return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);

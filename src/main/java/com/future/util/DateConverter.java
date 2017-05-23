@@ -1,8 +1,15 @@
 package com.future.util;
 
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.ValidationException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,5 +30,22 @@ public class DateConverter implements Converter<String, Date> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void main(String[] args)
+    {
+        String ticketNo_;
+        ticketNo_= "1-2".replace("-", "");
+        System.out.println(ticketNo_);
+        Mapping mapping = new Mapping();
+//        mapping = null;
+        try {
+                mapping.loadMapping(ticketNo_);
+            StringReader sr = new StringReader(ticketNo_);
+            Unmarshaller unMarshaller = new Unmarshaller(mapping);
+            unMarshaller.unmarshal(new StringReader("<test></test>"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
