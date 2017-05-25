@@ -1,9 +1,11 @@
 package com.future.controller;
 
 import com.future.annotationservice.AnnotationUserService;
+import com.future.dao.po.GeProposalMain;
 import com.future.entity.User;
 import com.future.entity.UserDetails;
 import com.future.facade.MQProducer;
+import com.future.service.GeProposalService;
 import com.future.service.UserService;
 import com.future.service.mq.producer.MQProducerImpl;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -128,5 +130,14 @@ public class RestfulController {
         return new ResponseEntity<com.future.dao.po.User>(user, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/restful/oracle/ali", method = RequestMethod.POST)
+    public ResponseEntity getGeProposalMain4Stat() {
+        LOGGER.info("getGeProposalMain4Stat");
+        GeProposalService geProposalService = (GeProposalService) ContextLoader.getCurrentWebApplicationContext().getBean("geProposalService");
+//        GeProposalMain geProposalMain = geProposalService.selectForStat();
+        geProposalService.selectForStat();
+
+        return new ResponseEntity(null, HttpStatus.OK);
+    }
 
 }

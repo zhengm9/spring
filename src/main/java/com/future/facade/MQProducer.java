@@ -6,7 +6,7 @@ package com.future.facade;
  */
 public interface MQProducer {
     /**
-     * 发送消息到指定队列
+     * send message to queue selected
      * @param queueKey
      * @param object
      */

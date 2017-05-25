@@ -42,7 +42,7 @@
     <!--todo:配置属性变量文件的存放位置，用于@Value("${xxx}")注解中的占位符-->
     <context:property-placeholder
             location="WEB-INF/classes/springproperties/application.properties,
-                        WEB-INF/classes/jdbc/jdbc4mysql.properties,
+                        WEB-INF/classes/jdbc/jdbc4oracle.properties,
                             WEB-INF/classes/springproperties/mvc.properties,
                                 WEB-INF/classes/mq/rabbitmq-config.properties"/>
     <!-- 配置数据源 -->

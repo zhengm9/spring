@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <!--导入属性配置, 将一些配置写入其他配置文件，更灵活 -->
-    <properties resource="jdbc/jdbc4oracle.properties"></properties>
+    <properties resource="jdbc/jdbc4mysql.properties"></properties>
 
     <!--指定特定数据库的jdbc驱动jar包的位置 -->
     <classPathEntry location="${jdbc.driverLocation}"/>
@@ -89,23 +89,15 @@
         </javaClientGenerator>
 
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="GE_PROPOSAL_MAIN" domainObjectName="GeProposalMain" enableCountByExample="false"
+        <table tableName="user_t" domainObjectName="User" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-
-        <table tableName="GE_QUOTE_PARTY" domainObjectName="GeQuoteParty" enableCountByExample="false"
+        <table tableName="SC" domainObjectName="SC" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-
-        <table tableName="GE_AIRORDER" domainObjectName="GeAirorder" enableCountByExample="false"
+        <table tableName="Student" domainObjectName="Student" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-
-        <table tableName="GE_ORDER" domainObjectName="GeOrder" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-
-
         <!--<table tableName="user_t" schema="louis">
 
             &lt;!&ndash; optional   , only for mybatis3 runtime
