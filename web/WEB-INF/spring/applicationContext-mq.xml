@@ -8,7 +8,11 @@
 
     <description>rabbitmq 连接服务配置</description>
     <!-- 连接配置 -->
-    <rabbit:connection-factory id="connectionFactory" host="${mq.host}" username="${mq.username}" password="${mq.password}" port="${mq.port}"  virtual-host="${mq.vhost}"/>
+    <rabbit:connection-factory
+            id="connectionFactory"
+            host="${mq.host}" username="${mq.username}" password="${mq.password}" port="${mq.port}"  virtual-host="${mq.vhost}"
+            publisher-confirms="true" publisher-returns="true"
+    />
     <rabbit:admin  id="connectAdmin1" connection-factory="connectionFactory"/>
 
 

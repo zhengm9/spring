@@ -7,6 +7,7 @@ import com.future.entity.UserDetails;
 import com.future.facade.MQProducer;
 import com.future.service.GeProposalService;
 import com.future.service.UserService;
+import com.future.service.mq.SendMsg2MQ;
 import com.future.service.mq.producer.MQProducerImpl;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -39,10 +40,9 @@ import java.util.concurrent.Executors;
 @Controller
 public class RestfulController {
     private static Logger LOGGER = LogManager.getLogger(RestfulController.class);
-
     @Autowired
-//    MQProducer mqProducer;
-     MQProducerImpl mqProducer;
+    private SendMsg2MQ sendMsg2MQ;
+
     @RequestMapping(value = "/restful/update/{username}", method = RequestMethod.PUT)
     public ResponseEntity<User> update(@PathVariable String username, @RequestBody User updateUser) {
         LOGGER.info("request username:{}, updateUser:{}", username, updateUser);
@@ -57,8 +57,8 @@ public class RestfulController {
     @RequestMapping(value = "/restful/mq/{msg}", method = RequestMethod.GET)
     public ResponseEntity<String> sendMQMsg(@PathVariable String msg) {
         LOGGER.info("request message:{}, updateUser:{}", msg);
-        mqProducer.sendDataToQueue("test_queue_key_1", msg);
-        mqProducer.sendDataToQueue("test_queue_key_2", msg);
+        sendMsg2MQ.send("test_queue_key_1_error", msg);
+        sendMsg2MQ.send("test_queue_key_2", msg);
 
         return new ResponseEntity<String>("OK", HttpStatus.CREATED);
     }

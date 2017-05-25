@@ -16,5 +16,10 @@ public class QueueListenter4Order implements MessageListener {
 
     public void onMessage(Message message) {
         LOGGER.info("Order message received:{}", message);
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
