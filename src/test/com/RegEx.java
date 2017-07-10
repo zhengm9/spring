@@ -17,4 +17,12 @@ public class RegEx {
         Matcher matcher = pattern.matcher("ac");
         System.out.println(matcher.matches());
     }
+
+    @Test
+    public void test2()
+    {
+        String str = "你好";
+
+        System.out.println(str.getBytes().length);
+    }
 }

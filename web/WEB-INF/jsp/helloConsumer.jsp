@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <html>
 	<head>
-		<title>宝宝淘论坛登录</title>
+		<title>test web page</title>
 	</head>
 	<body>
 		${message}
