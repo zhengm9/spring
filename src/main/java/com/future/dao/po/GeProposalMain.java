@@ -7,6 +7,15 @@ public class GeProposalMain {
     private GeAirorder geAirorder;
     private GeOrder geOrder;
     private GeQuoteParty geQuoteParty;
+    private GeQuotePartyKey geQuotePartyKey;
+
+    public GeQuotePartyKey getGeQuotePartyKey() {
+        return geQuotePartyKey;
+    }
+
+    public void setGeQuotePartyKey(GeQuotePartyKey geQuotePartyKey) {
+        this.geQuotePartyKey = geQuotePartyKey;
+    }
 
     public GeAirorder getGeAirorder() {
         return geAirorder;

@@ -1,6 +1,7 @@
 package com.future.controller;
 
 import com.future.annotationservice.AnnotationUserService;
+import com.future.biz.AliAir1800;
 import com.future.dao.po.GeProposalMain;
 import com.future.entity.User;
 import com.future.entity.UserDetails;
@@ -131,12 +132,17 @@ public class RestfulController {
     }
 
     @RequestMapping(value = "/restful/oracle/ali", method = RequestMethod.POST)
-    public ResponseEntity getGeProposalMain4Stat() {
+    public ResponseEntity<GeProposalMain> getGeProposalMain4Stat() {
         LOGGER.info("getGeProposalMain4Stat");
-        GeProposalService geProposalService = (GeProposalService) ContextLoader.getCurrentWebApplicationContext().getBean("geProposalService");
+//        AliAir1800 aliAir1800 = (AliAir1800) ContextLoader.getCurrentWebApplicationContext().getBean("aliAir1800");
+        AliAir1800 aliAir1800 = new AliAir1800();
 //        GeProposalMain geProposalMain = geProposalService.selectForStat();
-        geProposalService.selectForStat();
-
+//        GeProposalMain geProposalMain = new GeProposalMain();
+//        geProposalMain.setProposalno("82714201744AL00018674");
+//        List<GeProposalMain> list = geProposalService.selectForAliAir(geProposalMain);
+//        List<GeProposalMain> list = geProposalService.selectForStat();
+        aliAir1800.multyCount();
+//        LOGGER.info("RESULT list SIZE:{}，list:{}",list.size(),list);
         return new ResponseEntity(null, HttpStatus.OK);
     }
 

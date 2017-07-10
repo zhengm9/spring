@@ -1,7 +1,6 @@
 package com.future.service;
 
 import com.future.dao.idao.GeProposalMainMapper;
-import com.future.dao.idao.IGeProposalMainDao;
 import com.future.dao.idao.IUserDao;
 import com.future.dao.idao.UserMapper;
 import com.future.dao.po.GeProposalMain;
@@ -9,16 +8,17 @@ import com.future.dao.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Administrator on 2017/1/30.
  */
 @Repository(value = "geProposalService")
-public class GeProposalService implements IGeProposalMainDao {
+public class GeProposalService implements GeProposalMainMapper {
     @Autowired
-    private IGeProposalMainDao iGeProposalMainDao;
-
+//    private IGeProposalMainDao iGeProposalMainDao;
+private GeProposalMainMapper geProposalMainMapper;
     public int deleteByPrimaryKey(String proposalsid) {
         return 0;
     }
@@ -43,9 +43,15 @@ public class GeProposalService implements IGeProposalMainDao {
         return 0;
     }
 
-    public GeProposalMain selectForStat() {
-//    public Map<String, String> selectForStat() {
-    return this.iGeProposalMainDao.selectForStat();
+//    public GeProposalMain selectForStat() {
+    public List<GeProposalMain> selectForStat() {
+    return this.geProposalMainMapper.selectForStat();
+
     }
+
+    public GeProposalMain selectForAliAir(GeProposalMain geProposalMain) {
+        return this.geProposalMainMapper.selectForAliAir(geProposalMain);
+    }
+
 
 }
