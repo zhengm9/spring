@@ -13,7 +13,9 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
        default-lazy-init="true">
+<!--
     <import resource="applicationContext-mq.xml"/>
+-->
 
     <!--todo: 激活JSR-250 Common Java注解，为使用PostConstruct/PreDestroy -->
     <context:annotation-config/>
