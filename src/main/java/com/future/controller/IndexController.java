@@ -12,7 +12,10 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by zhengming on 17/1/27.
@@ -45,5 +48,11 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         LOGGER.info("new ctx webLogin:{}", webLogin);
         request.getSession().setAttribute("user", webUser);
         return new ModelAndView("main");
+    }
+    @RequestMapping(value="/htmlView")
+    public void htmlView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // ...
+      request.getRequestDispatcher("WEB-INF/page/index.html").forward(request, response);
+
     }
 }
