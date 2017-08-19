@@ -41,6 +41,7 @@
 
     <!-- jQuery -->
     <script src="bower_components/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/md5.js"></script>
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -49,7 +50,33 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="img/favicon.ico">
+	<script language="javascript">
+	function submitForm(){
+       
+            var AjaxURL= "logincheck";   
+			var password_yzm = document.getElementById("password").value + ":" + document.getElementById("yzm").value;
 
+			document.getElementById("password").value=hex_md5(password_yzm);
+            alert($('#loginform').serialize());
+                $.ajax({
+                    type: "POST",
+                    dataType: "html",
+                    url: AjaxURL,
+                    data: $('#loginform').serialize(),
+                    success: function (result) {
+                        var strresult=result;
+                        window.location.href="index.html"; 
+                    },
+                    error: function(data) {
+                        alert("error:"+data.responseText);
+                     }
+
+                });
+    }
+	
+	
+
+	</script>
 </head>
 
 <body>
@@ -68,20 +95,26 @@
             <div class="alert alert-info">
                 Please login with your Username and Password.
             </div>
-            <form class="form-horizontal" action="index.html" method="post">
+            <form id="loginform" class="form-horizontal" onsubmit="submitForm()">
                 <fieldset>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
-                        <input type="text" class="form-control" placeholder="Username">
+                        <input id="username" type="text" name="username" class="form-control" placeholder="用户名">
                     </div>
                     <div class="clearfix"></div><br>
 
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input id="password" type="password" name="password" class="form-control" placeholder="密码">
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix"></div><br>
 
+					<div class="input-group input-group-lg">
+                     <label>   <input id="yzm" type="text" class="form-control" aria-controls="DataTables_Table_0" style="width:200px;height:53.99px">&nbsp;<img alt="code..." name="randImage" id="randImage" src="yzm" width="156" height="52" border="1" align="absmiddle">
+					</label></div>
+					
+					<div class="clearfix"></div>
+					
                     <div class="input-prepend">
                         <label class="remember" for="remember"><input type="checkbox" id="remember"> Remember me</label>
                     </div>

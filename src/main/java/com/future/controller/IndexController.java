@@ -1,11 +1,20 @@
 package com.future.controller;
 
+import com.future.annotation.LoginValidation;
+import com.future.dao.po.SysUser;
 import com.future.entity.WebLogin;
 import com.future.entity.WebUser;
+import com.future.service.SysUserService;
 import com.future.service.UserBakService;
+import com.future.service.mq.SendMsg2MQ;
+import com.future.util.CreateImageCode;
+import com.future.util.CryptUtil;
+import com.google.common.base.Strings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.ContextLoader;
@@ -15,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -27,6 +37,8 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     @Autowired
     private UserBakService userBakService;
+    @Autowired
+    private SysUserService sysUserService;
 
     @RequestMapping({"/hello", "zhengm", "/"})
     public ModelAndView hello(HttpServletRequest request) {
@@ -49,10 +61,41 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         request.getSession().setAttribute("user", webUser);
         return new ModelAndView("main");
     }
-    @RequestMapping(value="/htmlView")
-    public void htmlView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // ...
-      request.getRequestDispatcher("WEB-INF/page/index.html").forward(request, response);
+
+//    @LoginValidation("user")
+    @RequestMapping(value="/yzm")
+    public void getYZM(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+//        return new ModelAndView("yzmimage");
+        new CreateImageCode().getResponse(request, response, session);
 
     }
+
+    @RequestMapping(value="/logincheck")
+    public ResponseEntity<String> login(HttpServletRequest request, SysUser sysUserRemote) throws ServletException, IOException {
+//        return new ModelAndView("yzmimage");
+        LOGGER.info("sysuser:{},{}",sysUserRemote.getUsername(),sysUserRemote.getPassword());
+        if(!Strings.isNullOrEmpty(sysUserRemote.getUsername()))
+        {
+            SysUser sysuserLocal = sysUserService.getUserByName(sysUserRemote.getUsername());
+            if(sysuserLocal != null && sysuserLocal.getPassword() != null)
+            {
+                try {
+                    String md5local = CryptUtil.md5Hex(sysuserLocal.getPassword()+":"+String.valueOf(request.getSession().getAttribute("code")));
+                    LOGGER.info("remote md5 password is:{}, local md5 password is:{},local password is:{},code is:{}",
+                            sysUserRemote.getPassword(), md5local, sysuserLocal.getPassword(), String.valueOf(request.getSession().getAttribute("code")));
+                    if(md5local.equals(sysUserRemote.getPassword()))
+                    {
+                        request.getSession().setAttribute("username", sysUserRemote.getUsername());
+                        return new ResponseEntity<String>("yes",HttpStatus.OK);
+                    }
+                } catch (Exception e) {
+                    return new ResponseEntity<String>("failed",HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        }
+        return new ResponseEntity<String>("failed",HttpStatus.UNAUTHORIZED);
+
+    }
+
+
 }
