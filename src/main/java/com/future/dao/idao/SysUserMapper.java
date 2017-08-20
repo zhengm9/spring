@@ -30,11 +30,11 @@ public interface SysUserMapper {
         "insert into sys_user (id, first_name, ",
         "last_name, email, ",
         "active, username, password, ",
-        "last_update)",
+        "last_update, team_id)",
         "values (#{id,jdbcType=INTEGER}, #{firstName,jdbcType=VARCHAR}, ",
         "#{lastName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, ",
         "#{active,jdbcType=BIT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, ",
-        "#{lastUpdate,jdbcType=TIMESTAMP})"
+        "#{lastUpdate,jdbcType=TIMESTAMP}, #{teamId,jdbcType=TINYINT})"
     })
     int insert(SysUser record);
 
@@ -54,17 +54,16 @@ public interface SysUserMapper {
      */
     @Select({
         "select",
-        "id, first_name, last_name, email, active, username, password, last_update",
+        "id, first_name, last_name, email, active, username, password, last_update, team_id",
         "from sys_user",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @ResultMap("BaseResultMap")
     SysUser selectByPrimaryKey(Integer id);
 
-
     @Select({
             "select",
-            "id, first_name, last_name, email, active, username, password, last_update",
+            "id, first_name, last_name, email, active, username, password, last_update, team_id",
             "from sys_user",
             "where username = #{username,jdbcType=VARCHAR}"
     })
@@ -92,7 +91,8 @@ public interface SysUserMapper {
           "active = #{active,jdbcType=BIT},",
           "username = #{username,jdbcType=VARCHAR},",
           "password = #{password,jdbcType=VARCHAR},",
-          "last_update = #{lastUpdate,jdbcType=TIMESTAMP}",
+          "last_update = #{lastUpdate,jdbcType=TIMESTAMP},",
+          "team_id = #{teamId,jdbcType=TINYINT}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(SysUser record);

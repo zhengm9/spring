@@ -1,9 +1,14 @@
 package com.future.controller;
 
 import com.future.annotation.LoginValidation;
+import com.future.dao.idao.ProjectInfoMapper;
+import com.future.dao.po.ProjectInfo;
 import com.future.dao.po.SysUser;
 import com.future.entity.WebLogin;
 import com.future.entity.WebUser;
+import com.future.entity.req.ListReq;
+import com.future.entity.rsp.Head;
+import com.future.service.ProjectInfoService;
 import com.future.service.SysUserService;
 import com.future.service.UserBakService;
 import com.future.service.mq.SendMsg2MQ;
@@ -26,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by zhengming on 17/1/27.
@@ -36,9 +42,10 @@ public class IndexController {
 private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     @Autowired
-    private UserBakService userBakService;
-    @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private ProjectInfoService projectInfoService;
 
     @RequestMapping({"/hello", "zhengm", "/"})
     public ModelAndView hello(HttpServletRequest request) {
@@ -70,6 +77,26 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     }
 
+    @RequestMapping(value="/getUsername")
+    public ResponseEntity<String> getUsername(HttpSession session) throws ServletException, IOException {
+//        return new ModelAndView("yzmimage");
+        return new ResponseEntity<String>(String.valueOf(session.getAttribute("username")),HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value="/getProjectList")
+    public ResponseEntity<Head> getProjectList(HttpServletRequest request, ListReq listReq) throws ServletException, IOException {
+//        Integer userid = Integer.parseInt(String.valueOf(request.getSession().getAttribute("userid")));
+        Integer userid = 1;
+        List<ProjectInfo> list = this.projectInfoService.selectByOwnerId(userid);
+        Head head = new Head();
+        head.setCount(list.size());
+        head.setUsername("zmmason");
+        head.setObj(list);
+        return new ResponseEntity<Head>(head,HttpStatus.OK);
+
+    }
+
     @RequestMapping(value="/logincheck")
     public ResponseEntity<String> login(HttpServletRequest request, SysUser sysUserRemote) throws ServletException, IOException {
 //        return new ModelAndView("yzmimage");
@@ -86,6 +113,8 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
                     if(md5local.equals(sysUserRemote.getPassword()))
                     {
                         request.getSession().setAttribute("username", sysUserRemote.getUsername());
+                        request.getSession().setAttribute("userid", sysuserLocal.getId());
+
                         return new ResponseEntity<String>("yes",HttpStatus.OK);
                     }
                 } catch (Exception e) {

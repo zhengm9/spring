@@ -1,10 +1,7 @@
 package com.future.service;
 
-import com.future.dao.idao.IUserDao;
 import com.future.dao.idao.SysUserMapper;
-import com.future.dao.idao.UserMapper;
 import com.future.dao.po.SysUser;
-import com.future.dao.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

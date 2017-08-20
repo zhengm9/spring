@@ -98,6 +98,9 @@
         <table tableName="sys_user" domainObjectName="SysUser" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
+        <table tableName="team_info" domainObjectName="TeamInfo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
         <!--<table tableName="user_t" schema="louis">
 
             &lt;!&ndash; optional   , only for mybatis3 runtime

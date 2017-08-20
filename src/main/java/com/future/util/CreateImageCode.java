@@ -1,5 +1,9 @@
 package com.future.util;
 
+import com.future.controller.IndexController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,6 +21,8 @@ import javax.servlet.http.HttpSession;
  * Created by zhengming on 2017/8/19.
  */
 public class CreateImageCode {
+    private static Logger LOGGER = LogManager.getLogger(CreateImageCode.class);
+
     // 图片的宽度。
     private int width = 160;
     // 图片的高度。
@@ -230,6 +236,7 @@ public class CreateImageCode {
 
             CreateImageCode vCode = new CreateImageCode(156,52,4,10);
             session.setAttribute("code", vCode.getCode());
+            LOGGER.info("send code:{}",vCode.getCode());
             vCode.write(response.getOutputStream());
      }
 

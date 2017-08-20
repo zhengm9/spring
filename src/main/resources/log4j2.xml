@@ -4,14 +4,14 @@
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36}.%M()/%L  - %msg%xEx%n %replace{%logger }{\.}{/}" />
+            <PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss z} [%t] %-5level %class{36}.%M()/%L - %msg%xEx%n" />
         </Console>
         <File name="app_debug" fileName="${log-path}/debug.log" append="false">
             <Filters>spring
                 <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
             </Filters>
-            <PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss z} %-5level %class{36}.%M()/%L - %msg%xEx%n"/>
+            <PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss z} [%t] %-5level %class{36}.%M()/%L - %msg%xEx%n"/>
         </File>
         <!--这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingFile name="app_info" fileName="${log-path}/rolling.log"
@@ -38,16 +38,18 @@
         <!--</File>-->
         <File name="app_error" fileName="${log-path}/error.log" append="false">
             <Filters>
-                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
-            <PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss z} %-5level %class{36}.%M()/%L - %msg%xEx%n"/>
+            <PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss z} [%t] %-5level %class{36}.%M()/%L - %msg%xEx%n"/>
         </File>
     </Appenders>
     <!--重要-->
 
     <Loggers>
-        <Logger name="com.future" level="trace" additivity="true">
+        <Logger name="com.future" level="info" additivity="true">
+<!--
             <appender-ref ref="Console"/>
+-->
             <appender-ref ref="app_debug"/>
             <appender-ref ref="app_info"/>
             <appender-ref ref="app_error"/>
@@ -58,13 +60,13 @@
         <logger name="org.springframework.context" level="error"  additivity="true">
             <appender-ref ref="app_info"/>
         </logger>
-        <logger name="org.springframework.web" level="debug" additivity="true" >
+        <logger name="org.springframework.web" level="info" additivity="true" >
             <appender-ref ref="app_info"/>
         </logger>
         <logger name="org.springframework.amqp" level="info" additivity="true" >
             <appender-ref ref="app_info"/>
         </logger>
-        <logger name="org.apache.http" level="debug"  additivity="true">
+        <logger name="org.apache.http" level="info"  additivity="true">
             <appender-ref ref="app_info"/>
         </logger>
         <logger name="java.sql.Connection" level="info"  additivity="true">
