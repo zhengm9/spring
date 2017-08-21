@@ -16,7 +16,7 @@
         ===
     -->
     <meta charset="utf-8">
-    <title>Free HTML5 Bootstrap Admin Template</title>
+    <title>中国人寿PMIS系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
     <meta name="author" content="Muhammad Usman">
@@ -51,27 +51,35 @@
     <!-- The fav icon -->
     <link rel="shortcut icon" href="img/favicon.ico">
 	<script language="javascript">
-	function submitForm(){
+        function loadimage(){
+            document.getElementById("randImage").src = "yzm?"+Math.random();
+        }
+        function submitForm(){
        
             var AjaxURL= "logincheck";   
 			var password_yzm = document.getElementById("password").value + ":" + document.getElementById("yzm").value;
 
 			document.getElementById("password").value=hex_md5(password_yzm);
-            alert($('#loginform').serialize());
+            <!--alert($('#loginform').serialize());-->
+
+
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     dataType: "html",
                     url: AjaxURL,
                     data: $('#loginform').serialize(),
                     success: function (result) {
-                        var strresult=result;
-                        window.location.href="index.html"; 
+                        document.location.href="index.html";
                     },
-                    error: function(data) {
-                        alert("error:"+data.responseText);
-                     }
+                    error: function (errorinfo) {
+                        alert("用户名密码错误！");
+                        loadimage();
+                    }
 
-                });
+
+                },"html");
+
+
     }
 	
 	
@@ -85,7 +93,7 @@
         
     <div class="row">
         <div class="col-md-12 center login-header">
-            <h2>Welcome to Charisma</h2>
+            <h2>中国人寿PMIS系统</h2>
         </div>
         <!--/span-->
     </div><!--/row-->
@@ -93,9 +101,9 @@
     <div class="row">
         <div class="well col-md-5 center login-box">
             <div class="alert alert-info">
-                Please login with your Username and Password.
+                请输入用户名密码.
             </div>
-            <form id="loginform" class="form-horizontal" onsubmit="submitForm()">
+            <form id="loginform" class="form-horizontal" >
                 <fieldset>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
@@ -110,18 +118,22 @@
                     <div class="clearfix"></div><br>
 
 					<div class="input-group input-group-lg">
-                     <label>   <input id="yzm" type="text" class="form-control" aria-controls="DataTables_Table_0" style="width:200px;height:53.99px">&nbsp;<img alt="code..." name="randImage" id="randImage" src="yzm" width="156" height="52" border="1" align="absmiddle">
+                     <label>
+                         <input id="yzm" type="text" class="form-control"
+                                      aria-controls="DataTables_Table_0" style="width:200px;height:53.99px">&nbsp;
+                         <img alt="点击刷新" name="randImage" id="randImage"
+                              src="yzm" width="156" height="52" border="1" align="absmiddle" onclick="loadimage()">
 					</label></div>
 					
 					<div class="clearfix"></div>
 					
-                    <div class="input-prepend">
-                        <label class="remember" for="remember"><input type="checkbox" id="remember"> Remember me</label>
-                    </div>
+                    <!--<div class="input-prepend">
+                        <label class="remember" for="remember"><input type="checkbox" id="remember">记住我</label>
+                    </div>-->
                     <div class="clearfix"></div>
 
                     <p class="center col-md-5">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-primary" onclick="submitForm()">Login</button>
                     </p>
                 </fieldset>
             </form>

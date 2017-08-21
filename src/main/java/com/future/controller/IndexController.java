@@ -8,6 +8,7 @@ import com.future.entity.WebLogin;
 import com.future.entity.WebUser;
 import com.future.entity.req.ListReq;
 import com.future.entity.rsp.Head;
+import com.future.filter.SessionRecorder;
 import com.future.service.ProjectInfoService;
 import com.future.service.SysUserService;
 import com.future.service.UserBakService;
@@ -47,7 +48,7 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
     @Autowired
     private ProjectInfoService projectInfoService;
 
-    @RequestMapping({"/hello", "zhengm", "/"})
+    //@RequestMapping({"/hello", "zhengm", "/"})
     public ModelAndView hello(HttpServletRequest request) {
         LOGGER.info("spring mvc begin:{}", request.getParameter("u"));
         //1.通过XmlWebApplicationContext取得BeanFactory
@@ -84,6 +85,7 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     }
 
+    @LoginValidation("user")
     @RequestMapping(value="/getProjectList")
     public ResponseEntity<Head> getProjectList(HttpServletRequest request, ListReq listReq) throws ServletException, IOException {
 //        Integer userid = Integer.parseInt(String.valueOf(request.getSession().getAttribute("userid")));
@@ -96,6 +98,21 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         return new ResponseEntity<Head>(head,HttpStatus.OK);
 
     }
+
+    @LoginValidation("user")
+    @RequestMapping(value="/")
+    public void entry(HttpServletRequest request, HttpServletResponse response)
+    {
+        try {
+            request.getRequestDispatcher("index.html")
+                    .forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @RequestMapping(value="/logincheck")
     public ResponseEntity<String> login(HttpServletRequest request, SysUser sysUserRemote) throws ServletException, IOException {
@@ -127,4 +144,35 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
     }
 
 
+    @RequestMapping(value="/logwhenexception")
+    public void login(HttpServletRequest request, HttpServletResponse response)
+    {
+        LOGGER.info("log in");
+
+        try {
+            request.getRequestDispatcher("login.html")
+                    .forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value="/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response)
+    {
+        LOGGER.info("log out");
+        request.getSession().removeAttribute("username");
+        request.getSession().removeAttribute("userid");
+
+        try {
+            request.getRequestDispatcher("login.html")
+                    .forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

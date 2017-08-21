@@ -2,6 +2,7 @@ package com.future.aop;
 
 import com.future.annotation.LoginValidation;
 import com.future.controller.RestfulController;
+import com.future.exception.IllegalLoginException;
 import com.future.filter.SessionRecorder;
 import com.google.common.base.Strings;
 import org.apache.logging.log4j.LogManager;
@@ -43,20 +44,20 @@ public class BaseAopConf {
     }
 
     @Before("@annotation(com.future.annotation.LoginValidation)")
-    public void  loginValidate(JoinPoint joinPoint)
-    {
-        LOGGER.info("LoginValidation annotation tested!session:{}",SessionRecorder.getRequest().getSession().getAttribute("user"));
+    public void  loginValidate(JoinPoint joinPoint) throws IllegalLoginException {
+        LOGGER.info("LoginValidation annotation tested!session:{}",SessionRecorder.getRequest().getSession().getAttribute("username"));
 
         if(SessionRecorder.getRequest().getSession().getAttribute("username") == null)
         {
             LOGGER.info("user not log in!");
-            try {
+            /*try {
                 SessionRecorder.getRequest().getRequestDispatcher("login").forward(SessionRecorder.getRequest(), SessionRecorder.getResponse());
             } catch (ServletException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
+            throw new IllegalLoginException("not log in");
         }
     }
 }
