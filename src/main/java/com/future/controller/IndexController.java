@@ -99,7 +99,7 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     }
 
-    @LoginValidation("user")
+    /*@LoginValidation("user")
     @RequestMapping(value="/")
     public void entry(HttpServletRequest request, HttpServletResponse response)
     {
@@ -111,7 +111,7 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     @RequestMapping(value="/logincheck")
@@ -159,20 +159,32 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         }
     }
 
+    @RequestMapping(value="/thymeleaf")
+    public ModelAndView thymeleaf(HttpServletRequest request, HttpServletResponse response)
+    {
+        LOGGER.info("thymeleaf");
+
+        return new ModelAndView("index");
+    }
+
+    @LoginValidation("user")
+    @RequestMapping(value="/")
+    public ModelAndView entry(HttpServletRequest request, HttpServletResponse response)
+    {
+        Integer userid = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
+        List<ProjectInfo> list = this.projectInfoService.selectByOwnerId(userid);
+
+        return new ModelAndView("index", "projectInfoList", list);
+
+    }
+
     @RequestMapping(value="/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response)
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response)
     {
         LOGGER.info("log out");
         request.getSession().removeAttribute("username");
         request.getSession().removeAttribute("userid");
 
-        try {
-            request.getRequestDispatcher("login.html")
-                    .forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return new ModelAndView("login");
     }
 }

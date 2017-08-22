@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!--
         ===
@@ -50,7 +50,7 @@
     <!-- The fav icon -->
     <link rel="shortcut icon" href="img/favicon.ico">
 	<script language="javascript">
-	function getCurUser(){
+	<!--function getCurUser(){
        
             var AjaxURL= "getProjectList";   
 			
@@ -80,8 +80,7 @@
                      }
 
                 });
-    }
-	
+    }-->
 	
 
 	</script>
@@ -239,10 +238,11 @@
     </tr>
     </thead>
     <tbody id="list">
-    <tr>
-        <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
+    <tr th:each="projectInfo : ${projectInfoList}">
+        <td th:text="${projectInfo.projectName}">David R</td>
+        <td class="center" th:text="${projectInfo.requirementsReceivedDate}"> - </td>
+        <td class="center"  th:text="( (${projectInfo.projectType} == '1')? '紧急' : '常规')"
+           > - </td>
         <td class="center">
             <span class="label-success label label-default">Active</span>
         </td>

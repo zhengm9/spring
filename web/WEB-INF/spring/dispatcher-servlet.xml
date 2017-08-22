@@ -16,7 +16,14 @@
     <import resource="applicationContext.xml"/>
 
     <!--映射page目录中的静态资源-->
-    <mvc:resources location="/WEB-INF/page/" mapping="/**"/>
+    <mvc:resources location="/WEB-INF/page/css/" mapping="/css/**"/>
+    <mvc:resources location="/WEB-INF/page/js/" mapping="/js/**"/>
+    <mvc:resources location="/WEB-INF/page/fonts/" mapping="/fonts/**"/>
+    <mvc:resources location="/WEB-INF/page/img/" mapping="/img/**"/>
+    <mvc:resources location="/WEB-INF/page/bower_components/" mapping="/bower_components/**"/>
+    <mvc:resources location="/WEB-INF/page/misc/" mapping="/misc/**"/>
+    <mvc:resources location="/WEB-INF/page/php-version/" mapping="/php-version/**"/>
+
 
     <!-- HandlerMapping -->
     <bean
@@ -27,10 +34,33 @@
             class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
     <!-- ViewResolver -->
 
-    <bean id="viewResolver"
+    <!--<bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
+        <property name="order" value="2"/>
+
+    </bean>-->
+
+    <!-- 使用thymeleaf解析 -->
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/page/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML5" />
+        <property name="cacheable" value="false" />
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="order" value="1"/>
+    </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+    </bean>
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="UTF-8"/>
     </bean>
 
     <!-- 处理器 -->

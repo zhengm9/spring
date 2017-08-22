@@ -30,17 +30,14 @@ public class GlobalExceptionController {
     }
 
     @ExceptionHandler(IllegalLoginException.class)
-    public void handleIllegalLoginException(IllegalLoginException e)
+    public ModelAndView handleIllegalLoginException(IllegalLoginException e)
     {
         LOGGER.error("IllegalLoginException handled, e:{}", e);
-        try {
-            SessionRecorder.getRequest().getRequestDispatcher("logwhenexception").forward(SessionRecorder.getRequest(), SessionRecorder.getResponse());
-        } catch (ServletException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-}
+        ModelAndView errorModelAndView = new ModelAndView("login");
+        errorModelAndView.addObject("errormsg", "您尚未登录，请输入用户名、密码");
+        return errorModelAndView;
+
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ModelAndView handleException(RuntimeException e) {
