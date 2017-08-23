@@ -24,7 +24,8 @@
     <mvc:resources location="/WEB-INF/page/misc/" mapping="/misc/**"/>
     <mvc:resources location="/WEB-INF/page/php-version/" mapping="/php-version/**"/>
 
-
+    <!--配置转换服务-->
+    <mvc:annotation-driven conversion-service="conversionService" />
     <!-- HandlerMapping -->
     <bean
             class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
@@ -32,8 +33,8 @@
     <!-- HandlerAdapter -->
     <bean
             class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
-    <!-- ViewResolver -->
 
+    <!-- ViewResolver for .jsp-->
     <!--<bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
@@ -63,6 +64,15 @@
         <property name="characterEncoding" value="UTF-8"/>
     </bean>
 
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <!--bean class="thymeleafexamples.stsm.web.conversion.VarietyFormatter" /-->
+                <bean class="com.future.util.conversion.DateFormatter" />
+            </set>
+        </property>
+    </bean>
     <!-- 处理器 -->
     <!--<contex:annotation-config/>-->
     <!--<mvc:annotation-driven/>-->
