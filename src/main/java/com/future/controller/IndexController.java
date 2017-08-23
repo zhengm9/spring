@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.support.XmlWebApplicationContext;
@@ -175,6 +176,17 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         List<ProjectInfo> list = this.projectInfoService.selectByOwnerId(userid);
 
         return new ModelAndView("index", "projectInfoList", list);
+
+    }
+
+    @LoginValidation("user")
+    @RequestMapping(value="/details/{userid}")
+    public ModelAndView entry(HttpServletRequest request, HttpServletResponse response, @PathVariable String userid)
+    {
+        Integer id = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
+        List<ProjectInfo> list = this.projectInfoService.selectByOwnerId(id);
+
+        return new ModelAndView("details", "projectInfoList", list);
 
     }
 
