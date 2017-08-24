@@ -2,8 +2,12 @@ package com.future.service;
 
 import com.future.dao.idao.ProjectInfoMapper;
 import com.future.dao.po.ProjectInfo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,7 +35,16 @@ public class ProjectInfoService implements ProjectInfoMapper {
     }
 
     public List<ProjectInfo> selectByOwnerId(Integer ownerId) {
+        PageHelper pageHelper = new PageHelper();
         return this.projectInfoMapper.selectByOwnerId(ownerId);
+    }
+
+    @Transactional(readOnly = true)
+    public PageInfo<ProjectInfo> selectByPage(Integer ownerId, Integer pageNum, Integer pageSize)
+    {
+        PageHelper.startPage(pageNum,pageSize);
+        List<ProjectInfo> projectInfoList =  this.projectInfoMapper.selectByOwnerId(ownerId);
+        return new PageInfo(projectInfoList);
     }
 
     public int updateByPrimaryKeySelective(ProjectInfo record) {

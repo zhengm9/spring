@@ -15,6 +15,7 @@ import com.future.service.UserBakService;
 import com.future.service.mq.SendMsg2MQ;
 import com.future.util.CreateImageCode;
 import com.future.util.CryptUtil;
+import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
@@ -170,12 +172,28 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     @LoginValidation("user")
     @RequestMapping(value="/")
-    public ModelAndView entry(HttpServletRequest request, HttpServletResponse response)
+    public ModelAndView entry(HttpServletRequest request, HttpServletResponse response,
+                              @RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "3") Integer pageSize)
     {
         Integer userid = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
-        List<ProjectInfo> list = this.projectInfoService.selectByOwnerId(userid);
+        PageInfo<ProjectInfo> pageInfo = this.projectInfoService.selectByPage(userid, pageNum, pageSize);
+        ModelAndView model = new ModelAndView("index");
+        LOGGER.info("page info:pageNum-{},pageSize-{},isFirstPage-{},totalPages-{},isLastPage-{}",
+                pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.isIsFirstPage(), pageInfo.getPages(), pageInfo.isIsLastPage());
+        model.addObject("projectInfoList", pageInfo.getList());
+        //获得当前页
+        model.addObject("pageNum", pageInfo.getPageNum());
+        //获得一页显示的条数
+        model.addObject("pageSize", pageInfo.getPageSize());
+        //是否是第一页
+        model.addObject("isFirstPage", pageInfo.isIsFirstPage());
+        //获得总页数
+        model.addObject("totalPages", pageInfo.getPages());
+        //是否是最后一页
+        model.addObject("isLastPage", pageInfo.isIsLastPage());
 
-        return new ModelAndView("index", "projectInfoList", list);
+        return model;
 
     }
 
