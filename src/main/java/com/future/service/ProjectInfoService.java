@@ -39,7 +39,7 @@ public class ProjectInfoService implements ProjectInfoMapper {
         return this.projectInfoMapper.selectByOwnerId(ownerId);
     }
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public PageInfo<ProjectInfo> selectByPage(Integer ownerId, Integer pageNum, Integer pageSize)
     {
         PageHelper.startPage(pageNum,pageSize);

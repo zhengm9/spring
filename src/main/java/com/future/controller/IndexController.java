@@ -118,9 +118,14 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
 
     @RequestMapping(value="/logincheck")
-    public ResponseEntity<String> login(HttpServletRequest request, SysUser sysUserRemote) throws ServletException, IOException {
+    public ResponseEntity<String> login(HttpServletRequest request, SysUser sysUserRemote, @RequestParam String yzm) throws ServletException, IOException {
 //        return new ModelAndView("yzmimage");
-        LOGGER.info("sysuser:{},{}",sysUserRemote.getUsername(),sysUserRemote.getPassword());
+        LOGGER.info("sysuser:{},{};remote verify code:{}",sysUserRemote.getUsername(),sysUserRemote.getPassword(), yzm);
+        if(request.getSession().getAttribute("code") == null || !String.valueOf(request.getSession().getAttribute("code")).equals(yzm))
+        {
+            return new ResponseEntity<String>("验证码错误",HttpStatus.UNAUTHORIZED);
+        }
+
         if(!Strings.isNullOrEmpty(sysUserRemote.getUsername()))
         {
             SysUser sysuserLocal = sysUserService.getUserByName(sysUserRemote.getUsername());
@@ -135,15 +140,15 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
                         request.getSession().setAttribute("username", sysUserRemote.getUsername());
                         request.getSession().setAttribute("userid", sysuserLocal.getId());
 
-                        return new ResponseEntity<String>("yes",HttpStatus.OK);
+                        return new ResponseEntity<String>("{\"errormsg\",\"ok\"}",HttpStatus.OK);
                     }
                 } catch (Exception e) {
                     return new ResponseEntity<String>("failed",HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         }
-        return new ResponseEntity<String>("failed",HttpStatus.UNAUTHORIZED);
-
+//        return new ResponseEntity<String>("{\"errormsg\",\"用户名密码错误\"}",HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<String>("用户名密码错误",HttpStatus.UNAUTHORIZED);
     }
 
 

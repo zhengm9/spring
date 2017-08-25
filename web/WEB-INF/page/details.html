@@ -6,16 +6,53 @@
 </head>
 
 <body onload="getCurUser()">
-    <!-- topbar starts -->
-    <div th:substituteby="frame :: navbar">
+<script>
+    var map={
+        key1:'abc',
+        key2:'def'
+    };
+    var textvalue_projectName;
+    function editForm(object)
+    {
+        /*textvalue_projectName = document.getElementById("projectName").outerHTML;*/
+        var input_id = object.name;
+        map[input_id] = document.getElementById(input_id).outerHTML;
+        document.getElementById(input_id).outerHTML="<input id='" +
+                input_id +
+                "' name='" +
+                input_id +
+                "' type='text'/>";
+        document.getElementById("edit_button_"+input_id).outerHTML="<a id='edit_button_" +
+                input_id +
+                "' name='" +
+                input_id +
+                "' class='btn btn-default btn-sm' href='#'  onclick='cancelForm(this)'><i class='glyphicon glyphicon-remove-sign'></i> 取消</a>";
+    }
 
-            template-navbar
-    </div>
-     
-    <!-- topbar ends -->
+    function cancelForm(object)
+    {
+        var input_id = object.name;
+
+        document.getElementById(input_id).outerHTML=map[input_id];
+        document.getElementById("edit_button_"+input_id).outerHTML="<a id='edit_button_" +
+                input_id +
+                "' name='" +
+                input_id +
+                "' class='btn btn-default btn-sm' href='#'  onclick='editForm(this)'><i class='glyphicon glyphicon-cog'></i> 修改</a>";
+    }
+
+
+</script>
+<!-- topbar starts -->
+<div th:substituteby="frame :: navbar">
+
+    template-navbar
+</div>
+
+<!-- topbar ends -->
 <div class="ch-container">
     <div class="row">
-        
+
         <!-- left menu starts -->
         <div class="col-sm-2 col-lg-2">
             <div class="sidebar-nav">
@@ -25,12 +62,14 @@
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li class="nav-header">Main</li>
-                        <li><a class="ajax-link" href="index.html"><i class="glyphicon glyphicon-home"></i><span> 我的项目</span></a>
+                        <li><a class="ajax-link" href="index.html"><i
+                                class="glyphicon glyphicon-home"></i><span> 我的项目</span></a>
                         </li>
-                        <li><a class="ajax-link" href="ui.html"><i class="glyphicon glyphicon-eye-open"></i><span> 全部项目</span></a>
+                        <li><a class="ajax-link" href="ui.html"><i
+                                class="glyphicon glyphicon-eye-open"></i><span> 全部项目</span></a>
                         </li>
                         <li><a class="ajax-link" href="form.html"><i
-                                    class="glyphicon glyphicon-edit"></i><span> 修改信息</span></a></li>
+                                class="glyphicon glyphicon-edit"></i><span> 修改信息</span></a></li>
 
                         <li><a href="login.html"><i class="glyphicon glyphicon-lock"></i><span> Login Page</span></a>
                         </li>
@@ -53,183 +92,131 @@
 
         <div id="content" class="col-lg-10 col-sm-10">
             <!-- content starts -->
-                <div>
-        <ul class="breadcrumb">
-            <li>
-                <a href="#">主页</a>
-            </li>
-            <li>
-                <a href="#">我的项目</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="row">
-    <div class="box col-md-12">
-        <div class="box-inner">
-            <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-list"></i> 项目详情</h2>
-
-                <div class="box-icon">
-                    <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
-                    <a href="#" class="btn btn-minimize btn-round btn-default"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                    <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
-                </div>
-            </div>
-            <div class="box-content">
-                <ul class="dashboard-list">
+            <div>
+                <ul class="breadcrumb">
                     <li>
-                        <a href="#">
-                           <span class="green list-title">需求名称</span>
-														<span class="green">淘宝财险对接蚂蚁航意险</span>
-                        </a>
+                        <a href="#">主页</a>
                     </li>
                     <li>
-                        <a href="#">
-                           <span class="green list-title">一级项目</span>
-														<span class="green">淘宝财险</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                           <span class="green list-title">项目类型</span>
-														<span class="green">紧急</span>
-                        </a>
-                    </li>
-										<li>
-                        <a href="#">
-                           <span class="green list-title">领域</span>
-														<span class="green">第三方</span>
-                        </a>
-                    </li>
-										<li>
-                        <a href="#">
-                           <span class="green list-title">处理状态</span>
-														<span class="green">需求分析</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                           <span class="green list-title">工作量</span>
-														<span class="green">14.6 人天</span>
-                        </a>
-                    </li>
-										<li>
-                        <a href="#">
-                           <span class="green list-title">收到需求时间</span>
-														<span class="green">2017-08-22</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                           <span class="green list-title">外部任务书状态</span>
-														<span class="green">暂无</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                           <span class="green list-title">内部任务书状态</span>
-														<span class="green">已具备</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                           <span class="green list-title">计划联调时间</span>
-														<span class="green">2017-09-22</span>
-                        </a>
+                        <a href="#">我的项目</a>
                     </li>
                 </ul>
             </div>
-        </div>
-    </div>
-    
-    <div class="box col-md-12">
-    <div class="box-inner">
-    <div class="box-header well" data-original-title="">
-        <h2><i class="glyphicon glyphicon-user"></i> 项目列表</h2>
 
-        <div class="box-icon">
-            <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
-            <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                    class="glyphicon glyphicon-chevron-up"></i></a>
-            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
-        </div>
-    </div>
-    <div class="box-content">
-    <div class="alert alert-info">For help with such table please check <a href="http://datatables.net/" target="_blank">http://datatables.net/</a></div>
+            <div class="row">
+                <div class="box col-md-12">
+                    <div class="box-inner">
+                        <div class="box-header well" data-original-title="">
+                            <h2><i class="glyphicon glyphicon-list"></i> 项目详情</h2>
 
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-    <thead>
-    <tr>
-        <th>一级需求</th>
-        <th>需求名称</th>
-        <th>需求类型</th>
-        <th>工作量</th>
-        <th>处理状态</th>
-        <th>接收日期</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody id="list">
-    <tr th:each="projectInfo : ${projectInfoList}">
-        <td th:text="${projectInfo.parentProjectInfo.parentProjectName}?:'无'">一级需求名称</td>
-        <td th:text="${projectInfo.projectName}">David R</td>
-        <!--<td class="center"  th:text="( (${projectInfo.projectType} == '1')? '紧急' : '常规')"
-           > - </td>-->
-        <td class="center"  th:switch="${projectInfo.projectType}">
-            <p th:case="'0'">常规</p>
-            <p th:case="'1'">紧急</p>
-            <p th:case="'2'">运维</p>
-        </td>
-        <td th:text="(${projectInfo.workload} == null)?'未评估':(${projectInfo.workload}+ ' 人天')"> </td>
+                            <div class="box-icon">
+                                <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                        class="glyphicon glyphicon-cog"></i></a>
+                                <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                        class="glyphicon glyphicon-chevron-up"></i></a>
+                                <a href="#" class="btn btn-close btn-round btn-default"><i
+                                        class="glyphicon glyphicon-remove"></i></a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <form id="loginform" class="form-horizontal">
+                                <fieldset>
+                                    <ul class="dashboard-list">
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">需求名称</span>
+                                                <span class="green" id="projectName">淘宝财险对接蚂蚁航意险</span>
+                                            </a>
+                                            <a id="edit_button_projectName" name="projectName" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">一级项目</span>
+                                                <span class="green">淘宝财险</span>
+                                            </a>
+                                            <a class="btn btn-default btn-sm" href="#"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
 
-        <td class="center" th:switch="${projectInfo.handleState}">
-            <span th:case="'0'" class="label-warning label label-default">需求评估</span>
-            <span th:case="'99'" class="label-success label label-default">上线</span>
-            <!--span th:case="*" class="abel-default label label-danger">终止</span-->
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">项目类型</span>
+                                                <span class="green">紧急</span>
+                                            </a>
+                                            <a class="btn btn-default btn-sm" href="#"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
 
-        </td>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">领域</span>
+                                                <span class="green">第三方</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">处理状态</span>
+                                                <span class="green">需求分析</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">工作量</span>
+                                                <span class="green">14.6 人天</span>
+                                            </a>
+                                            <a class="btn btn-default btn-sm" href="#" onclick="editForm()"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
 
-        <td class="center" th:text="${{projectInfo.requirementsReceivedDate}}"> - </td>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">收到需求时间</span>
+                                                <span class="green">2017-08-22</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">外部任务书状态</span>
+                                                <span class="green">暂无</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">内部任务书状态</span>
+                                                <span class="green">已具备</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="green list-title">计划联调时间</span>
+                                                <span class="green">2017-09-22</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-        <td class="center">
-            <a class="btn btn-success" href="#" th:href="@{'~/details/'+${projectInfo.id}}">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                View
-            </a>
-            <a class="btn btn-info" href="#" th:href="@{${projectInfo.id}+'/edit'}">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
-                Edit
-            </a>
-            <a class="btn btn-danger" href="#" th:href="@{${projectInfo.id}+'/delete'}">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
-                Delete
-            </a>
-        </td>
-    </tr>
-        
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-    <!--/span-->
 
-    </div><!--/row-->
+                <!--/span-->
 
-            
-        </div>
-        <!--/span-->
+                <!--/div--><!--/row-->
 
-    </div><!--/row-->
 
-   
-        
-    </div><!--/span-->
+            </div>
+            <!--/span-->
 
-    <!-- content ends -->
-    </div><!--/#content.col-md-0-->
-</div><!--/fluid-row-->
+            <!--/div--><!--/row-->
+
+
+            <!--/div--><!--/span-->
+
+            <!-- content ends -->
+        </div><!--/#content.col-md-0-->
+    </div><!--/fluid-row-->
 
 
     <hr>
@@ -254,12 +241,7 @@
         </div>
     </div>
 
-    <footer class="row">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="http://usman.it" target="_blank">Muhammad
-                Usman</a> 2012 - 2015</p>
-
-        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
-                href="http://usman.it/free-responsive-admin-template">Charisma</a></p>
+    <footer class="row" th:substituteby="frame :: footer">
     </footer>
 
 </div><!--/.fluid-container-->

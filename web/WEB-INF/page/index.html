@@ -56,6 +56,28 @@
                             </div>
                         </div>
                         <div class="box-content">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="hidden" id="pageNum" th:value="${pageNum}"/>
+
+                                    <div id="DataTables_Table_0_length" class="dataTables_length">
+                                        <label>
+                                            <span th:text="'当前第-'+${pageNum}+'-页,共-'+${totalPages}+'-页'">当前第页</span>
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <select
+                                            size="1" id="pagesize_select" name="DataTables_Table_0_length"
+                                            aria-controls="DataTables_Table_0">
+                                        <option value="10" th:selected="(${pageSize}==10)">10</option>
+                                        <option value="25" th:selected="(${pageSize}==25)">25</option>
+                                        <option value="50" th:selected="(${pageSize}==50)">50</option>
+                                        <option value="100" th:selected="(${pageSize}==100)">100</option>
+                                    </select> records per page
+                                </div>
+                            </div>
                             <table class="table table-striped table-bordered responsive">
                                 <thead>
                                 <tr>
@@ -110,8 +132,6 @@
                             </table>
                             <nav>
                                 <ul class="pagination">
-                                    <li><a href="">&laquo;</a></li>
-
                                     <li>
                                         <a th:if="${not isFirstPage}" th:href="@{${'/'}(pageNum=(${pageNum}-1),pageSize=${pageSize})}">Previous</a>
                                         <a th:if="${isFirstPage}" href="javascript:void(0);">Previous</a>
@@ -130,8 +150,6 @@
                                         <a th:if="${not isLastPage}" th:href="@{${'/'}(pageNum=${pageNum+1},size=${pageSize})}">Next</a>
                                         <a th:if="${isLastPage}" href="javascript:void(0);">Next</a>
                                     </li>
-
-                                    <li><a href="#">&raquo;</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -142,6 +160,7 @@
             </div><!--/row-->
 
 
+
         </div>
         <!--/span-->
 
@@ -149,11 +168,11 @@
 
 
 
-</div><!--/span-->
+<!--/div--><!--/span-->
 
 <!-- content ends -->
-</div><!--/#content.col-md-0-->
-</div><!--/fluid-row-->
+<!--/div--><!--/#content.col-md-0-->
+<!--/div--><!--/fluid-row-->
 
 
 <hr>
@@ -178,12 +197,7 @@
     </div>
 </div>
 
-<footer class="row">
-    <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="http://usman.it" target="_blank">Muhammad
-        Usman</a> 2012 - 2015</p>
-
-    <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
-            href="http://usman.it/free-responsive-admin-template">Charisma</a></p>
+<footer class="row" th:substituteby="frame :: footer">
 </footer>
 
 </div><!--/.fluid-container-->

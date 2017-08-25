@@ -32,6 +32,14 @@ public class DateConverter implements Converter<String, Date> {
         return null;
     }
 
+    public static String getDate(String format)
+    {
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat(format);
+        Date date = new Date();
+        return simpleDateFormat.format(date);
+
+    }
+
     public static void main(String[] args)
     {
         String ticketNo_;
