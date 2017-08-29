@@ -1,7 +1,6 @@
 package com.future.dao.idao;
 
 import com.future.dao.po.ProjectInfo;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.ResultMap;

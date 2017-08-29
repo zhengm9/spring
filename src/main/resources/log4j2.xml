@@ -69,7 +69,7 @@
         <logger name="org.apache.http" level="debug"  additivity="true">
             <appender-ref ref="app_info"/>
         </logger>
-        <logger name="java.sql.Connection" level="info"  additivity="true">
+        <logger name="java.sql.Connection" level="debug"  additivity="true">
             <appender-ref ref="app_info"/>
         </logger>
         <logger name="java.sql.Statement" level="debug"  additivity="true">

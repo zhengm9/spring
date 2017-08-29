@@ -11,7 +11,7 @@
         key1:'abc',
         key2:'def'
     };
-    var textvalue_projectName;
+    var edit_count=0;
     function editForm(object)
     {
         /*
@@ -22,9 +22,15 @@
 
         document.getElementById(input_id).style.display="none";
         document.getElementById("input_"+input_id).style.display="inline";
+        document.getElementById("input_"+input_id).removeAttribute("disabled");
+
         document.getElementById("cancel_button_"+input_id).style.display="inline";
         document.getElementById("edit_button_"+input_id).style.display="none";
-
+        edit_count++;
+        if(edit_count>0)
+        {
+            $("#form_submmit").removeAttr("disabled");
+        }
 /*        document.getElementById(input_id).outerHTML="<input id='" +
                 input_id +
                 "' name='" +
@@ -49,9 +55,17 @@
 
         document.getElementById(input_id).style.display="inline";
         document.getElementById("input_"+input_id).style.display="none";
+        document.getElementById("input_"+input_id).setAttribute("disabled","disabled");
+
         document.getElementById("cancel_button_"+input_id).style.display="none";
         document.getElementById("edit_button_"+input_id).style.display="inline";
 
+        edit_count--;
+        if(edit_count<=0)
+        {
+            document.getElementById("form_submmit").setAttribute("disabled","disabled");
+
+        }
         /*document.getElementById("edit_button_"+input_id).outerHTML="<a id='edit_button_" +
                 input_id +
                 "' name='" +
@@ -145,7 +159,9 @@
                                                 <span class="green list-title">需求名称</span>
                                                 <span class="green" id="projectName" th:style="(${action}=='view')?:'display:none'" th:text="${projectInfo.projectName}?:'无'" >项目名称</span>
                                             </a>
-                                            <input type="text" id="input_projectName" name="projectName" th:style="(${action}=='edit')?'display:inline':'display:none'"/>
+                                            <input type="text" id="input_projectName" name="projectName"
+                                                   th:if="(${action}=='view')"
+                                                   th:style="'display:none'" th:disabled="disabled"/>
                                             <a id="edit_button_projectName"  name="projectName" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
                                             <a id="cancel_button_projectName" name="projectName" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
@@ -157,7 +173,9 @@
                                                 <span class="green" id="parentProjectInfo" th:style="(${action}=='view')?:'display:none'" th:text="${projectInfo.parentProjectInfo}?(${projectInfo.parentProjectInfo.parentProjectName}?:'无'):'无'" >一级项目名称</span>
                                             </a>
 
-                                            <select id="input_parentProjectInfo" name="parentProjectId" th:style="(${action}=='edit')?'display:inline':'display:none'"
+                                            <select id="input_parentProjectInfo" name="parentProjectId"
+                                                    th:if="(${action}=='view')"
+                                                    th:style="'display:none'" th:disabled="disabled"
                                                     size="1" aria-controls="DataTables_Table_0">
                                                 <option th:each="parentProjectInfo : ${parentProjectInfoList}" th:value="${parentProjectInfo.getId()}" th:selected="(${parentProjectInfo}==${projectInfo.parentProjectId})"
                                                     th:text="${parentProjectInfo.parentProjectName}">一级项目名称</option>
@@ -174,7 +192,9 @@
                                                 <span class="green list-title">项目类型</span>
                                                 <span class="green" id="projectType" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.projectType}" th:text="${projectTypeList[index].desc}" >紧急</span>
                                             </a>
-                                            <select id="input_projectType" name="projectType" th:style="(${action}=='edit')?'display:inline':'display:none'"
+                                            <select id="input_projectType" name="projectType"
+                                                    th:if="(${action}=='view')"
+                                                    th:style="'display:none'" th:disabled="disabled"
                                                     size="1" aria-controls="DataTables_Table_0">
                                                 <option th:each="projectType : ${projectTypeList}" th:value="${projectType.order}" th:selected="(${projectType.order}==${projectInfo.projectType})"
                                                         th:text="${projectType.desc}">项目类型</option>
@@ -231,7 +251,9 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <button type="submit" class="btn btn-default">Submit</button>
+                                            <button id="form_submmit" type="submit" class="btn btn-default"
+                                                    th:if="(${action}=='view')"
+                                                    th:disabled="disabled">Submit</button>
                                         </li>
                                     </ul>
                                 </fieldset>

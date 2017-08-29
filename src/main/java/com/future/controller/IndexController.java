@@ -236,7 +236,7 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
             return new ModelAndView("errorpage");
         }
 
-
+        projectInfo.setId(Integer.valueOf(projectid));
        int ret = this.projectInfoService.updateByPrimaryKeySelective(projectInfo);
         LOGGER.info("update RESULT IS:{}",ret);
         return null;
