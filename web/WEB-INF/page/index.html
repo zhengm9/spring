@@ -113,15 +113,15 @@
                                     <td class="center" th:text="${{projectInfo.requirementsReceivedDate}}"> - </td>
 
                                     <td class="center">
-                                        <a class="btn btn-success" href="#" th:href="@{'/details/'+${projectInfo.id}}">
+                                        <a class="btn btn-success" href="#" th:href="@{'/details/'+${projectInfo.id}+'/view'}">
                                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                                             View
                                         </a>
-                                        <a class="btn btn-info" href="#" th:href="@{${projectInfo.id}+'/edit'}">
+                                        <a class="btn btn-info" href="#" th:href="@{'/details/'+${projectInfo.id}+'/edit'}">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             Edit
                                         </a>
-                                        <a class="btn btn-danger" href="#" th:href="@{${projectInfo.id}+'/delete'}">
+                                        <a class="btn btn-danger" href="#" th:href="@{'/details/'+${projectInfo.id}+'/delete'}">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             Delete
                                         </a>

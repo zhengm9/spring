@@ -1,7 +1,10 @@
 package com.future.controller;
 
 import com.future.annotation.LoginValidation;
+import com.future.constants.ProjectType;
+import com.future.constants.Role;
 import com.future.dao.idao.ProjectInfoMapper;
+import com.future.dao.po.ParentProjectInfo;
 import com.future.dao.po.ProjectInfo;
 import com.future.dao.po.SysUser;
 import com.future.entity.WebLogin;
@@ -9,6 +12,7 @@ import com.future.entity.WebUser;
 import com.future.entity.req.ListReq;
 import com.future.entity.rsp.Head;
 import com.future.filter.SessionRecorder;
+import com.future.service.ParentProjectInfoService;
 import com.future.service.ProjectInfoService;
 import com.future.service.SysUserService;
 import com.future.service.UserBakService;
@@ -35,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +55,9 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     @Autowired
     private ProjectInfoService projectInfoService;
+
+    @Autowired
+    private ParentProjectInfoService parentProjectInfoService;
 
     //@RequestMapping({"/hello", "zhengm", "/"})
     public ModelAndView hello(HttpServletRequest request) {
@@ -167,19 +175,12 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         }
     }
 
-    @RequestMapping(value="/thymeleaf")
-    public ModelAndView thymeleaf(HttpServletRequest request, HttpServletResponse response)
-    {
-        LOGGER.info("thymeleaf");
-
-        return new ModelAndView("index");
-    }
 
     @LoginValidation("user")
     @RequestMapping(value="/")
     public ModelAndView entry(HttpServletRequest request, HttpServletResponse response,
                               @RequestParam(defaultValue = "1") Integer pageNum,
-                              @RequestParam(defaultValue = "3") Integer pageSize)
+                              @RequestParam(defaultValue = "10") Integer pageSize)
     {
         Integer userid = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
         PageInfo<ProjectInfo> pageInfo = this.projectInfoService.selectByPage(userid, pageNum, pageSize);
@@ -203,15 +204,46 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
     }
 
     @LoginValidation("user")
-    @RequestMapping(value="/details/{userid}")
-    public ModelAndView entry(HttpServletRequest request, HttpServletResponse response, @PathVariable String userid)
+    @RequestMapping(value="/details/{projectid}/{action}")
+    public ModelAndView getProjectDetails(HttpServletRequest request, HttpServletResponse response,
+                                                @PathVariable String projectid, @PathVariable String action)
     {
-        Integer id = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
-        List<ProjectInfo> list = this.projectInfoService.selectByOwnerId(id);
+        if(Strings.isNullOrEmpty(projectid))
+        {
+            return new ModelAndView("errorpage");
+        }
 
-        return new ModelAndView("details", "projectInfoList", list);
+        List<ParentProjectInfo> parentProjectInfoList = this.parentProjectInfoService.selectAll();
+
+        ProjectInfo projectInfo = this.projectInfoService.selectByPrimaryKey(Integer.valueOf(projectid));
+        ModelAndView modelAndView = new ModelAndView("details");
+        modelAndView.addObject("projectInfo", projectInfo);
+        modelAndView.addObject("action", action);
+        modelAndView.addObject("parentProjectInfoList",parentProjectInfoList);
+        modelAndView.addObject("projectTypeList", ProjectType.values());
+
+        return modelAndView;
 
     }
+
+    @LoginValidation("user")
+    @RequestMapping(value="/update/{projectid}")
+    public ModelAndView updateProject(HttpServletRequest request, HttpServletResponse response,
+                                          @PathVariable String projectid, ProjectInfo projectInfo)
+    {
+        if(Strings.isNullOrEmpty(projectid))
+        {
+            return new ModelAndView("errorpage");
+        }
+
+
+       int ret = this.projectInfoService.updateByPrimaryKeySelective(projectInfo);
+        LOGGER.info("update RESULT IS:{}",ret);
+        return null;
+
+    }
+
+
 
     @RequestMapping(value="/logout")
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response)

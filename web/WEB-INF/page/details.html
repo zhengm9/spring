@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<html lang="cn" xmlns:th="http://www.thymeleaf.org" >
 <head th:include="frame :: head">
 
 
@@ -14,10 +14,18 @@
     var textvalue_projectName;
     function editForm(object)
     {
-        /*textvalue_projectName = document.getElementById("projectName").outerHTML;*/
-        var input_id = object.name;
+        /*
+        textvalue_projectName = document.getElementById("projectName").outerHTML;
         map[input_id] = document.getElementById(input_id).outerHTML;
-        document.getElementById(input_id).outerHTML="<input id='" +
+         */
+        var input_id = object.name;
+
+        document.getElementById(input_id).style.display="none";
+        document.getElementById("input_"+input_id).style.display="inline";
+        document.getElementById("cancel_button_"+input_id).style.display="inline";
+        document.getElementById("edit_button_"+input_id).style.display="none";
+
+/*        document.getElementById(input_id).outerHTML="<input id='" +
                 input_id +
                 "' name='" +
                 input_id +
@@ -26,19 +34,29 @@
                 input_id +
                 "' name='" +
                 input_id +
-                "' class='btn btn-default btn-sm' href='#'  onclick='cancelForm(this)'><i class='glyphicon glyphicon-remove-sign'></i> 取消</a>";
+                "' class='btn btn-default btn-sm' href='#'  onclick='cancelForm(this)'><i class='glyphicon glyphicon-remove-sign'></i> 取消</a>";*/
+
     }
 
     function cancelForm(object)
     {
-        var input_id = object.name;
+/*
+
 
         document.getElementById(input_id).outerHTML=map[input_id];
-        document.getElementById("edit_button_"+input_id).outerHTML="<a id='edit_button_" +
+ */
+        var input_id = object.name;
+
+        document.getElementById(input_id).style.display="inline";
+        document.getElementById("input_"+input_id).style.display="none";
+        document.getElementById("cancel_button_"+input_id).style.display="none";
+        document.getElementById("edit_button_"+input_id).style.display="inline";
+
+        /*document.getElementById("edit_button_"+input_id).outerHTML="<a id='edit_button_" +
                 input_id +
                 "' name='" +
                 input_id +
-                "' class='btn btn-default btn-sm' href='#'  onclick='editForm(this)'><i class='glyphicon glyphicon-cog'></i> 修改</a>";
+                "' class='btn btn-default btn-sm' href='#'  onclick='editForm(this)'><i class='glyphicon glyphicon-cog'></i> 修改</a>";*/
     }
 
 
@@ -119,33 +137,52 @@
                             </div>
                         </div>
                         <div class="box-content">
-                            <form id="loginform" class="form-horizontal">
+                            <form id="loginform" class="form-horizontal" method="post" th:action="@{'/update/'+${projectInfo.id}}">
                                 <fieldset>
                                     <ul class="dashboard-list">
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">需求名称</span>
-                                                <span class="green" id="projectName">淘宝财险对接蚂蚁航意险</span>
+                                                <span class="green" id="projectName" th:style="(${action}=='view')?:'display:none'" th:text="${projectInfo.projectName}?:'无'" >项目名称</span>
                                             </a>
-                                            <a id="edit_button_projectName" name="projectName" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                            <input type="text" id="input_projectName" name="projectName" th:style="(${action}=='edit')?'display:inline':'display:none'"/>
+                                            <a id="edit_button_projectName"  name="projectName" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_projectName" name="projectName" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>
                                         </li>
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">一级项目</span>
-                                                <span class="green">淘宝财险</span>
+                                                <span class="green" id="parentProjectInfo" th:style="(${action}=='view')?:'display:none'" th:text="${projectInfo.parentProjectInfo}?(${projectInfo.parentProjectInfo.parentProjectName}?:'无'):'无'" >一级项目名称</span>
                                             </a>
-                                            <a class="btn btn-default btn-sm" href="#"><i
+
+                                            <select id="input_parentProjectInfo" name="parentProjectId" th:style="(${action}=='edit')?'display:inline':'display:none'"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="parentProjectInfo : ${parentProjectInfoList}" th:value="${parentProjectInfo.getId()}" th:selected="(${parentProjectInfo}==${projectInfo.parentProjectId})"
+                                                    th:text="${parentProjectInfo.parentProjectName}">一级项目名称</option>
+                                            </select>
+                                            <a id="edit_button_parentProjectInfo" name="parentProjectInfo" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_parentProjectInfo" name="parentProjectInfo" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>
+
 
                                         </li>
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">项目类型</span>
-                                                <span class="green">紧急</span>
+                                                <span class="green" id="projectType" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.projectType}" th:text="${projectTypeList[index].desc}" >紧急</span>
                                             </a>
-                                            <a class="btn btn-default btn-sm" href="#"><i
+                                            <select id="input_projectType" name="projectType" th:style="(${action}=='edit')?'display:inline':'display:none'"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="projectType : ${projectTypeList}" th:value="${projectType.order}" th:selected="(${projectType.order}==${projectInfo.projectType})"
+                                                        th:text="${projectType.desc}">项目类型</option>
+                                            </select>
+                                            <a id="edit_button_projectType" name="projectType" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_projectType" name="projectType" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>
 
                                         </li>
                                         <li>
@@ -192,6 +229,9 @@
                                                 <span class="green list-title">计划联调时间</span>
                                                 <span class="green">2017-09-22</span>
                                             </a>
+                                        </li>
+                                        <li>
+                                            <button type="submit" class="btn btn-default">Submit</button>
                                         </li>
                                     </ul>
                                 </fieldset>
