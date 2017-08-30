@@ -1,5 +1,7 @@
 package com.future.dao.po;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class ProjectInfo {
@@ -101,6 +103,8 @@ public class ProjectInfo {
      *
      * @mbggenerated
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+
     private Date jointDebugDate;
 
     /**
@@ -109,6 +113,7 @@ public class ProjectInfo {
      *
      * @mbggenerated
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date requirementsReceivedDate;
 
     /**

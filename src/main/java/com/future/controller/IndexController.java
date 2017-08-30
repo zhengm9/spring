@@ -1,8 +1,7 @@
 package com.future.controller;
 
 import com.future.annotation.LoginValidation;
-import com.future.constants.ProjectType;
-import com.future.constants.Role;
+import com.future.constants.*;
 import com.future.dao.idao.ProjectInfoMapper;
 import com.future.dao.po.ParentProjectInfo;
 import com.future.dao.po.ProjectInfo;
@@ -221,6 +220,9 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         modelAndView.addObject("action", action);
         modelAndView.addObject("parentProjectInfoList",parentProjectInfoList);
         modelAndView.addObject("projectTypeList", ProjectType.values());
+        modelAndView.addObject("handleStateTypeList", HandleStateType.values());
+        modelAndView.addObject("externalTaskStateTypeList", ExternalTaskStateType.values());
+        modelAndView.addObject("internalTaskStateTypeList", InternalTaskStateType.values());
 
         return modelAndView;
 

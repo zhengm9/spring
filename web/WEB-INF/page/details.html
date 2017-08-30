@@ -5,7 +5,7 @@
 
 </head>
 
-<body onload="getCurUser()">
+<body onload="initCalender()">
 <script>
     var map={
         key1:'abc',
@@ -19,6 +19,7 @@
         map[input_id] = document.getElementById(input_id).outerHTML;
          */
         var input_id = object.name;
+
 
         document.getElementById(input_id).style.display="none";
         document.getElementById("input_"+input_id).style.display="inline";
@@ -73,7 +74,23 @@
                 "' class='btn btn-default btn-sm' href='#'  onclick='editForm(this)'><i class='glyphicon glyphicon-cog'></i> 修改</a>";*/
     }
 
+    function   initCalender()
+    {
+        $('#input_requirementsReceivedDate').dcalendarpicker({
+            format:'yyyy-mm-dd'
+        });
+        $('#input_jointDebugDate').dcalendarpicker({
+            format:'yyyy-mm-dd'
+        });
 
+    }
+    $('#input_requirementsReceivedDate').dcalendarpicker({
+        format:'yyyy-mm-dd'
+    });
+    $('#input_jointDebugDate').dcalendarpicker({
+        format:'yyyy-mm-dd'
+    });
+    $('#mycalendar').dcalendar();
 </script>
 <!-- topbar starts -->
 <div th:substituteby="frame :: navbar">
@@ -81,6 +98,9 @@
     template-navbar
 </div>
 
+<!--calender start-->
+<table id='mycalendar' class='calendar'></table>
+<!--calender end-->
 <!-- topbar ends -->
 <div class="ch-container">
     <div class="row">
@@ -190,7 +210,7 @@
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">项目类型</span>
-                                                <span class="green" id="projectType" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.projectType}" th:text="${projectTypeList[index].desc}" >紧急</span>
+                                                <span class="green" id="projectType" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.projectType}" th:text="(${index} != null)?(${projectTypeList[index].desc}):'无'" >紧急</span>
                                             </a>
                                             <select id="input_projectType" name="projectType"
                                                     th:if="(${action}=='view')"
@@ -207,48 +227,95 @@
                                         </li>
                                         <li>
                                             <a href="#">
-                                                <span class="green list-title">领域</span>
-                                                <span class="green">第三方</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
                                                 <span class="green list-title">处理状态</span>
-                                                <span class="green">需求分析</span>
+                                                <span class="green" id="handleState" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.handleState}" th:text="(${index} != null)?(${handleStateTypeList[index].desc}):'无'" >处理状态</span>
                                             </a>
+                                            <select id="input_handleState" name="handleState"
+                                                    th:if="(${action}=='view')"
+                                                    th:style="'display:none'" th:disabled="disabled"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="handleStateType : ${handleStateTypeList}" th:value="${handleStateType.order}" th:selected="(${handleStateType.order}==${projectInfo.handleState})"
+                                                        th:text="${handleStateType.desc}">项目类型</option>
+                                            </select>
+                                            <a id="edit_button_handleState" name="handleState" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_handleState" name="handleState" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>
+
                                         </li>
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">工作量</span>
-                                                <span class="green">14.6 人天</span>
+                                                <span class="green" id="workload" th:style="(${action}=='view')?:'display:none'" th:text="${{projectInfo.workload}}?:'-'" >工作量</span>
                                             </a>
-                                            <a class="btn btn-default btn-sm" href="#" onclick="editForm()"><i
+                                            <input type="text" id="input_workload" name="workload"
+                                                   th:if="(${action}=='view')"
+                                                   th:style="'display:none'" th:disabled="disabled" placeholder="人天"/>
+                                            <a id="edit_button_workload"  name="workload" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_workload" name="workload" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>
 
                                         </li>
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">收到需求时间</span>
-                                                <span class="green">2017-08-22</span>
+                                                <span class="green" id="requirementsReceivedDate" th:style="(${action}=='view')?:'display:none'" th:text="${{projectInfo.requirementsReceivedDate}}?:'-'" >收到需求时间</span>
                                             </a>
+                                            <input type="text" id="input_requirementsReceivedDate" name="requirementsReceivedDate"
+                                                   th:if="(${action}=='view')"
+                                                   th:style="'display:none'" th:disabled="disabled"/>
+                                            <a id="edit_button_requirementsReceivedDate"  name="requirementsReceivedDate" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_requirementsReceivedDate" name="requirementsReceivedDate" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>                                            </a>
                                         </li>
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">外部任务书状态</span>
-                                                <span class="green">暂无</span>
+                                                <span class="green" id="externalTaskState" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.externalTaskState}" th:text="(${index} != null)?(${externalTaskStateTypeList[index].desc}):'无'" >外部任务书状态</span>
                                             </a>
+                                            <select id="input_externalTaskState" name="externalTaskState"
+                                                    th:if="(${action}=='view')"
+                                                    th:style="'display:none'" th:disabled="disabled"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="externalTaskStateType : ${externalTaskStateTypeList}" th:value="${externalTaskStateType.order}" th:selected="(${externalTaskStateType.order}==${projectInfo.externalTaskState})"
+                                                        th:text="${externalTaskStateType.desc}">内部任务书状态</option>
+                                            </select>
+                                            <a id="edit_button_externalTaskState" name="externalTaskState" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_externalTaskState" name="externalTaskState" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>
                                         </li>
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">内部任务书状态</span>
-                                                <span class="green">已具备</span>
+                                                <span class="green" id="internalTaskState" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.internalTaskState}" th:text="(${index} != null)?(${internalTaskStateTypeList[index].desc}):'无'" >内部任务书状态</span>
                                             </a>
+                                            <select id="input_internalTaskState" name="internalTaskState"
+                                                    th:if="(${action}=='view')"
+                                                    th:style="'display:none'" th:disabled="disabled"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="internalTaskStateType : ${internalTaskStateTypeList}" th:value="${internalTaskStateType.order}" th:selected="(${internalTaskStateType.order}==${projectInfo.internalTaskState})"
+                                                        th:text="${internalTaskStateType.desc}">外部任务书状态</option>
+                                            </select>
+                                            <a id="edit_button_internalTaskState" name="internalTaskState" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_internalTaskState" name="internalTaskState" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>
                                         </li>
                                         <li>
                                             <a href="#">
                                                 <span class="green list-title">计划联调时间</span>
-                                                <span class="green">2017-09-22</span>
+                                                <span class="green" id="jointDebugDate" th:style="(${action}=='view')?:'display:none'" th:text="${{projectInfo.jointDebugDate}}?:'-'" >计划联调时间</span>
                                             </a>
+                                            <input type="text" id="input_jointDebugDate" name="jointDebugDate"
+                                                   th:if="(${action}=='view')"
+                                                   th:style="'display:none'" th:disabled="disabled"/>
+                                            <a id="edit_button_jointDebugDate"  name="jointDebugDate" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
+                                                    class="glyphicon glyphicon-cog"></i> 修改</a>
+                                            <a id="cancel_button_jointDebugDate" name="jointDebugDate" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                                    class="glyphicon glyphicon-remove-sign"></i> 取消</a>                                            </a>
                                         </li>
                                         <li>
                                             <button id="form_submmit" type="submit" class="btn btn-default"
