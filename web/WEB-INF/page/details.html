@@ -147,10 +147,10 @@
             <div>
                 <ul class="breadcrumb">
                     <li>
-                        <a href="#">主页</a>
+                        <a >主页</a>
                     </li>
                     <li>
-                        <a href="#">我的项目</a>
+                        <a >我的项目</a>
                     </li>
                 </ul>
             </div>
@@ -162,11 +162,11 @@
                             <h2><i class="glyphicon glyphicon-list"></i> 项目详情</h2>
 
                             <div class="box-icon">
-                                <a href="#" class="btn btn-setting btn-round btn-default"><i
+                                <a  class="btn btn-setting btn-round btn-default"><i
                                         class="glyphicon glyphicon-cog"></i></a>
-                                <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                <a  class="btn btn-minimize btn-round btn-default"><i
                                         class="glyphicon glyphicon-chevron-up"></i></a>
-                                <a href="#" class="btn btn-close btn-round btn-default"><i
+                                <a  class="btn btn-close btn-round btn-default"><i
                                         class="glyphicon glyphicon-remove"></i></a>
                             </div>
                         </div>
@@ -175,22 +175,25 @@
                                 <fieldset>
                                     <ul class="dashboard-list">
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">需求名称</span>
-                                                <span class="green" id="projectName" th:style="(${action}=='view')?:'display:none'" th:text="${projectInfo.projectName}?:'无'" >项目名称</span>
+                                                <span class="green" id="projectName" th:style="(${action}=='view')?'display:inline':'display:none'" th:text="${projectInfo.projectName}?:'无'" >项目名称</span>
                                             </a>
+                                            <input type="text" id="input_projectName" name="projectName" style="display:inline"
+                                                   th:if="(${action=='view'})"
+                                                   th:style="'display:none'" th:disabled="disabled" />
                                             <input type="text" id="input_projectName" name="projectName"
-                                                   th:if="(${action}=='view')"
-                                                   th:style="'display:none'" th:disabled="disabled"/>
-                                            <a id="edit_button_projectName"  name="projectName" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
+                                                   th:if="(${action=='edit'})" th:value="${projectInfo.projectName}"/>
+
+                                            <a id="edit_button_projectName"  name="projectName" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_projectName" name="projectName" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_projectName" name="projectName" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">一级项目</span>
-                                                <span class="green" id="parentProjectInfo" th:style="(${action}=='view')?:'display:none'" th:text="${projectInfo.parentProjectInfo}?(${projectInfo.parentProjectInfo.parentProjectName}?:'无'):'无'" >一级项目名称</span>
+                                                <span class="green" id="parentProjectInfo" th:style="(${action}=='view')?'display:inline':'display:none'" th:text="${projectInfo.parentProjectInfo}?(${projectInfo.parentProjectInfo.parentProjectName}?:'无'):'无'" >一级项目名称</span>
                                             </a>
 
                                             <select id="input_parentProjectInfo" name="parentProjectId"
@@ -200,17 +203,25 @@
                                                 <option th:each="parentProjectInfo : ${parentProjectInfoList}" th:value="${parentProjectInfo.getId()}" th:selected="(${parentProjectInfo}==${projectInfo.parentProjectId})"
                                                     th:text="${parentProjectInfo.parentProjectName}">一级项目名称</option>
                                             </select>
-                                            <a id="edit_button_parentProjectInfo" name="parentProjectInfo" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+
+                                            <select id="input_parentProjectInfo" name="parentProjectId"
+                                                    th:if="(${action}=='edit')"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="parentProjectInfo : ${parentProjectInfoList}" th:value="${parentProjectInfo.getId()}" th:selected="(${parentProjectInfo}==${projectInfo.parentProjectId})"
+                                                        th:text="${parentProjectInfo.parentProjectName}">一级项目名称</option>
+                                            </select>
+
+                                            <a id="edit_button_parentProjectInfo" name="parentProjectInfo" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_parentProjectInfo" name="parentProjectInfo" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_parentProjectInfo" name="parentProjectInfo" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>
 
 
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">项目类型</span>
-                                                <span class="green" id="projectType" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.projectType}" th:text="(${index} != null)?(${projectTypeList[index].desc}):'无'" >紧急</span>
+                                                <span class="green" id="projectType" th:style="(${action}=='view')?'display:inline':'display:none'" th:with="index=${projectInfo.projectType}" th:text="(${index} != null)?(${projectTypeList[index].desc}):'无'" >紧急</span>
                                             </a>
                                             <select id="input_projectType" name="projectType"
                                                     th:if="(${action}=='view')"
@@ -219,16 +230,22 @@
                                                 <option th:each="projectType : ${projectTypeList}" th:value="${projectType.order}" th:selected="(${projectType.order}==${projectInfo.projectType})"
                                                         th:text="${projectType.desc}">项目类型</option>
                                             </select>
-                                            <a id="edit_button_projectType" name="projectType" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                            <select id="input_projectType" name="projectType"
+                                                    th:if="(${action}=='edit')"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="projectType : ${projectTypeList}" th:value="${projectType.order}" th:selected="(${projectType.order}==${projectInfo.projectType})"
+                                                        th:text="${projectType.desc}">项目类型</option>
+                                            </select>
+                                            <a id="edit_button_projectType" name="projectType" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_projectType" name="projectType" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_projectType" name="projectType" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>
 
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">处理状态</span>
-                                                <span class="green" id="handleState" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.handleState}" th:text="(${index} != null)?(${handleStateTypeList[index].desc}):'无'" >处理状态</span>
+                                                <span class="green" id="handleState" th:style="(${action}=='view')?'display:inline':'display:none'" th:with="index=${projectInfo.handleState}" th:text="(${index} != null)?(${handleStateTypeList[index].desc}):'无'" >处理状态</span>
                                             </a>
                                             <select id="input_handleState" name="handleState"
                                                     th:if="(${action}=='view')"
@@ -237,43 +254,57 @@
                                                 <option th:each="handleStateType : ${handleStateTypeList}" th:value="${handleStateType.order}" th:selected="(${handleStateType.order}==${projectInfo.handleState})"
                                                         th:text="${handleStateType.desc}">项目类型</option>
                                             </select>
-                                            <a id="edit_button_handleState" name="handleState" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                            <select id="input_handleState" name="handleState"
+                                                    th:if="(${action}=='edit')"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="handleStateType : ${handleStateTypeList}" th:value="${handleStateType.order}" th:selected="(${handleStateType.order}==${projectInfo.handleState})"
+                                                        th:text="${handleStateType.desc}">项目类型</option>
+                                            </select>
+                                            <a id="edit_button_handleState" name="handleState" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_handleState" name="handleState" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_handleState" name="handleState" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>
 
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">工作量</span>
-                                                <span class="green" id="workload" th:style="(${action}=='view')?:'display:none'" th:text="${{projectInfo.workload}}?:'-'" >工作量</span>
+                                                <span class="green" id="workload" th:style="(${action}=='view')?'display:inline':'display:none'" th:text="${{projectInfo.workload}}?:'-'" >工作量</span>
                                             </a>
                                             <input type="text" id="input_workload" name="workload"
                                                    th:if="(${action}=='view')"
                                                    th:style="'display:none'" th:disabled="disabled" placeholder="人天"/>
-                                            <a id="edit_button_workload"  name="workload" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
+                                            <input type="text" id="input_workload" name="workload"
+                                                   th:if="(${action}=='edit')"
+                                                   th:value="${{projectInfo.workload}}" placeholder="人天"/>
+
+                                            <a id="edit_button_workload"  name="workload" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_workload" name="workload" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_workload" name="workload" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>
 
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">收到需求时间</span>
-                                                <span class="green" id="requirementsReceivedDate" th:style="(${action}=='view')?:'display:none'" th:text="${{projectInfo.requirementsReceivedDate}}?:'-'" >收到需求时间</span>
+                                                <span class="green" id="requirementsReceivedDate" th:style="(${action}=='view')?'display:inline':'display:none'" th:text="${{projectInfo.requirementsReceivedDate}}?:'-'" >收到需求时间</span>
                                             </a>
                                             <input type="text" id="input_requirementsReceivedDate" name="requirementsReceivedDate"
                                                    th:if="(${action}=='view')"
                                                    th:style="'display:none'" th:disabled="disabled"/>
-                                            <a id="edit_button_requirementsReceivedDate"  name="requirementsReceivedDate" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
+                                            <input type="text" id="input_requirementsReceivedDate" name="requirementsReceivedDate"
+                                                   th:if="(${action}=='edit')"/>
+
+<!--                                            th:value="${{projectInfo.requirementsReceivedDate}}?:''"-->
+                                            <a id="edit_button_requirementsReceivedDate"  name="requirementsReceivedDate" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_requirementsReceivedDate" name="requirementsReceivedDate" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_requirementsReceivedDate" name="requirementsReceivedDate" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>                                            </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">外部任务书状态</span>
-                                                <span class="green" id="externalTaskState" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.externalTaskState}" th:text="(${index} != null)?(${externalTaskStateTypeList[index].desc}):'无'" >外部任务书状态</span>
+                                                <span class="green" id="externalTaskState" th:style="(${action}=='view')?'display:inline':'display:none'" th:with="index=${projectInfo.externalTaskState}" th:text="(${index} != null)?(${externalTaskStateTypeList[index].desc}):'无'" >外部任务书状态</span>
                                             </a>
                                             <select id="input_externalTaskState" name="externalTaskState"
                                                     th:if="(${action}=='view')"
@@ -282,15 +313,21 @@
                                                 <option th:each="externalTaskStateType : ${externalTaskStateTypeList}" th:value="${externalTaskStateType.order}" th:selected="(${externalTaskStateType.order}==${projectInfo.externalTaskState})"
                                                         th:text="${externalTaskStateType.desc}">内部任务书状态</option>
                                             </select>
-                                            <a id="edit_button_externalTaskState" name="externalTaskState" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                            <select id="input_externalTaskState" name="externalTaskState"
+                                                    th:if="(${action}=='edit')"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="externalTaskStateType : ${externalTaskStateTypeList}" th:value="${externalTaskStateType.order}" th:selected="(${externalTaskStateType.order}==${projectInfo.externalTaskState})"
+                                                        th:text="${externalTaskStateType.desc}">内部任务书状态</option>
+                                            </select>
+                                            <a id="edit_button_externalTaskState" name="externalTaskState" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_externalTaskState" name="externalTaskState" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_externalTaskState" name="externalTaskState" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">内部任务书状态</span>
-                                                <span class="green" id="internalTaskState" th:style="(${action}=='view')?:'display:none'" th:with="index=${projectInfo.internalTaskState}" th:text="(${index} != null)?(${internalTaskStateTypeList[index].desc}):'无'" >内部任务书状态</span>
+                                                <span class="green" id="internalTaskState" th:style="(${action}=='view')?'display:inline':'display:none'" th:with="index=${projectInfo.internalTaskState}" th:text="(${index} != null)?(${internalTaskStateTypeList[index].desc}):'无'" >内部任务书状态</span>
                                             </a>
                                             <select id="input_internalTaskState" name="internalTaskState"
                                                     th:if="(${action}=='view')"
@@ -299,30 +336,50 @@
                                                 <option th:each="internalTaskStateType : ${internalTaskStateTypeList}" th:value="${internalTaskStateType.order}" th:selected="(${internalTaskStateType.order}==${projectInfo.internalTaskState})"
                                                         th:text="${internalTaskStateType.desc}">外部任务书状态</option>
                                             </select>
-                                            <a id="edit_button_internalTaskState" name="internalTaskState" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)"><i
+                                            <select id="input_internalTaskState" name="internalTaskState"
+                                                    th:if="(${action}=='edit')"
+                                                    size="1" aria-controls="DataTables_Table_0">
+                                                <option th:each="internalTaskStateType : ${internalTaskStateTypeList}" th:value="${internalTaskStateType.order}" th:selected="(${internalTaskStateType.order}==${projectInfo.internalTaskState})"
+                                                        th:text="${internalTaskStateType.desc}">外部任务书状态</option>
+                                            </select>
+                                            <a id="edit_button_internalTaskState" name="internalTaskState" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_internalTaskState" name="internalTaskState" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_internalTaskState" name="internalTaskState" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a >
                                                 <span class="green list-title">计划联调时间</span>
-                                                <span class="green" id="jointDebugDate" th:style="(${action}=='view')?:'display:none'" th:text="${{projectInfo.jointDebugDate}}?:'-'" >计划联调时间</span>
+                                                <span class="green" id="jointDebugDate" th:style="(${action}=='view')?'display:inline':'display:none'" th:text="${{projectInfo.jointDebugDate}}?:'-'" >计划联调时间</span>
                                             </a>
                                             <input type="text" id="input_jointDebugDate" name="jointDebugDate"
                                                    th:if="(${action}=='view')"
                                                    th:style="'display:none'" th:disabled="disabled"/>
-                                            <a id="edit_button_jointDebugDate"  name="jointDebugDate" class="btn btn-default btn-sm" href="#"  onclick="editForm(this)" th:style="(${action}=='edit')?:'display:none'"><i
+                                            <input type="text" id="input_jointDebugDate" name="jointDebugDate"
+                                                   th:if="(${action}=='edit')"
+                                                   th:value="${{projectInfo.jointDebugDate}}?:''"/>
+                                            <a id="edit_button_jointDebugDate"  name="jointDebugDate" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
                                                     class="glyphicon glyphicon-cog"></i> 修改</a>
-                                            <a id="cancel_button_jointDebugDate" name="jointDebugDate" class="btn btn-default btn-sm" href="#"  onclick="cancelForm(this)" style="display: none"><i
+                                            <a id="cancel_button_jointDebugDate" name="jointDebugDate" class="btn btn-default btn-sm"   onclick="cancelForm(this)" style="display: none"><i
                                                     class="glyphicon glyphicon-remove-sign"></i> 取消</a>                                            </a>
                                         </li>
-                                        <li>
+                                        <!--li>
                                             <button id="form_submmit" type="submit" class="btn btn-default"
                                                     th:if="(${action}=='view')"
                                                     th:disabled="disabled">Submit</button>
-                                        </li>
+                                        </li-->
                                     </ul>
+                                    <ul>
+                                        <p class="left-block download-buttons">
+                                            <a  onClick="javascript:history.back(-1);" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-chevron-left glyphicon-white"></i> 返回</a>
+                                            <button id="form_submmit" type="submit" class="btn btn-default btn-lg"
+                                                    th:if="(${action}=='view')"
+                                                    th:disabled="disabled">提交修改</button>
+                                            <button id="form_submmit" type="submit" class="btn btn-default btn-lg"
+                                                    th:if="(${action}=='edit')">提交修改</button>
+                                            <!--a href="http://usman.it/free-responsive-admin-template/" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-download-alt"></i> 提交修改</a-->
+                                        </p>
+                                    <ul>
                                 </fieldset>
                             </form>
                         </div>
@@ -363,8 +420,8 @@
                     <p>Here settings can be configured...</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
-                    <a href="#" class="btn btn-primary" data-dismiss="modal">Save changes</a>
+                    <a  class="btn btn-default" data-dismiss="modal">Close</a>
+                    <a  class="btn btn-primary" data-dismiss="modal">Save changes</a>
                 </div>
             </div>
         </div>

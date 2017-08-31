@@ -86,3 +86,19 @@ insert into project_info (project_name,project_type,owner_id,workload,handle_sta
   values ('蚂蚁7','2',(select id from sys_user),118.22,2,"2017-07-13");
 insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
   values ('蚂蚁8','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁9','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁10','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁11','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁12','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁13','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁14','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁15','2',(select id from sys_user),118.22,2,"2017-07-13");
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('蚂蚁16','2',(select id from sys_user),118.22,2,"2017-07-13");

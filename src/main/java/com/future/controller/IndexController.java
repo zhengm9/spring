@@ -230,18 +230,23 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     @LoginValidation("user")
     @RequestMapping(value="/update/{projectid}")
-    public ModelAndView updateProject(HttpServletRequest request, HttpServletResponse response,
+    public void updateProject(HttpServletRequest request, HttpServletResponse response,
                                           @PathVariable String projectid, ProjectInfo projectInfo)
     {
         if(Strings.isNullOrEmpty(projectid))
         {
-            return new ModelAndView("errorpage");
+            return ;
         }
 
         projectInfo.setId(Integer.valueOf(projectid));
        int ret = this.projectInfoService.updateByPrimaryKeySelective(projectInfo);
         LOGGER.info("update RESULT IS:{}",ret);
-        return null;
+        try {
+            response.sendRedirect(request.getContextPath()+"/details/"+projectid+"/view");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
