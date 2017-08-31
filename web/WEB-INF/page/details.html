@@ -5,7 +5,9 @@
 
 </head>
 
-<body onload="initCalender()">
+<!--<body onload="initCalender()">-->
+<body>
+
 <script>
     var map={
         key1:'abc',
@@ -74,7 +76,7 @@
                 "' class='btn btn-default btn-sm' href='#'  onclick='editForm(this)'><i class='glyphicon glyphicon-cog'></i> 修改</a>";*/
     }
 
-    function   initCalender()
+    /*function   initCalender()
     {
         $('#input_requirementsReceivedDate').dcalendarpicker({
             format:'yyyy-mm-dd'
@@ -90,7 +92,20 @@
     $('#input_jointDebugDate').dcalendarpicker({
         format:'yyyy-mm-dd'
     });
-    $('#mycalendar').dcalendar();
+    $('#mycalendar').dcalendar();*/
+
+
+    $( function() {
+
+        $( "#input_requirementsReceivedDate" ).datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+
+        $( "#input_jointDebugDate" ).datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    } );
+
 </script>
 <!-- topbar starts -->
 <div th:substituteby="frame :: navbar">
@@ -293,7 +308,7 @@
                                                    th:if="(${action}=='view')"
                                                    th:style="'display:none'" th:disabled="disabled"/>
                                             <input type="text" id="input_requirementsReceivedDate" name="requirementsReceivedDate"
-                                                   th:if="(${action}=='edit')"/>
+                                                   th:if="(${action}=='edit')" th:value="${{projectInfo.requirementsReceivedDate}}?:''"/>
 
 <!--                                            th:value="${{projectInfo.requirementsReceivedDate}}?:''"-->
                                             <a id="edit_button_requirementsReceivedDate"  name="requirementsReceivedDate" class="btn btn-default btn-sm"   onclick="editForm(this)" th:style="(${action}=='view')?'display:inline':'display:none'"><i
