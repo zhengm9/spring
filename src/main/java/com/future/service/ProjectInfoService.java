@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -24,7 +25,7 @@ public class ProjectInfoService implements ProjectInfoMapper {
     @Autowired
     ProjectInfoMapper projectInfoMapper;
     public int deleteByPrimaryKey(Integer id) {
-        return 0;
+        return this.projectInfoMapper.deleteByPrimaryKey(id);
     }
 
     public int insert(ProjectInfo record) {
@@ -39,8 +40,11 @@ public class ProjectInfoService implements ProjectInfoMapper {
         return this.projectInfoMapper.selectByPrimaryKey(id);
     }
 
+    public List<ProjectInfo> selectAll() {
+        return this.projectInfoMapper.selectAll();
+    }
+
     public List<ProjectInfo> selectByOwnerId(Integer ownerId) {
-        PageHelper pageHelper = new PageHelper();
         return this.projectInfoMapper.selectByOwnerId(ownerId);
     }
 
@@ -48,7 +52,14 @@ public class ProjectInfoService implements ProjectInfoMapper {
     public PageInfo<ProjectInfo> selectByPage(Integer ownerId, Integer pageNum, Integer pageSize)
     {
         PageHelper.startPage(pageNum,pageSize);
-        List<ProjectInfo> projectInfoList =  this.projectInfoMapper.selectByOwnerId(ownerId);
+        List<ProjectInfo> projectInfoList = new ArrayList();
+        if(ownerId==null || ownerId==0)
+        {
+            projectInfoList =  this.selectAll();
+        }else {
+            projectInfoList =  this.selectByOwnerId(ownerId);
+        }
+
         return new PageInfo(projectInfoList);
     }
 

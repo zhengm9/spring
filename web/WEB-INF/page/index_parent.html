@@ -14,18 +14,29 @@
     $( function() {
         $('.btn-delete').click(function (e) {
             e.preventDefault();
-            $('#delete_confirm').attr("onclick","javascript:window.location='"+url+"/details/"+$(this).attr("value")+"/delete'");
+            $('#delete_confirm').attr("onclick","javascript:window.location='"+url+"/parentProjectCenter/"+$(this).attr("value")+"/delete'");
             $('#deleteModal').modal('show');
         });
 
+        $('.btn-update').click(function (e) {
+            e.preventDefault();
+            $('#update_form').attr("action",url+"/parentProjectCenter/"+$(this).attr("value")+"/update");
+            $('#updateModal').modal('show');
+        });
+
+
+
+
         $("#pagesize_select").change(function(){
 
-            document.location.href=url + "/projectCenter?pageSize=" + $("#pagesize_select").find("option:selected").text()
-                    + "&pageNum="+document.getElementById("pageNum").value
-                    + "&isSelfish="+$("#isSelfish").attr("value");
+            document.location.href=url + "/parentProjectCenter?pageSize=" + $("#pagesize_select").find("option:selected").text()
+                    + "&pageNum="+document.getElementById("pageNum").value;
         });
     } );
-
+    
+    function submit_update_form() {
+        $("#update_form").submit();
+    }
 </script>
 <div class="ch-container">
     <div class="row">
@@ -66,7 +77,6 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <input type="hidden" id="pageNum" th:value="${pageNum}"/>
-                                    <input type="hidden" id="isSelfish" th:value="${isSelfish?0:1}"/>
 
                                     <div id="DataTables_Table_0_length" class="dataTables_length">
                                         <label>
@@ -89,53 +99,22 @@
                             <table class="table table-striped table-bordered responsive">
                                 <thead>
                                 <tr>
-                                    <th>一级需求</th>
-                                    <th>需求名称</th>
-                                    <th>需求类型</th>
-                                    <th>工作量</th>
-                                    <th>处理状态</th>
-                                    <th>接收日期</th>
-                                    <th th:if="${not isSelfish}" th:text="技术负责人">技术负责人</th>
+                                    <th>一级需求名称</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody id="list">
-                                <tr th:each="projectInfo : ${projectInfoList}">
-                                    <td th:text="${projectInfo.parentProjectInfo}?(${projectInfo.parentProjectInfo.parentProjectName}?:'无'):'无'">一级需求名称</td>
-                                    <td th:text="${projectInfo.projectName}">David R</td>
-                                    <!--<td class="center"  th:text="( (${projectInfo.projectType} == '1')? '紧急' : '常规')"
-                                       > - </td>-->
-                                    <td class="center"  th:switch="${projectInfo.projectType}">
-
-                                        <p th:with="index=${projectInfo.projectType}" th:text="(${index} != null)?(${projectTypeList[index].desc}):'无'" >常规</p>
-                                    </td>
-                                    <td th:text="(${projectInfo.workload} == null)?'未评估':(${projectInfo.workload}+ ' 人天')"> </td>
+                                <tr th:each="parentProjectInfo : ${parentProjectInfoList}">
+                                    <td th:text="${parentProjectInfo.parentProjectName}?:'无'">一级需求名称</td>
 
                                     <td class="center">
-
-                                        <span  th:with="index=${projectInfo.handleState}" th:text="(${index} != null)?(${handleStateTypeList[index].desc}):'无'"
-                                            th:class="'label-'+${(projectInfo.handleState==0)?'success':'warning'}+' label label-default'">常规</span>
-                                        <!--span th:case="*" class="abel-default label label-danger">终止</span-->
-
-                                    </td>
-
-                                    <td class="center" th:text="${{projectInfo.requirementsReceivedDate}}"> - </td>
-                                    <td class="center" th:if="${not isSelfish}" th:text="${projectInfo.sysUser.firstName}+''+${projectInfo.sysUser.lastName}"> - </td>
-
-                                    <td class="center">
-                                        <a class="btn btn-success" href="#" th:href="@{'/details/'+${projectInfo.id}+'/view'}">
-                                            <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                                            View
-                                        </a>
-                                        <a class="btn btn-info"
-                                           th:style="(${session.userid}==${projectInfo.ownerId})?'display:inline':'display:none'"
-                                           href="#" th:href="@{'/details/'+${projectInfo.id}+'/edit'}">
+                                        <a class="btn btn-update btn-info"
+                                           th:value="${parentProjectInfo.id}">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             Edit
                                         </a>
                                         <a class="btn btn-delete btn-danger"
-                                           th:style="(${session.userid}==${projectInfo.ownerId})?'display:inline':'display:none'"
-                                           href="#" th:value="${projectInfo.id}">
+                                           th:value="${parentProjectInfo.id}">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             Delete
                                         </a>
@@ -147,7 +126,7 @@
                             <nav>
                                 <ul class="pagination">
                                     <li>
-                                        <a th:if="${not isFirstPage}" th:href="@{${'/projectCenter'}(pageNum=(${pageNum}-1),pageSize=${pageSize},isSelfish=${isSelfish?0:1})}">Previous</a>
+                                        <a th:if="${not isFirstPage}" th:href="@{${'/parentProjectCenter'}(pageNum=(${pageNum}-1),pageSize=${pageSize})}">Previous</a>
                                         <a th:if="${isFirstPage}" href="javascript:void(0);">Previous</a>
                                     </li>
 
@@ -156,12 +135,12 @@
                                             <span th:text="${pageNo}"></span>
                                         </a>
 
-                                        <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/projectCenter'}(pageNum=${pageNo},size=${pageSize},isSelfish=${isSelfish?0:1})}">
+                                        <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/parentProjectCenter'}(pageNum=${pageNo},size=${pageSize})}">
                                             <span th:text="${pageNo}"></span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a th:if="${not isLastPage}" th:href="@{${'/projectCenter'}(pageNum=${pageNum+1},size=${pageSize},isSelfish=${isSelfish?0:1})}">Next</a>
+                                        <a th:if="${not isLastPage}" th:href="@{${'/parentProjectCenter'}(pageNum=${pageNum+1},size=${pageSize})}">Next</a>
                                         <a th:if="${isLastPage}" href="javascript:void(0);">Next</a>
                                     </li>
                                 </ul>
@@ -191,15 +170,41 @@
 
 <hr>
 
+    <!-- pop up modal for update project start -->
+
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog">
+            <form method="post" id="update_form">
+                <fieldset>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h3>修改一级项目名称</h3>
+                        </div>
+                        <div class="modal-body">
+                            <input class="form-control" id="parentProjectName" name="parentProjectName"
+                                   type="text"/>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
+                            <a href="#" class="btn btn-primary" onclick="submit_update_form()"
+                               data-dismiss="modal">保存</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <!-- pop up modal for update project end -->
 
     <!-- pop up modal for delete project start -->
-
     <div th:substituteby="frame :: deleteModal">
-
     </div>
     <!-- pop up modal for delete project end -->
 
-<footer class="row" th:substituteby="frame :: footer">
+    <footer class="row" th:substituteby="frame :: footer">
 </footer>
 
 </div><!--/.fluid-container-->

@@ -2,9 +2,13 @@ package com.future.service;
 
 import com.future.dao.idao.ParentProjectInfoMapper;
 import com.future.dao.po.ParentProjectInfo;
+import com.future.dao.po.ProjectInfo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,8 +39,17 @@ public class ParentProjectInfoService implements ParentProjectInfoMapper {
         return this.parentProjectInfoMapper.selectAll();
     }
 
+    public PageInfo<ParentProjectInfo> selectByPage(Integer ownerId, Integer pageNum, Integer pageSize)
+    {
+        PageHelper.startPage(pageNum,pageSize);
+        List<ParentProjectInfo> parentProjectInfoList = new ArrayList();
+        parentProjectInfoList =  this.selectAll();
+
+        return new PageInfo(parentProjectInfoList);
+    }
+
     public int updateByPrimaryKeySelective(ParentProjectInfo record) {
-        return 0;
+        return this.parentProjectInfoMapper.updateByPrimaryKeySelective(record);
     }
 
     public int updateByPrimaryKey(ParentProjectInfo record) {

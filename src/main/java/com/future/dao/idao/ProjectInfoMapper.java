@@ -69,6 +69,20 @@ public interface ProjectInfoMapper {
     @ResultMap("BaseResultMap")
     ProjectInfo selectByPrimaryKey(Integer id);
 
+
+    @Select({
+            "select",
+            "a.id, a.project_name, a.parent_project_id, a.project_type, a.develop_field, a.workload, ",
+            "a.handle_state, a.internal_task_state, a.external_task_state, a.joint_debug_date, a.requirements_received_date, ",
+            "a.owner_id, b.first_name, b.last_name, b.email, b.username, b.team_id, b.active, c.parent_project_name",
+            "from project_info a",
+            "left join sys_user b on a.owner_id = b.id",
+            "left join parent_project_info c on a.parent_project_id = c.id"
+    })
+    @ResultMap("BaseResultMap")
+    List<ProjectInfo> selectAll();
+
+
     @Select({
             "select",
             "a.id, a.project_name, a.parent_project_id, a.project_type, a.develop_field, a.workload, ",

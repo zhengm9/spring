@@ -4,7 +4,48 @@
 
 </head>
 
-<body>
+<body id="loginbody">
+<script>
+    function submitForm(){
+
+        var AjaxURL= url+"/logincheck";
+        var password_yzm = document.getElementById("password").value + ":" + document.getElementById("yzm").value;
+
+        document.getElementById("password").value=hex_md5(password_yzm);
+        <!--alert($('#loginform').serialize());-->
+
+
+        $.ajax({
+            type: "GET",
+            dataType: "html",
+            url: AjaxURL,
+            data: $('#loginform').serialize(),
+            success: function (result) {
+
+                document.location.href=localhostPaht + projectName;
+            },
+            error: function (errorinfo) {
+                alert(errorinfo.responseText);
+                $('#password').val("");
+                $('#yzm').val("");
+
+                loadimage();
+            }
+        },"html");
+    }
+
+    function loadimage(){
+        document.getElementById("randImage").src = url+"/yzm?"+Math.random();
+    }
+
+
+    $('#loginbody').keydown(function(event){
+        if(event.keyCode == 13){
+            //模拟点击登陆按钮，触发上面的 Click 事件
+            submitForm();
+        }
+    });
+</script>
 <div class="ch-container">
     <div class="row">
         

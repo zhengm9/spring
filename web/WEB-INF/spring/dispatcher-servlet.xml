@@ -23,7 +23,7 @@
     <mvc:resources location="/WEB-INF/page/bower_components/" mapping="/bower_components/**"/>
     <mvc:resources location="/WEB-INF/page/misc/" mapping="/misc/**"/>
     <mvc:resources location="/WEB-INF/page/php-version/" mapping="/php-version/**"/>
-    <mvc:resources location="/WEB-INF/page/calender/" mapping="/calender/**"/>
+    <mvc:resources location="/WEB-INF/page/calendar/" mapping="/calendar/**"/>
 
     <!--配置转换服务-->
     <mvc:annotation-driven conversion-service="conversionService" />

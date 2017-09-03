@@ -37,19 +37,51 @@
     <link th:href="@{/css/jquery.iphone.toggle.css}" rel='stylesheet'>
     <link th:href="@{/css/uploadify.css}" rel='stylesheet'>
     <link th:href="@{/css/animate.min.css}" rel='stylesheet'>
-
-    <!--calender css-->
+    <script th:src="@{/js/charisma.js}"></script>
+    <!--calendar css-->
     <!--link rel="stylesheet" type="text/css" th:href="@{/css/zzsc.css}"-->
   <!--  <link rel="stylesheet" th:href="@{/css/dcalendar.picker.css}">-->
-    <!--new calender-->
-    <link rel="stylesheet" th:href="@{/calender/jquery-ui.css}">
-    <!--link rel="stylesheet" th:href="@{/calender/style.css}"-->
+    <!--new calendar-->
+    <link rel="stylesheet" th:href="@{/calendar/jquery-ui.css}">
+    <!--link rel="stylesheet" th:href="@{/calendar/style.css}"-->
     <!-- jQuery -->
     <script th:src="@{/bower_components/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/md5.js}"></script>
-    <script th:src="@{/calender/jquery-ui.js}"></script>
+    <script th:src="@{/calendar/jquery-ui.js}"></script>
 
-<!--    <script th:src="@{/js/dcalendar.picker.js}" type="text/javascript"></script>-->
+
+    <!-- external javascript -->
+
+    <script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+    <!-- library for cookie management -->
+    <script th:src="@{/js/jquery.cookie.js}"></script>
+    <!-- calender plugin -->
+    <script th:src="@{/bower_components/moment/min/moment.min.js}"></script>
+    <script th:src="@{/bower_components/fullcalendar/dist/fullcalendar.min.js}"></script>
+    <!-- data table plugin -->
+    <script th:src="@{/js/jquery.dataTables.min.js}"></script>
+
+    <!-- select or dropdown enhancer -->
+    <script th:src="@{/bower_components/chosen/chosen.jquery.min.js}"></script>
+    <!-- plugin for gallery image view -->
+    <script th:src="@{/bower_components/colorbox/jquery.colorbox-min.js}"></script>
+    <!-- notification plugin -->
+    <script th:src="@{/js/jquery.noty.js}"></script>
+    <!-- library for making tables responsive -->
+    <script th:src="@{/bower_components/responsive-tables/responsive-tables.js}"></script>
+    <!-- tour plugin -->
+    <script th:src="@{/bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js}"></script>
+    <!-- star rating plugin -->
+    <script th:src="@{/js/jquery.raty.min.js}"></script>
+    <!-- for iOS style toggle switch -->
+    <script th:src="@{/js/jquery.iphone.toggle.js}"></script>
+    <!-- autogrowing textarea plugin -->
+    <script th:src="@{/js/jquery.autogrow-textarea.js}"></script>
+    <!-- multiple file upload plugin -->
+    <script th:src="@{/js/jquery.uploadify-3.1.min.js}"></script>
+    <!-- history.js for cross-browser state change on ajax -->
+    <script th:src="@{/js/jquery.history.js}"></script>
 
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -74,54 +106,9 @@
         var url=localhostPaht + projectName;
 
 
-        $(document).ready(function() {
-            $("#pagesize_select").change(function(){
-                var curWwwPath = window.document.location.href;
-                var pathName = window.document.location.pathname;
-                var pos = curWwwPath.indexOf(pathName);
-                var localhostPaht = curWwwPath.substring(0, pos);
-                var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-                document.location.href=url + "?pageSize=" + $("#pagesize_select").find("option:selected").text()
-                        + "&pageNum="+document.getElementById("pageNum").value;
-            });
-
-        });
-
-        function loadimage(){
-            document.getElementById("randImage").src = url+"/yzm?"+Math.random();
-        }
-        function submitForm(){
-
-            var AjaxURL= url+"/logincheck";
-            var password_yzm = document.getElementById("password").value + ":" + document.getElementById("yzm").value;
-
-            document.getElementById("password").value=hex_md5(password_yzm);
-            <!--alert($('#loginform').serialize());-->
 
 
-            $.ajax({
-                type: "GET",
-                dataType: "html",
-                url: AjaxURL,
-                data: $('#loginform').serialize(),
-                success: function (result) {
 
-                    document.location.href=localhostPaht + projectName;
-                },
-                error: function (errorinfo) {
-                    alert(errorinfo.responseText);
-                    loadimage();
-                }
-            },"html");
-        }
-
-
-        $('#loginform').keydown(function(event){
-            if(event.keyCode == 13){
-                //模拟点击登陆按钮，触发上面的 Click 事件
-                submitForm();
-            }
-        });
     </script>
 </head>
 
@@ -168,13 +155,14 @@
                 </div>
                 <ul class="nav nav-pills nav-stacked main-menu">
                     <li class="nav-header">Main</li>
-                    <li><a class="ajax-link" th:href="@{/}"><i class="glyphicon glyphicon-home"></i><span> 我的项目</span></a>
+                    <li><a class="ajax-link" th:href="@{${'/projectCenter'}(isSelfish=0)}"><i class="glyphicon glyphicon-home"></i><span> 我的项目</span></a>
                     </li>
-                    <li><a class="ajax-link" th:href="@{/allProjects}"><i class="glyphicon glyphicon-eye-open"></i><span> 全部项目</span></a>
+                    <li><a class="ajax-link" th:href="@{${'/projectCenter'}(isSelfish=1)}"><i class="glyphicon glyphicon-eye-open"></i><span> 全部项目</span></a>
                     </li>
-                    <li><a class="ajax-link" href="form.html"><i
-                            class="glyphicon glyphicon-edit"></i><span> 修改信息</span></a></li>
-
+                    <li><a class="ajax-link" th:href="@{'/details/0/create'}"><i class="glyphicon glyphicon-plus"></i><span> 新建项目</span></a>
+                    </li>
+                    <li><a class="ajax-link" th:href="@{'/parentProjectCenter'}"><i class="glyphicon glyphicon-align-justify"></i><span> 一级项目</span></a>
+                    </li>
                     <li><a th:href="@{/logout}"><i class="glyphicon glyphicon-lock"></i><span> Login Page</span></a>
                     </li>
                 </ul>
@@ -184,6 +172,30 @@
     </div>
     <!--/span-->
     <!-- left menu ends -->
+
+<!-- pop up modal for delete project start -->
+
+<div th:fragment="deleteModal" class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>注意</h3>
+            </div>
+            <div class="modal-body">
+                <p>确定删除该项目？</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
+                <a id="delete_confirm" href="#" class="btn btn-danger" data-dismiss="modal">删除</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- pop up modal for delete project end -->
 
     <footer class="row" th:fragment="footer">
         <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="www.chinalife.com.cn" target="_blank">

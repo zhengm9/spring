@@ -64,9 +64,10 @@ CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 insert into sys_user (first_name,last_name,username,password,team_id) values ('zheng','ming','zmmason','891230',(select id from team_info));
 
-insert into sys_user (first_name,last_name,username,password,team_id) values ('zheng','ming','zmmason','891230',(select id from team_info));
+insert into sys_user (first_name,last_name,username,password,team_id) values ('yan','aona','yan','123456',(select id from team_info where team_name='设备管理'));
 
-
+insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
+  values ('如E贝贝','2',(select id from sys_user where username = 'yan'),68.22,2,"2017-07-13");
 insert into project_info (project_name,project_type,owner_id) values ('蚂蚁航意险','1',(select id from sys_user));
 insert into project_info (project_name,project_type,owner_id,workload,handle_state,requirements_received_date)
   values ('去哪儿退保','2',(select id from sys_user),118.22,2,"2017-07-13");

@@ -124,8 +124,8 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
     }*/
 
 
-    @RequestMapping(value="/logincheck")
-    public ResponseEntity<String> login(HttpServletRequest request, SysUser sysUserRemote, @RequestParam String yzm) throws ServletException, IOException {
+    @RequestMapping(value="/logincheck",produces = "text/html;charset=UTF-8")
+    public ResponseEntity<String> login(HttpServletRequest request,HttpServletResponse response, SysUser sysUserRemote, @RequestParam String yzm) throws ServletException, IOException {
 //        return new ModelAndView("yzmimage");
         LOGGER.info("sysuser:{},{};remote verify code:{}",sysUserRemote.getUsername(),sysUserRemote.getPassword(), yzm);
         if(request.getSession().getAttribute("code") == null || !String.valueOf(request.getSession().getAttribute("code")).equals(yzm))
@@ -155,6 +155,7 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
             }
         }
 //        return new ResponseEntity<String>("{\"errormsg\",\"用户名密码错误\"}",HttpStatus.UNAUTHORIZED);
+
         return new ResponseEntity<String>("用户名密码错误",HttpStatus.UNAUTHORIZED);
     }
 
@@ -174,33 +175,56 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
         }
     }
 
-
     @LoginValidation("user")
     @RequestMapping(value="/")
-    public ModelAndView entry(HttpServletRequest request, HttpServletResponse response,
-                              @RequestParam(defaultValue = "1") Integer pageNum,
-                              @RequestParam(defaultValue = "10") Integer pageSize)
+    public void entry(HttpServletRequest request, HttpServletResponse response)
     {
-        Integer userid = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
-        PageInfo<ProjectInfo> pageInfo = this.projectInfoService.selectByPage(userid, pageNum, pageSize);
-        ModelAndView model = new ModelAndView("index");
-        LOGGER.info("page info:pageNum-{},pageSize-{},isFirstPage-{},totalPages-{},isLastPage-{}",
-                pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.isIsFirstPage(), pageInfo.getPages(), pageInfo.isIsLastPage());
-        model.addObject("projectInfoList", pageInfo.getList());
-        //获得当前页
-        model.addObject("pageNum", pageInfo.getPageNum());
-        //获得一页显示的条数
-        model.addObject("pageSize", pageInfo.getPageSize());
-        //是否是第一页
-        model.addObject("isFirstPage", pageInfo.isIsFirstPage());
-        //获得总页数
-        model.addObject("totalPages", pageInfo.getPages());
-        //是否是最后一页
-        model.addObject("isLastPage", pageInfo.isIsLastPage());
 
-        return model;
+        try {
+            response.sendRedirect(request.getContextPath()+"/projectCenter");
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
 
     }
+
+
+    @LoginValidation("user")
+    @RequestMapping(value="/projectCenter")
+    public ModelAndView getProjectsInfo(HttpServletRequest request, HttpServletResponse response,
+                              @RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                              @RequestParam(defaultValue = "0") Integer isSelfish)
+    {
+        Integer userid = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
+        PageInfo<ProjectInfo> pageInfo = this.projectInfoService.selectByPage(((isSelfish==0)?userid:null), pageNum, pageSize);
+        ModelAndView modelAndView = new ModelAndView("index");
+        LOGGER.info("page info:pageNum-{},pageSize-{},isFirstPage-{},totalPages-{},isLastPage-{}",
+                pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.isIsFirstPage(), pageInfo.getPages(), pageInfo.isIsLastPage());
+        modelAndView.addObject("projectInfoList", pageInfo.getList());
+        //获得当前页
+        modelAndView.addObject("pageNum", pageInfo.getPageNum());
+        //获得一页显示的条数
+        modelAndView.addObject("pageSize", pageInfo.getPageSize());
+        //是否是第一页
+        modelAndView.addObject("isFirstPage", pageInfo.isIsFirstPage());
+        //获得总页数
+        modelAndView.addObject("totalPages", pageInfo.getPages());
+        //是否是最后一页
+        modelAndView.addObject("isLastPage", pageInfo.isIsLastPage());
+        //是否是仅查询用户自己的项目
+        modelAndView.addObject("isSelfish", (isSelfish==0));
+        List<ParentProjectInfo> parentProjectInfoList = this.parentProjectInfoService.selectAll();
+        modelAndView.addObject("parentProjectInfoList",parentProjectInfoList);
+        modelAndView.addObject("projectTypeList", ProjectType.values());
+        modelAndView.addObject("handleStateTypeList", HandleStateType.values());
+        modelAndView.addObject("externalTaskStateTypeList", ExternalTaskStateType.values());
+        modelAndView.addObject("internalTaskStateTypeList", InternalTaskStateType.values());
+
+        return modelAndView;
+
+    }
+
 
     @LoginValidation("user")
     @RequestMapping(value="/details/{projectid}/{action}")
@@ -212,11 +236,27 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
             return new ModelAndView("errorpage");
         }
 
+        if("delete".equals(action))
+        {
+            this.projectInfoService.deleteByPrimaryKey(Integer.valueOf(projectid));
+            try {
+                response.sendRedirect(request.getContextPath()+"/projectCenter");
+            } catch (IOException e) {
+                LOGGER.error(e);
+            }
+            return null;
+        }
+
         List<ParentProjectInfo> parentProjectInfoList = this.parentProjectInfoService.selectAll();
 
-        ProjectInfo projectInfo = this.projectInfoService.selectByPrimaryKey(Integer.valueOf(projectid));
         ModelAndView modelAndView = new ModelAndView("details");
-        modelAndView.addObject("projectInfo", projectInfo);
+
+        if(!"create".equals(action))
+        {
+            ProjectInfo projectInfo = this.projectInfoService.selectByPrimaryKey(Integer.valueOf(projectid));
+            modelAndView.addObject("projectInfo", projectInfo);
+        }
+
         modelAndView.addObject("action", action);
         modelAndView.addObject("parentProjectInfoList",parentProjectInfoList);
         modelAndView.addObject("projectTypeList", ProjectType.values());
@@ -250,6 +290,22 @@ private static Logger LOGGER = LogManager.getLogger(IndexController.class);
 
     }
 
+    @LoginValidation("user")
+    @RequestMapping(value="/insert")
+    public void insertProject(HttpServletRequest request, HttpServletResponse response,
+                              ProjectInfo projectInfo)
+    {
+        projectInfo.setOwnerId((Integer)request.getSession().getAttribute("userid"));
+        int ret = this.projectInfoService.insertSelective(projectInfo);
+        LOGGER.info("insert RESULT IS:{}",ret);
+        try {
+            response.sendRedirect(request.getContextPath()+"/projectCenter");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 
     @RequestMapping(value="/logout")

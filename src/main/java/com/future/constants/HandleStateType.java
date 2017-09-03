@@ -7,11 +7,11 @@ import java.util.List;
  * Created by zhengming on 2017/8/20.
  */
 public enum HandleStateType {
-    REQUIREMENT("需求受理",0),
-    WORKLOAD("已评估工作量",1),
-    ARCH("已架构评审",2),
-    COMMITTED("已上会",3);
-
+    END("办结",0),
+    REQUIREMENT("需求受理",1),
+    WORKLOAD("已评估工作量",2),
+    ARCH("已架构评审",3),
+    COMMITTED("已上会",4);
     private long order;
     private String desc;
     private static List<Enum<HandleStateType>>  list = new ArrayList();
