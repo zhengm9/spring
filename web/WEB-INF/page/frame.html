@@ -159,7 +159,7 @@
                     </li>
                     <li><a class="ajax-link" th:href="@{${'/projectCenter'}(isSelfish=1)}"><i class="glyphicon glyphicon-eye-open"></i><span> 全部项目</span></a>
                     </li>
-                    <li><a class="ajax-link" th:href="@{'/details/0/create'}"><i class="glyphicon glyphicon-plus"></i><span> 新建项目</span></a>
+                    <li><a class="ajax-link" th:href="@{'/projectCenter/details/0/create'}"><i class="glyphicon glyphicon-plus"></i><span> 新建项目</span></a>
                     </li>
                     <li><a class="ajax-link" th:href="@{'/parentProjectCenter'}"><i class="glyphicon glyphicon-align-justify"></i><span> 一级项目</span></a>
                     </li>
@@ -182,14 +182,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>注意</h3>
+                <h3>提示</h3>
             </div>
             <div class="modal-body">
-                <p>确定删除该项目？</p>
+                <p id="delete_alert">确定删除？</p>
+
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
-                <a id="delete_confirm" href="#" class="btn btn-danger" data-dismiss="modal">删除</a>
+                <a   class="btn btn-default" data-dismiss="modal">取消</a>
+                <a id="delete_confirm"   class="btn btn-danger">删除</a>
             </div>
         </div>
     </div>

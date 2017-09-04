@@ -138,7 +138,7 @@
                         </div>
                         <div class="box-content">
                             <form id="loginform" class="form-horizontal" method="post"
-                                  th:action="@{${(action == 'create')?'/insert':('/update/'+projectInfo.id)}}">
+                                  th:action="@{${(action == 'create')?'/projectCenter/action/insert':('/projectCenter/action/update/'+projectInfo.id)}}">
                                 <fieldset>
                                     <ul class="dashboard-list">
                                         <li>

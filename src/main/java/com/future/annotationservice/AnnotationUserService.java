@@ -1,6 +1,5 @@
 package com.future.annotationservice;
 
-import com.future.controller.IndexController;
 import com.future.dao.idao.IUserDao;
 import com.future.dao.idao.UserMapper;
 import com.future.dao.po.User;
@@ -13,9 +12,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionTemplate;
-
-import java.security.acl.LastOwnerException;
 
 /**
  * Created by Administrator on 2017/1/30.

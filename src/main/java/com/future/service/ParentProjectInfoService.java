@@ -1,10 +1,12 @@
 package com.future.service;
 
+import com.future.controller.ProjectController;
 import com.future.dao.idao.ParentProjectInfoMapper;
 import com.future.dao.po.ParentProjectInfo;
-import com.future.dao.po.ProjectInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,9 +20,16 @@ import java.util.List;
 public class ParentProjectInfoService implements ParentProjectInfoMapper {
     @Autowired
     ParentProjectInfoMapper parentProjectInfoMapper;
+    private static Logger LOGGER = LogManager.getLogger(ProjectController.class);
 
     public int deleteByPrimaryKey(Integer id) {
-        return 0;
+        int ret = 0;
+        try {
+            ret = this.parentProjectInfoMapper.deleteByPrimaryKey(id);
+        } catch (Exception e) {
+            LOGGER.error("删除失败:{}",e);
+        }
+        return ret;
     }
 
     public int insert(ParentProjectInfo record) {

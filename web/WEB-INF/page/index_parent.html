@@ -14,18 +14,25 @@
     $( function() {
         $('.btn-delete').click(function (e) {
             e.preventDefault();
-            $('#delete_confirm').attr("onclick","javascript:window.location='"+url+"/parentProjectCenter/"+$(this).attr("value")+"/delete'");
+            $('#delete_confirm').attr("onclick","submit_delete_form("+$(this).attr("value")+")");
             $('#deleteModal').modal('show');
         });
 
         $('.btn-update').click(function (e) {
             e.preventDefault();
-            $('#update_form').attr("action",url+"/parentProjectCenter/"+$(this).attr("value")+"/update");
+            $('#update_confirm').attr("onclick","submit_update_form("+$(this).attr("value")+")");
             $('#updateModal').modal('show');
         });
 
+        $('#deleteModal').on('hidden.bs.modal', function () {
+            $('#delete_alert').text("确定删除？");
 
+        });
 
+        $('#updateModal').on('hidden.bs.modal', function () {
+            $('#update_alert').text("");
+
+        });
 
         $("#pagesize_select").change(function(){
 
@@ -34,9 +41,45 @@
         });
     } );
     
-    function submit_update_form() {
-        $("#update_form").submit();
+    function submit_update_form(parentProjectId) {
+        var AjaxURL= url+"/parentProjectCenter/"+parentProjectId+"/update";
+
+
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: AjaxURL,
+            data: $('#update_form').serialize(),
+            success: function (result) {
+                document.location.href=url +"/parentProjectCenter";
+
+            },
+            error: function (errorinfo) {
+                $('#update_alert').text(errorinfo.responseText);
+
+            }
+        },"html");
     }
+
+    function submit_delete_form(parentProjectId) {
+        var AjaxURL= url+"/parentProjectCenter/"+parentProjectId+"/delete";
+
+
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: AjaxURL,
+            success: function (result) {
+                document.location.href=url +"/parentProjectCenter";
+            },
+            error: function (errorinfo) {
+                $('#delete_alert').text(errorinfo.responseText);
+
+            }
+        },"html");
+    }
+
+
 </script>
 <div class="ch-container">
     <div class="row">
@@ -64,14 +107,13 @@
                 <div class="box col-md-12">
                     <div class="box-inner">
                         <div class="box-header well" data-original-title="">
-                            <h2><i class="glyphicon glyphicon-user"></i> 项目列表</h2>
+                            <h2><i class="glyphicon glyphicon-user"></i> 一级项目列表</h2>
 
                             <div class="box-icon">
-                                <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
-                                <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                                        class="glyphicon glyphicon-chevron-up"></i></a>
-                                <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
-                            </div>
+                                <a   class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i>
+                                    新增
+                                </a>
+                                </div>
                         </div>
                         <div class="box-content">
                             <div class="row">
@@ -176,7 +218,7 @@
          aria-hidden="true">
 
         <div class="modal-dialog">
-            <form method="post" id="update_form">
+            <form id="update_form" method="post">
                 <fieldset>
                     <div class="modal-content">
                         <div class="modal-header">
@@ -184,13 +226,14 @@
                             <h3>修改一级项目名称</h3>
                         </div>
                         <div class="modal-body">
+                            <p id="update_alert"></p>
                             <input class="form-control" id="parentProjectName" name="parentProjectName"
                                    type="text"/>
                         </div>
                         <div class="modal-footer">
-                            <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
-                            <a href="#" class="btn btn-primary" onclick="submit_update_form()"
-                               data-dismiss="modal">保存</a>
+                            <a   class="btn btn-default" data-dismiss="modal">取消</a>
+                            <a   class="btn btn-primary" id="update_confirm" onclick="submit_update_form()"
+                               >保存</a>
                         </div>
                     </div>
                 </fieldset>
@@ -201,7 +244,7 @@
 
     <!-- pop up modal for delete project start -->
     <div th:substituteby="frame :: deleteModal">
-    </div>
+
     <!-- pop up modal for delete project end -->
 
     <footer class="row" th:substituteby="frame :: footer">

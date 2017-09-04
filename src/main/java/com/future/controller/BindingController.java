@@ -5,31 +5,23 @@ import com.future.exception.GlobalException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2017/1/29.
  */
 @Controller
 public class BindingController {
-    private static Logger LOGGER = LogManager.getLogger(IndexController.class);
+    private static Logger LOGGER = LogManager.getLogger(ProjectController.class);
     @Value("${uploadFileDir}")
     private String uploadFileDir;
     @RequestMapping("form/{username}")

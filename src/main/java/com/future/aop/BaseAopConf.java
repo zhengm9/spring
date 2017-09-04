@@ -43,7 +43,7 @@ public class BaseAopConf {
 
     }
 
-    @Before("@annotation(com.future.annotation.LoginValidation)")
+    @Before("within(@com.future.annotation.LoginValidation *)")
     public void  loginValidate(JoinPoint joinPoint) throws IllegalLoginException {
         LOGGER.info("LoginValidation annotation tested!session:{}",SessionRecorder.getRequest().getSession().getAttribute("username"));
 

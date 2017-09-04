@@ -44,8 +44,9 @@ import java.util.List;
  */
 
 @Controller
+@LoginValidation("user")
 public class ParentProjectController {
-private static Logger LOGGER = LogManager.getLogger(ParentProjectController.class);
+    private static Logger LOGGER = LogManager.getLogger(ParentProjectController.class);
 
     @Autowired
     private SysUserService sysUserService;
@@ -57,13 +58,10 @@ private static Logger LOGGER = LogManager.getLogger(ParentProjectController.clas
     private ParentProjectInfoService parentProjectInfoService;
 
 
-
-    @LoginValidation("user")
-    @RequestMapping(value="/parentProjectCenter")
+    @RequestMapping(value = "/parentProjectCenter")
     public ModelAndView getProjectsInfo(HttpServletRequest request, HttpServletResponse response,
-                              @RequestParam(defaultValue = "1") Integer pageNum,
-                              @RequestParam(defaultValue = "10") Integer pageSize)
-    {
+                                        @RequestParam(defaultValue = "1") Integer pageNum,
+                                        @RequestParam(defaultValue = "10") Integer pageSize) {
         Integer userid = Integer.valueOf(String.valueOf(request.getSession().getAttribute("userid")));
         PageInfo<ParentProjectInfo> pageInfo = this.parentProjectInfoService.selectByPage(null, pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView("index_parent");
@@ -84,31 +82,34 @@ private static Logger LOGGER = LogManager.getLogger(ParentProjectController.clas
 
     }
 
-    @LoginValidation("user")
-    @RequestMapping(value="/parentProjectCenter/{parentProjectId}/{action}")
-    public void getProjectsInfo(HttpServletRequest request, HttpServletResponse response,
-                                        ParentProjectInfo parentProjectInfo,
-                                        @PathVariable Integer parentProjectId,
-                                        @PathVariable String action)
-    {
-        if(parentProjectId!=null)
-        {
+    @RequestMapping(value = "/parentProjectCenter/{parentProjectId}/{action}", produces = "text/html;charset=UTF-8")
+    public ResponseEntity<String> getProjectsInfo(HttpServletRequest request, HttpServletResponse response,
+                                                  ParentProjectInfo parentProjectInfo,
+                                                  @PathVariable Integer parentProjectId,
+                                                  @PathVariable String action) {
+        if (parentProjectId != null) {
             parentProjectInfo.setId(parentProjectId);
         }
-        if("update".equals(action))
-        {
-            this.parentProjectInfoService.updateByPrimaryKeySelective(parentProjectInfo);
-        }
-        else if("delete".equals(action))
-        {
+        if ("update".equals(action)) {
+            if(this.parentProjectInfoService.updateByPrimaryKeySelective(parentProjectInfo)>0)
+            {
+                return new ResponseEntity<String>("更新成功", HttpStatus.OK);
 
-        }
-        try {
-            response.sendRedirect(request.getContextPath()+"/parentProjectCenter");
-        } catch (IOException e) {
-            LOGGER.error(e);
+            }
+            LOGGER.error("delete error");
+            return new ResponseEntity<String>("更新失败", HttpStatus.BAD_REQUEST);
+
+
+        } else if ("delete".equals(action)) {
+
+            if (this.parentProjectInfoService.deleteByPrimaryKey(parentProjectId) > 0) {
+                return new ResponseEntity<String>("删除成功", HttpStatus.OK);
+            }
+            LOGGER.error("delete error");
+            return new ResponseEntity<String>("删除失败，一级项目被需求占用", HttpStatus.BAD_REQUEST);
         }
 
+        return null;
 
     }
 

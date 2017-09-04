@@ -14,8 +14,13 @@
     $( function() {
         $('.btn-delete').click(function (e) {
             e.preventDefault();
-            $('#delete_confirm').attr("onclick","javascript:window.location='"+url+"/details/"+$(this).attr("value")+"/delete'");
+            $('#delete_confirm').attr("onclick","submit_delete_form("+$(this).attr("value")+")");
             $('#deleteModal').modal('show');
+        });
+
+        $('#deleteModal').on('hidden.bs.modal', function () {
+            $('#delete_alert').text("确定删除？");
+
         });
 
         $("#pagesize_select").change(function(){
@@ -26,6 +31,23 @@
         });
     } );
 
+    function submit_delete_form(parentProjectId) {
+        var AjaxURL= url+"/projectCenter/action/delete/"+parentProjectId;
+
+
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: AjaxURL,
+            success: function (result) {
+                document.location.href=url +"/projectCenter";
+            },
+            error: function (errorinfo) {
+                $('#delete_alert').text(errorinfo.responseText);
+
+            }
+        },"html");
+    }
 </script>
 <div class="ch-container">
     <div class="row">
@@ -123,13 +145,13 @@
                                     <td class="center" th:if="${not isSelfish}" th:text="${projectInfo.sysUser.firstName}+''+${projectInfo.sysUser.lastName}"> - </td>
 
                                     <td class="center">
-                                        <a class="btn btn-success" href="#" th:href="@{'/details/'+${projectInfo.id}+'/view'}">
+                                        <a class="btn btn-success" href="#" th:href="@{'/projectCenter/details/'+${projectInfo.id}+'/view'}">
                                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                                             View
                                         </a>
                                         <a class="btn btn-info"
                                            th:style="(${session.userid}==${projectInfo.ownerId})?'display:inline':'display:none'"
-                                           href="#" th:href="@{'/details/'+${projectInfo.id}+'/edit'}">
+                                           href="#" th:href="@{'/projectCenter/details/'+${projectInfo.id}+'/edit'}">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             Edit
                                         </a>
