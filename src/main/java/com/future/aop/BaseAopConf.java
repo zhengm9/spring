@@ -51,15 +51,15 @@ public class BaseAopConf {
         if(SessionRecorder.getRequest().getSession().getAttribute("username") == null)
         {
             LOGGER.info("user not log in!");
-            try {
+            /*try {
                 SessionRecorder.getResponse().sendRedirect(
                         SessionRecorder.getRequest().getContextPath()+"/login");
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-/*
+            }*/
+
             throw new IllegalLoginException("not log in");
-*/
+
         }
     }
 }

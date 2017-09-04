@@ -155,7 +155,7 @@
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             Edit
                                         </a>
-                                        <a class="btn btn-delete btn-danger"
+                                        <a class="btn btn-danger btn-delete"
                                            th:style="(${session.userid}==${projectInfo.ownerId})?'display:inline':'display:none'"
                                            href="#" th:value="${projectInfo.id}">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
@@ -221,7 +221,13 @@
     </div>
     <!-- pop up modal for delete project end -->
 
-<footer class="row" th:substituteby="frame :: footer">
+    <!-- pop up modal for change passwd start -->
+    <div th:substituteby="frame :: changePwdModal">
+
+    </div>
+    <!-- pop up modal for change passwd end -->
+
+    <footer class="row" th:substituteby="frame :: footer">
 </footer>
 
 </div><!--/.fluid-container-->

@@ -423,25 +423,12 @@
 
     <hr>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
 
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h3>Settings</h3>
-                </div>
-                <div class="modal-body">
-                    <p>Here settings can be configured...</p>
-                </div>
-                <div class="modal-footer">
-                    <a  class="btn btn-default" data-dismiss="modal">Close</a>
-                    <a  class="btn btn-primary" data-dismiss="modal">Save changes</a>
-                </div>
-            </div>
-        </div>
+    <!-- pop up modal for change passwd start -->
+    <div th:substituteby="frame :: changePwdModal">
+
     </div>
+    <!-- pop up modal for change passwd end -->
 
     <footer class="row" th:substituteby="frame :: footer">
     </footer>

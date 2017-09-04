@@ -2,6 +2,8 @@ package com.future.service;
 
 import com.future.dao.idao.SysUserMapper;
 import com.future.dao.po.SysUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public class SysUserService implements SysUserMapper {
     @Autowired
     private SysUserMapper sysUserMapper;
+    private static Logger LOGGER = LogManager.getLogger(SysUserService.class);
 
 
     public SysUser getUserByName(String username)
@@ -32,7 +35,7 @@ public class SysUserService implements SysUserMapper {
     }
 
     public SysUser selectByPrimaryKey(Integer id) {
-        return null;
+        return this.sysUserMapper.selectByPrimaryKey(id);
     }
 
     public SysUser selectByUsername(String username) {
@@ -40,7 +43,14 @@ public class SysUserService implements SysUserMapper {
     }
 
     public int updateByPrimaryKeySelective(SysUser record) {
-        return 0;
+        int ret = 0;
+        try {
+          ret = this.sysUserMapper.updateByPrimaryKeySelective(record);
+        }catch (Exception e)
+        {
+            LOGGER.error("update error:{}",e);
+        }
+        return ret;
     }
 
     public int updateByPrimaryKey(SysUser record) {

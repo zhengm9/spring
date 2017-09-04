@@ -107,7 +107,40 @@
 
 
 
+        $( function() {
+            $('.btn-changePwd').click(function (e) {
+                e.preventDefault();
+                $('#changePwd_confirm').attr("onclick","submit_changePwd_form()");
+                $('#changePwdModal').modal('show');
+            });
 
+            $('#changePwdModal').on('hidden.bs.modal', function () {
+                $('#changePwd_alert').text("更换密码");
+
+            });
+
+
+        } );
+
+        function submit_changePwd_form() {
+            var AjaxURL= url+"/user/changePwd";
+
+
+            $.ajax({
+                type: "POST",
+                dataType: "html",
+                url: AjaxURL,
+                data: $('#changePwd_form').serialize(),
+                success: function (result) {
+                    document.location.href=url+"/logout" ;
+
+                },
+                error: function (errorinfo) {
+                    $('#changePwd_alert').text(errorinfo.responseText);
+
+                }
+            },"html");
+        }
 
     </script>
 </head>
@@ -131,9 +164,9 @@
                     <span class="caret" ></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Profile</a></li>
+                    <li><a class="btn-changePwd">修改密码</a></li>
                     <li class="divider"></li>
-                    <li><a th:href="@{/logout}">Logout</a></li>
+                    <li><a th:href="@{/logout}">退出</a></li>
                 </ul>
             </div>
             <!-- user dropdown ends -->
@@ -142,7 +175,10 @@
             
             <!-- theme selector ends -->
 
-           
+            <ul class="collapse navbar-collapse nav navbar-nav top-menu">
+                <li><a href="http://www.chinalife.com.cn"><i class="glyphicon glyphicon-globe"></i> 访问电商平台主页</a></li>
+
+            </ul>
 
         </div>
     </div>
@@ -163,7 +199,7 @@
                     </li>
                     <li><a class="ajax-link" th:href="@{'/parentProjectCenter'}"><i class="glyphicon glyphicon-align-justify"></i><span> 一级项目</span></a>
                     </li>
-                    <li><a th:href="@{/logout}"><i class="glyphicon glyphicon-lock"></i><span> Login Page</span></a>
+                    <li><a th:href="@{/logout}"><i class="glyphicon glyphicon-lock"></i><span> 退出</span></a>
                     </li>
                 </ul>
                 <!--label id="for-is-ajax" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label-->
@@ -198,8 +234,52 @@
 
 <!-- pop up modal for delete project end -->
 
+
+
+<!-- pop up modal for change passwd start -->
+
+<div th:fragment="changePwdModal" class="modal fade" id="changePwdModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+        <form id="changePwd_form" method="post">
+            <fieldset>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h3>提示</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p id="changePwd_alert">更换密码</p>
+                        <div class="input-group col-md-4">
+                            <span class="input-group-addon"><i class="glyphicon red">老密码</i></span>
+                            <input type="password" id="oldpwd" name="oldpwd" class="form-control" placeholder="输入老密码">
+                        </div>
+                        <div class="input-group col-md-4">
+                            <span class="input-group-addon"><i class="glyphicon red">新密码</i></span>
+                            <input type="password" id="newpwd" name="newpwd" class="form-control" placeholder="输入新密码">
+                        </div>
+                        <div class="input-group col-md-4">
+                            <span class="input-group-addon"><i class="glyphicon red">重复新密码</i></span>
+                            <input type="password" id="newpwdagain" name="newpwdagain" class="form-control" placeholder="重复输入新密码">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-default" data-dismiss="modal">取消</a>
+                        <a id="changePwd_confirm" class="btn btn-danger">提交</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<!-- pop up modal for change passwd end -->
+
+
     <footer class="row" th:fragment="footer">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="www.chinalife.com.cn" target="_blank">
+        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="http://www.chinalife.com.cn" target="_blank">
             中国人寿电子商务有限公司
         </a> 2016 - 2017</p>
 

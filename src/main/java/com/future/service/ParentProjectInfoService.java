@@ -20,7 +20,7 @@ import java.util.List;
 public class ParentProjectInfoService implements ParentProjectInfoMapper {
     @Autowired
     ParentProjectInfoMapper parentProjectInfoMapper;
-    private static Logger LOGGER = LogManager.getLogger(ProjectController.class);
+    private static Logger LOGGER = LogManager.getLogger(ParentProjectInfoService.class);
 
     public int deleteByPrimaryKey(Integer id) {
         int ret = 0;
