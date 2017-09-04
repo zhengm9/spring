@@ -72,8 +72,10 @@ private static Logger LOGGER = LogManager.getLogger(LoginController.class);
 
     @RequestMapping(value="/logincheck",produces = "text/html;charset=UTF-8")
     public ResponseEntity<String> login(HttpServletRequest request,HttpServletResponse response, SysUser sysUserRemote, @RequestParam String yzm) throws ServletException, IOException {
-        LOGGER.info("sysuser:{},{};remote verify code:{}",sysUserRemote.getUsername(),sysUserRemote.getPassword(), yzm);
-        if(request.getSession().getAttribute("code") == null || !String.valueOf(request.getSession().getAttribute("code")).equals(yzm))
+        LOGGER.info("sysuser:{},{};remote verify code:{}",
+                sysUserRemote.getUsername(),sysUserRemote.getPassword(), yzm);
+
+        if(request.getSession().getAttribute("code") == null || !String.valueOf(request.getSession().getAttribute("code")).equalsIgnoreCase(yzm))
         {
             return new ResponseEntity<String>("验证码错误",HttpStatus.UNAUTHORIZED);
         }
@@ -105,19 +107,12 @@ private static Logger LOGGER = LogManager.getLogger(LoginController.class);
     }
 
 
-    @RequestMapping(value="/logwhenexception")
-    public void login(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value="/login")
+    public ModelAndView login()
     {
-        LOGGER.info("log in");
 
-        try {
-            request.getRequestDispatcher("login.html")
-                    .forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return new ModelAndView("login");
+
     }
 
 

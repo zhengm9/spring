@@ -24,11 +24,22 @@
             $('#updateModal').modal('show');
         });
 
+        $('.btn-create').click(function (e) {
+            e.preventDefault();
+            $('#create_confirm').attr("onclick","submit_create_form()");
+            $('#createModal').modal('show');
+        });
+
+
         $('#deleteModal').on('hidden.bs.modal', function () {
             $('#delete_alert').text("确定删除？");
 
         });
 
+        $('#createModal').on('hidden.bs.modal', function () {
+            $('#create_alert').text("");
+
+        });
         $('#updateModal').on('hidden.bs.modal', function () {
             $('#update_alert').text("");
 
@@ -40,7 +51,27 @@
                     + "&pageNum="+document.getElementById("pageNum").value;
         });
     } );
-    
+
+    function submit_create_form(parentProjectId) {
+        var AjaxURL= url+"/parentProjectCenter/create";
+
+
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: AjaxURL,
+            data: $('#create_form').serialize(),
+            success: function (result) {
+                document.location.href=url +"/parentProjectCenter";
+
+            },
+            error: function (errorinfo) {
+                $('#create_alert').text(errorinfo.responseText);
+
+            }
+        },"html");
+    }
+
     function submit_update_form(parentProjectId) {
         var AjaxURL= url+"/parentProjectCenter/"+parentProjectId+"/update";
 
@@ -110,8 +141,8 @@
                             <h2><i class="glyphicon glyphicon-user"></i> 一级项目列表</h2>
 
                             <div class="box-icon">
-                                <a   class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i>
-                                    新增
+                                <a   class="btn btn-create btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i>
+
                                 </a>
                                 </div>
                         </div>
@@ -211,6 +242,36 @@
 
 
 <hr>
+
+    <!-- pop up modal for create project start -->
+
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog">
+            <form id="create_form" method="post">
+                <fieldset>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h3>新建一级项目名称</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p id="create_alert"></p>
+                            <input class="form-control" name="parentProjectName"
+                                   type="text"/>
+                        </div>
+                        <div class="modal-footer">
+                            <a   class="btn btn-default" data-dismiss="modal">取消</a>
+                            <a   class="btn btn-primary" id="create_confirm" onclick="submit_create_form()"
+                            >保存</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <!-- pop up modal for create project end -->
 
     <!-- pop up modal for update project start -->
 

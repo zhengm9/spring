@@ -14,6 +14,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -50,14 +51,15 @@ public class BaseAopConf {
         if(SessionRecorder.getRequest().getSession().getAttribute("username") == null)
         {
             LOGGER.info("user not log in!");
-            /*try {
-                SessionRecorder.getRequest().getRequestDispatcher("login").forward(SessionRecorder.getRequest(), SessionRecorder.getResponse());
-            } catch (ServletException e) {
-                e.printStackTrace();
+            try {
+                SessionRecorder.getResponse().sendRedirect(
+                        SessionRecorder.getRequest().getContextPath()+"/login");
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
+/*
             throw new IllegalLoginException("not log in");
+*/
         }
     }
 }

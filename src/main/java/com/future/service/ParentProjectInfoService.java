@@ -37,7 +37,7 @@ public class ParentProjectInfoService implements ParentProjectInfoMapper {
     }
 
     public int insertSelective(ParentProjectInfo record) {
-        return 0;
+        return this.parentProjectInfoMapper.insertSelective(record);
     }
 
     public ParentProjectInfo selectByPrimaryKey(Integer id) {

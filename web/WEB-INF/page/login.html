@@ -9,7 +9,7 @@
     function submitForm(){
 
         var AjaxURL= url+"/logincheck";
-        var password_yzm = document.getElementById("password").value + ":" + document.getElementById("yzm").value;
+        var password_yzm = document.getElementById("password").value + ":" + document.getElementById("yzm").value.toLowerCase();
 
         document.getElementById("password").value=hex_md5(password_yzm);
         <!--alert($('#loginform').serialize());-->

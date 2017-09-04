@@ -83,7 +83,7 @@ public class ParentProjectController {
     }
 
     @RequestMapping(value = "/parentProjectCenter/{parentProjectId}/{action}", produces = "text/html;charset=UTF-8")
-    public ResponseEntity<String> getProjectsInfo(HttpServletRequest request, HttpServletResponse response,
+    public ResponseEntity<String> save(HttpServletRequest request, HttpServletResponse response,
                                                   ParentProjectInfo parentProjectInfo,
                                                   @PathVariable Integer parentProjectId,
                                                   @PathVariable String action) {
@@ -110,6 +110,20 @@ public class ParentProjectController {
         }
 
         return null;
+
+    }
+
+    @RequestMapping(value = "/parentProjectCenter/create", produces = "text/html;charset=UTF-8")
+    public ResponseEntity<String> create(HttpServletRequest request, HttpServletResponse response,
+                                                  ParentProjectInfo parentProjectInfo) {
+            if(this.parentProjectInfoService.insertSelective(parentProjectInfo)>0)
+            {
+                return new ResponseEntity<String>("创建成功", HttpStatus.OK);
+
+            }
+            LOGGER.error("insert error");
+            return new ResponseEntity<String>("创建失败", HttpStatus.BAD_REQUEST);
+
 
     }
 
