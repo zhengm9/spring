@@ -89,7 +89,7 @@
         </javaClientGenerator>
 
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="GE_PROPOSAL_MAIN" domainObjectName="GeProposalMain" enableCountByExample="false"
+        <!--table tableName="GE_PROPOSAL_MAIN" domainObjectName="GeProposalMain" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
 
@@ -103,9 +103,17 @@
 
         <table tableName="GE_ORDER" domainObjectName="GeOrder" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/-->
+
+        <table tableName="GE_ALIPAY_AIRINFO" domainObjectName="GeAlipayAirinfo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-
-
+        <table tableName="ENDORSEMENT_ENDORSE" domainObjectName="EndorsementEndorse" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="ge_flycua_air" domainObjectName="GeFlycuaAir" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
         <!--<table tableName="user_t" schema="louis">
 
             &lt;!&ndash; optional   , only for mybatis3 runtime
