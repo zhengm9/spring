@@ -266,12 +266,19 @@
             <artifactId>thymeleaf-spring4</artifactId>
             <version>${thymeleaf.version}</version>
         </dependency>
+        <!-- Quartz framework -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
         <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
         <projectFinalName>spring</projectFinalName>
         <webResourcesRoot>web</webResourcesRoot>
+        <quartz.version>2.2.2</quartz.version>
     </properties>
     <build>
         <finalName>${projectFinalName}</finalName>
