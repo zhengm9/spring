@@ -30,6 +30,7 @@
     <context:component-scan base-package="com.future.controller"/>
     <context:component-scan base-package="com.future.aop"/>
     <context:component-scan base-package="com.future.facade"/>
+    <context:component-scan base-package="com.future.task"/>
 
     <!--使用注解创建aop代理-->
     <aop:aspectj-autoproxy/>
@@ -46,7 +47,8 @@
             location="WEB-INF/classes/springproperties/application.properties,
                         WEB-INF/classes/jdbc/jdbc4mysql.properties,
                             WEB-INF/classes/springproperties/mvc.properties,
-                                WEB-INF/classes/mq/rabbitmq-config.properties"/>
+                                WEB-INF/classes/mq/rabbitmq-config.properties,
+                                    WEB-INF/classes/email/email.properties"/>
     <!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 
@@ -113,4 +115,17 @@
             <tx:method name="*" read-only="true" rollback-for="Exception" />-->
         </tx:attributes>
 	</tx:advice>
+
+    <!-- 邮箱配置 -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}"></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
+            </props>
+        </property>
+        <property name="username" value="${mail.username}"></property>
+        <property name="password" value="${mail.password}"></property>
+    </bean>
 </beans>
