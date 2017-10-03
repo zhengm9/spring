@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhengming on 2017/8/20.
@@ -39,6 +41,10 @@ public class ProjectInfoService implements ProjectInfoMapper {
 
     public List<ProjectInfo> selectAll() {
         return this.projectInfoMapper.selectAll();
+    }
+
+    public Integer countSelectAll(Map<String, String> map) {
+        return this.projectInfoMapper.countSelectAll(map);
     }
 
     public List<ProjectInfo> selectByOwnerId(Integer ownerId) {

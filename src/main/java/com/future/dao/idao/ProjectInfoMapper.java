@@ -1,13 +1,11 @@
 package com.future.dao.idao;
 
 import com.future.dao.po.ProjectInfo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface ProjectInfoMapper {
     /**
@@ -82,6 +80,25 @@ public interface ProjectInfoMapper {
     @ResultMap("BaseResultMap")
     List<ProjectInfo> selectAll();
 
+    @Select({
+            "select",
+            "count(1)",
+            "from project_info a",
+            "left join sys_user b on a.owner_id = b.id",
+            "left join parent_project_info c on a.parent_project_id = c.id",
+//            "where a.requirements_received_date<=STR_TO_DATE(\"#{enddate,jdbcType=DATE} 23:59:59\",\"%Y-%m-%d %H:%i:%s\")  ",
+//            "and a.requirements_received_date>=STR_TO_DATE(\"#{startdate,jdbcType=DATE} 00:00:00\",\"%Y-%m-%d %H:%i:%s\")"
+            "where a.requirements_received_date<=STR_TO_DATE(#{enddate,jdbcType=VARCHAR}\"23:59:59\",\"%Y-%m-%d %H:%i:%s\")  ",
+            "and a.requirements_received_date>=STR_TO_DATE(#{startdate,jdbcType=VARCHAR}\"23:59:59\",\"%Y-%m-%d %H:%i:%s\")"
+
+    })
+
+//    @ResultMap("BaseResultMap")
+    Integer countSelectAll(Map<String,String> map);
+//            ,Date requirementsReceivedDate1);
+//    Integer countSelectAll(@Param("startdate")String startdate, @Param("enddate")String enddate);
+
+//    , ProjectInfo record2);
 
     @Select({
             "select",
