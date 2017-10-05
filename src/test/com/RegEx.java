@@ -12,6 +12,12 @@ public class RegEx {
     @Test
     public void test()
     {
+        int i = 5099/100;
+        int j = 5037%100;
+
+        System.out.println(i);
+        System.out.println(j);
+
         String regEx = "\\d{2}";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher("ac");

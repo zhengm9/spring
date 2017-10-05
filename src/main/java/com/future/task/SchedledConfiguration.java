@@ -33,7 +33,7 @@ public class SchedledConfiguration {
         CronTriggerFactoryBean tigger = new CronTriggerFactoryBean ();
         tigger.setJobDetail (detailFactoryBean.getObject ());
         try {
-            tigger.setCronExpression ("0/5 * * * * ? ");//每30秒执行一次
+            tigger.setCronExpression ("0/30 * * * * ? ");//每30秒执行一次
         } catch (ParseException e) {
             e.printStackTrace ();
         }
