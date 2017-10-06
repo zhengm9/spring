@@ -30,15 +30,15 @@
     <!-- 配置数据源 -->
 	<bean id="dataSource4ora" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 
-		p:driverClassName="#{jdbc4oracle.driver}"
-		p:url="#{jdbc4oracle.url}"
-		p:username="#{jdbc4oracle.username}"
-		p:password="#{jdbc4oracle.password}"
-        p:initialSize="#{jdbc4oracle.initialSize}"
-        p:maxActive="#{jdbc4oracle.maxActive}"
-          p:maxIdle="#{jdbc4oracle.maxIdle}"
-          p:minIdle="#{jdbc4oracle.minIdle}"
-          p:maxWait="#{jdbc4oracle.maxWait}"
+		p:driverClassName="${ora.driver}"
+		p:url="${ora.url}"
+		p:username="${ora.username}"
+		p:password="${ora.password}"
+        p:initialSize="${ora.initialSize}"
+        p:maxActive="${ora.maxActive}"
+          p:maxIdle="${ora.maxIdle}"
+          p:minIdle="${ora.minIdle}"
+          p:maxWait="${ora.maxWait}"
     />
 
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
