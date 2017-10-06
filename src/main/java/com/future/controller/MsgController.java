@@ -1,7 +1,7 @@
 package com.future.controller;
 
 import com.future.entity.message.LoginInfo;
-import com.future.service.UserBakService;
+import com.future.dao.service.UserBakService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

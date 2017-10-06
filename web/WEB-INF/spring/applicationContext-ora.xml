@@ -22,35 +22,13 @@
     <mvc:annotation-driven/>
 
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
-    <context:component-scan base-package="com.future.dao"/>
-    <context:component-scan base-package="com.future.service"/>
-    <context:component-scan base-package="com.future.entity"/>
-    <context:component-scan base-package="com.future.util"/>
-    <context:component-scan base-package="com.future.annotationservice"/>
-    <context:component-scan base-package="com.future.controller"/>
-    <context:component-scan base-package="com.future.aop"/>
-    <context:component-scan base-package="com.future.facade"/>
-    <context:component-scan base-package="com.future.task"/>
+    <context:component-scan base-package="com.future.dao4ora"/>
 
-    <!--使用注解创建aop代理-->
-    <aop:aspectj-autoproxy/>
-    <bean id="WebUser" class="com.future.entity.WebUser" init-method="init" destroy-method="destroy">
-        <property name="userName">
-            <value>name_from_bean</value>
-        </property>
-        <property name="passwd">
-            <value>passwd_from_bean</value>
-        </property>
-    </bean>
     <!--todo:配置属性变量文件的存放位置，用于@Value("${xxx}")注解中的占位符-->
     <context:property-placeholder
-            location="WEB-INF/classes/springproperties/application.properties,
-                        WEB-INF/classes/jdbc/jdbc4mysql.properties,
-                            WEB-INF/classes/springproperties/mvc.properties,
-                                WEB-INF/classes/mq/rabbitmq-config.properties,
-                                    WEB-INF/classes/email/email.properties"/>
+            location="WEB-INF/classes/jdbc/jdbc4oracle.properties"/>
     <!-- 配置数据源 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="dataSource4ora" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 
 		p:driverClassName="${driver}"
 		p:url="${url}"
@@ -64,17 +42,17 @@
     />
 
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+    <bean id="sqlSessionFactory4ora" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource4ora" />
         <!-- 自动扫描mapping.xml文件 -->
-        <property name="mapperLocations" value="classpath:com/future/dao/sqlmap/*.xml"></property>
+        <property name="mapperLocations" value="classpath:com/future/dao4ora/sqlmap/*.xml"></property>
         <!--page helper设置-->
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageHelper">
                     <property name="properties">
                         <value>
-                            dialect=mysql
+                            dialect=oracle
                         </value>
                     </property>
                 </bean>
@@ -83,8 +61,8 @@
     </bean>
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.future.dao.idao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+        <property name="basePackage" value="com.future.dao4ora.idao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory4ora"></property>
     </bean>
 
 
@@ -93,18 +71,18 @@
 		p:dataSource-ref="dataSource" />-->
 		
 	<!-- 配置事务管理器 -->
-	<bean id="transactionManager"
+	<bean id="transactionManager4ora"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		p:dataSource-ref="dataSource" />
+		p:dataSource-ref="dataSource4ora" />
 		
 	<!-- 通过AOP配置提供事务增强，让service包下所有Bean的所有方法拥有事务 -->
 	<aop:config proxy-target-class="true">
-		<aop:pointcut id="serviceMethod"
-			expression=" execution(* com.future.dao.service..*(..))
+		<aop:pointcut id="serviceMethod4ora"
+			expression=" execution(* com.future.dao4ora.service..*(..))
                 or execution(* com.future.controller..*(..))" />
-		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
+		<aop:advisor pointcut-ref="serviceMethod4ora" advice-ref="txAdvice4ora" />
 	</aop:config>
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<tx:advice id="txAdvice4ora" transaction-manager="transactionManager4ora">
 		<tx:attributes>
 			<tx:method name="*" />
 
@@ -116,16 +94,4 @@
         </tx:attributes>
 	</tx:advice>
 
-    <!-- 邮箱配置 -->
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${mail.host}"></property>
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.timeout">25000</prop>
-            </props>
-        </property>
-        <property name="username" value="${mail.username}"></property>
-        <property name="password" value="${mail.password}"></property>
-    </bean>
 </beans>

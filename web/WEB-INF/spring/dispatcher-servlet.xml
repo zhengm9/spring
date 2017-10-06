@@ -14,9 +14,11 @@
             http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <import resource="applicationContext.xml"/>
-<!--
-    <import resource="applicationContext-quartz.xml"/>
--->
+    <import resource="applicationContext-ora.xml"/>
+
+    <!--
+        <import resource="applicationContext-quartz.xml"/>
+    -->
 
     <!--映射page目录中的静态资源-->
     <mvc:resources location="/WEB-INF/page/css/" mapping="/css/**"/>

@@ -1,8 +1,7 @@
 package com.future.controller;
 
 import com.future.dao.po.ProjectInfo;
-import com.future.service.ProjectInfoService;
-import com.future.task.ReportTask;
+import com.future.dao.service.ProjectInfoService;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,15 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * Created by zhengming on 17/10/1.
@@ -66,5 +63,13 @@ public class TestController {
         return new ResponseEntity<String>(startDay, HttpStatus.OK);
 
 
+    }
+
+    @RequestMapping("testtask2")
+    public ResponseEntity<List<ProjectInfo>> test2()
+    {
+        List<ProjectInfo> projectInfoList = this.projectInfoService.selectByDate("2017-07-01","2017-07-14");
+        LOGGER.info("projectInfoList:{}",projectInfoList);
+        return new ResponseEntity<List<ProjectInfo>>(projectInfoList, HttpStatus.OK);
     }
 }

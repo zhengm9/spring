@@ -19,10 +19,12 @@ public class SheetUtil {
     private static Logger LOGGER = LogManager.getLogger(SheetUtil.class);
 
     public static void addRow2Sheet(HSSFSheet sheet, List<Object> objects,
-                                    List<String> columnkeys,
-                                        int curRowNum)
-            throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
+                                    List<String> columnkeys)
+            throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException
+    {
 
+        Integer curRowNum = sheet.getLastRowNum();
+        LOGGER.info("curRowNum:{}",curRowNum);
         for(Object object : objects)
         {
             HSSFRow row = sheet.createRow(++curRowNum);

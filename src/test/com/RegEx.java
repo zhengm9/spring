@@ -14,9 +14,11 @@ public class RegEx {
     {
         int i = 5099/100;
         int j = 5037%100;
+        int m = 68/100;
 
         System.out.println(i);
         System.out.println(j);
+        System.out.println(m);
 
         String regEx = "\\d{2}";
         Pattern pattern = Pattern.compile(regEx);

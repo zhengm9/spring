@@ -1,16 +1,14 @@
 package com.future.biz.worker;
 
 import com.future.controller.RestfulController;
-import com.future.dao.po.GeProposalMain;
-import com.future.service.GeProposalService;
+import com.future.dao4ora.po.GeProposalMain;
+import com.future.dao4ora.service.GeProposalService;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.LineIterator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.context.ContextLoader;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 

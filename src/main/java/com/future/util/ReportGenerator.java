@@ -1,8 +1,6 @@
 package com.future.util;
 
-import com.future.dao.po.GeAlipayAirinfo;
 import com.google.common.base.Strings;
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -10,7 +8,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -31,10 +28,6 @@ import java.util.List;
 @Service("reportGenerator")
 public class ReportGenerator {
     private static Logger LOGGER = LogManager.getLogger(ReportGenerator.class);
-    @Value("${sqlReadPageSize}")
-    private int sqlReadPageSize;
-    @Value("${excelSheetSize}")
-    private int excelSheetSize;
 
     public boolean genWorkBook(String filePath, String fileName, String sheetName
                                                                 , List<Object> objects
@@ -42,8 +35,6 @@ public class ReportGenerator {
             throws InvocationTargetException, NoSuchMethodException,
             NoSuchFieldException, IllegalAccessException, IOException
     {
-        LOGGER.info("excelSheetSize:{}",excelSheetSize);
-
         String pathName = filePath+File.separator+fileName;
         LOGGER.info("file path is:{}",pathName);
         File file = new File(pathName);
@@ -92,6 +83,11 @@ public class ReportGenerator {
                     break;
                 }
             }
+            if(notNullObject == null)
+            {
+                LOGGER.warn("there is no object.");
+                return false;
+            }
             for(String columnkey : columnkeys)
             {
                 HSSFCell cell = row.createCell(curColumnNum++);
@@ -102,10 +98,9 @@ public class ReportGenerator {
             sheet = workbook.getSheetAt(0);
         }
 
-        Integer curRowNum = sheet.getLastRowNum();
-        LOGGER.info("curRowNum:{}",curRowNum);
 
-        SheetUtil.addRow2Sheet(sheet, objects, columnkeys, curRowNum);
+
+        SheetUtil.addRow2Sheet(sheet, objects, columnkeys);
 
         FileOutputStream xlsStream = null;
         xlsStream = new FileOutputStream(xlsFile);

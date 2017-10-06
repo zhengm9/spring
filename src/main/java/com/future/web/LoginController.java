@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.future.domain.User;
-import com.future.service.UserBakService;
+import com.future.dao.service.UserBakService;
 
 @Controller
 public class LoginController{

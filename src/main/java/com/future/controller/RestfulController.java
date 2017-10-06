@@ -2,14 +2,11 @@ package com.future.controller;
 
 import com.future.annotationservice.AnnotationUserService;
 import com.future.biz.AliAir1800;
-import com.future.dao.po.GeProposalMain;
+import com.future.dao4ora.po.GeProposalMain;
 import com.future.entity.User;
 import com.future.entity.UserDetails;
-import com.future.facade.MQProducer;
-import com.future.service.GeProposalService;
-import com.future.service.UserService;
+import com.future.dao.service.UserService;
 import com.future.service.mq.SendMsg2MQ;
-import com.future.service.mq.producer.MQProducerImpl;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import org.apache.logging.log4j.LogManager;
@@ -23,16 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.ContextLoader;
 
-import java.io.IOException;
 import java.io.StringReader;
-import java.util.*;
 import java.util.concurrent.Executors;
 
 /**

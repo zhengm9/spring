@@ -1,23 +1,11 @@
 package com.future.controller;
 
-import com.future.annotation.LoginValidation;
-import com.future.constants.ExternalTaskStateType;
-import com.future.constants.HandleStateType;
-import com.future.constants.InternalTaskStateType;
-import com.future.constants.ProjectType;
-import com.future.dao.po.ParentProjectInfo;
-import com.future.dao.po.ProjectInfo;
 import com.future.dao.po.SysUser;
-import com.future.entity.WebLogin;
-import com.future.entity.WebUser;
-import com.future.entity.req.ListReq;
-import com.future.entity.rsp.Head;
-import com.future.service.ParentProjectInfoService;
-import com.future.service.ProjectInfoService;
-import com.future.service.SysUserService;
+import com.future.dao.service.ParentProjectInfoService;
+import com.future.dao.service.ProjectInfoService;
+import com.future.dao.service.SysUserService;
 import com.future.util.CreateImageCode;
 import com.future.util.CryptUtil;
-import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,11 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -37,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by zhengming on 17/1/27.
