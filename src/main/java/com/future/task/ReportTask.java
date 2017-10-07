@@ -41,7 +41,7 @@ public class ReportTask extends AbstractReportTask<GeAlipayAirinfo>{
 
 
         PageInfo<GeAlipayAirinfo> pageInfo =
-                this.geAlipayAirinfoService.selectByMakedateAndPage("2017-07-01", "2017-07-14",
+                this.geAlipayAirinfoService.selectByMakedateAndPage(startDay,startDay,
                 pageNum, pageSize);
         LOGGER.info("page info:pageNum-{},pageSize-{},isFirstPage-{},totalPages-{},isLastPage-{}",
                 pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.isIsFirstPage(), pageInfo.getPages(), pageInfo.isIsLastPage());
