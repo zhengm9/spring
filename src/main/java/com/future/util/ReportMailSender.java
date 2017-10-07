@@ -1,6 +1,7 @@
 package com.future.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailParseException;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,6 +20,8 @@ import java.io.File;
 public class ReportMailSender {
     @Autowired
     private JavaMailSender mailSender;
+    @Value("${mail.receiver}")
+    private String[] receivers;
     public void send(String filePath, String fileName) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
@@ -26,9 +29,9 @@ public class ReportMailSender {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
             helper.setFrom("390241476@qq.com");
-            helper.setTo("390241476@qq.com");
-            helper.setSubject("test subject");
-            helper.setText("this is test content");
+            helper.setTo(receivers);
+            helper.setSubject(fileName);
+//            helper.setText("this is test content");
 
             FileSystemResource file = new FileSystemResource(filePath+ File.separator+fileName);
             helper.addAttachment(file.getFilename(), file);

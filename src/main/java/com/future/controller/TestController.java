@@ -3,6 +3,7 @@ package com.future.controller;
 import com.future.dao.po.ProjectInfo;
 import com.future.dao.service.ProjectInfoService;
 import com.future.task.ReportTask;
+import com.future.task.ReportTask4Mysql;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +29,7 @@ public class TestController {
 
     @Autowired
     private ReportTask reportTask;
+
     @Autowired
     private ProjectInfoService projectInfoService;
     @Value("${reportTaskStartOffset}")
@@ -69,8 +72,10 @@ public class TestController {
     }
 
     @RequestMapping("testtask2")
-    public ResponseEntity<List<ProjectInfo>> test2()
+    public ResponseEntity<List<ProjectInfo>> test2(@RequestParam String startDay)
     {
+        LOGGER.info("startDay:{}",startDay);
+        reportTask.initDayScope(startDay,startDay);
         reportTask.run();
 //        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
         return null;

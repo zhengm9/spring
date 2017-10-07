@@ -20,19 +20,26 @@ public class ReportTask extends AbstractReportTask<GeAlipayAirinfo>{
     private static Logger LOGGER = LogManager.getLogger(ReportTask.class);
     @Autowired
     private GeAlipayAirinfoService geAlipayAirinfoService;
-    private String startDay;
+
+
     public ReportTask()
     {
         super();
 
     }
 
-    public int getSqlCount() {
-        Date date = new Date();
-        Long offsetTime = date.getTime()-24*60*60*1000;
-        startDay = DateConverter.formatDate(new Date(offsetTime),"yyyy-MM-dd");
+    public void initDayScope(String startDay, String endDay)
+    {
+        super.startDay=startDay;
+        super.endDay=endDay;
+    }
 
-        Integer i = this.geAlipayAirinfoService.countAll(startDay,startDay);
+    public int getSqlCount() {
+        /*Date date = new Date();
+        Long offsetTime = date.getTime()-24*60*60*1000;
+        startDay = DateConverter.formatDate(new Date(offsetTime),"yyyy-MM-dd");*/
+
+        Integer i = this.geAlipayAirinfoService.countAll(startDay,endDay);
 
         return i;
     }
@@ -41,7 +48,7 @@ public class ReportTask extends AbstractReportTask<GeAlipayAirinfo>{
 
 
         PageInfo<GeAlipayAirinfo> pageInfo =
-                this.geAlipayAirinfoService.selectByMakedateAndPage(startDay,startDay,
+                this.geAlipayAirinfoService.selectByMakedateAndPage(startDay,endDay,
                 pageNum, pageSize);
         LOGGER.info("page info:pageNum-{},pageSize-{},isFirstPage-{},totalPages-{},isLastPage-{}",
                 pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.isIsFirstPage(), pageInfo.getPages(), pageInfo.isIsLastPage());

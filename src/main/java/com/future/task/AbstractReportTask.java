@@ -26,6 +26,11 @@ import java.util.List;
 public abstract class AbstractReportTask<T> {
     private static Logger LOGGER = LogManager.getLogger(AbstractReportTask.class);
 
+    @Autowired
+    ReportMailSender reportMailSender;
+    @Autowired
+    ReportGenerator reportGenerator;
+
     @Value("${reportDir}")
     protected String reportDir;
     @Value("${sqlReadPageSize}")
@@ -34,13 +39,9 @@ public abstract class AbstractReportTask<T> {
     protected int maxPageNumPerWorkBook;
 
     protected int sqlCountAll;
+    protected String startDay;
+    protected String endDay;
     protected List<String> columnkeys;
-
-    @Autowired
-    ReportMailSender reportMailSender;
-    @Autowired
-    ReportGenerator reportGenerator;
-
 
     public AbstractReportTask()
     {
