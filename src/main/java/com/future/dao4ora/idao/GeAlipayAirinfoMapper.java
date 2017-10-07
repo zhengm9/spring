@@ -44,7 +44,7 @@ public interface GeAlipayAirinfoMapper {
 
     @Select({
             "select",
-            "'蚂蚁航意险' as PRODUCTNAME, b.batchId",
+            "'蚂蚁航意险' as PRODUCTNAME, b.batchId,",
             "SERIALNO, TRANSTIME, REQMSGID, POLICYNO, PRODNO, SUMMARYPOLICYNO, POLICYTYPE, ",
             "PREMIUM, ACTUALPREMIUM, SUMINSURED, INSUREDTIME, EFFECTSTARTTIME, EFFECTENDTIME, ",
             "APPLYNUM, AIRNUMBER, ISREQUIREINVOICE, AIRORDEREND, AIRTAKEOFF, AIRORDERID, ",
