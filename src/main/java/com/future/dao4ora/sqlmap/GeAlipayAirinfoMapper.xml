@@ -8,6 +8,7 @@
     -->
     <constructor >
       <idArg column="SERIALNO" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRODUCTNAME" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="TRANSTIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="REQMSGID" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="POLICYNO" jdbcType="VARCHAR" javaType="java.lang.String" />
