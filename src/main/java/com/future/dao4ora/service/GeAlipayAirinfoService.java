@@ -28,7 +28,7 @@ public class GeAlipayAirinfoService implements GeAlipayAirinfoMapper {
     }
 
     public List<GeAlipayAirinfo> selectEndorseByMakedate(@Param("startDay") String startDay, @Param("endDay") String endDay) {
-        return this.selectEndorseByMakedate(startDay, endDay);
+        return this.geAlipayAirinfoMapper.selectEndorseByMakedate(startDay, endDay);
     }
 
     public PageInfo<GeAlipayAirinfo> selectByMakedateAndPage(String startDay, String endDay,
