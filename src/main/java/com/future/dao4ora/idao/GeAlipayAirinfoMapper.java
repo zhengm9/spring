@@ -43,19 +43,20 @@ public interface GeAlipayAirinfoMapper {
     List<GeAlipayAirinfo> selectByMakedate(@Param("startDay")String startDay, @Param("endDay")String endDay);
 
     @Select({
+            "select count(1)",
+            "from chinalifeec.GE_ALIPAY_AIRINFO a",
+            "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
+            "on b.policyno=a.policyno ",
+            "where b.createstamp >=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
+            "and b.createstamp<=to_date('${endDay} 01:59:59','yyyy-mm-dd hh24:mi:ss')",
+            " order by b.createstamp,a.policyno"
+    })
+    Integer countAllEndorse(@Param("startDay")String startDay, @Param("endDay")String endDay);
+
+
+    @Select({
             "select",
             "'蚂蚁航意险' as PRODUCTNAME, b.batchId, a.*",
-//            "SERIALNO, TRANSTIME, REQMSGID, POLICYNO, PRODNO, SUMMARYPOLICYNO, POLICYTYPE, ",
-//            "PREMIUM, ACTUALPREMIUM, SUMINSURED, INSUREDTIME, EFFECTSTARTTIME, EFFECTENDTIME, ",
-//            "APPLYNUM, AIRNUMBER, ISREQUIREINVOICE, AIRORDEREND, AIRTAKEOFF, AIRORDERID, ",
-//            "SHAREDCOMMISSION, TICKETNO, FLIGHTNO, AIRCOMNAME, INSUREDCOPIES, AIRORDERSTART, ",
-//            "BIZORDERID, AIRLANDING, MERCHANTACCOUNTTYPE, MERCHANTACCOUNTID, OTHERACCOUNTTYPE, ",
-//            "OTHERACCOUNTID, PAYTIME, FEE, PAYFLOWID, HOLDERPERSONNO, HOLDERACCOUNTTYPE, ",
-//            "HOLDERACCOUNTNO, HOLDERACCOUNTNAME, HOLDERCERTTYPE, HOLDERCERTNO, HOLDERCERTNAME, ",
-//            "HOLDERBIRTHDAY, HOLDERPHONE, INSUREDSAMEWITHHOLDER, INSUREDPERSONNO, INSUREDACCOUNTTYPE, ",
-//            "INSUREDACCOUNTNO, INSUREDACCOUNTNAME, INSUREDCERTTYPE, INSUREDCERTNO, INSUREDCERTNAME, ",
-//            "INSUREDBIRTHDAY, INSUREDPHONE, STATUS, MAKEDATE, MODIFYDATE, PROPOSALNO, PROVINCE, ",
-//            "CITY, AREA, DETAILADDRESS, MOBILE, ZIP",
             "from chinalifeec.GE_ALIPAY_AIRINFO a",
             "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
             "on b.policyno=a.policyno ",

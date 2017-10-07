@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.sheethead")
 public class GeAlipayAirinfo {
-
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.endorsementEndorse.batchid")
     private EndorsementEndorse endorsementEndorse;
 
     public EndorsementEndorse getEndorsementEndorse() {

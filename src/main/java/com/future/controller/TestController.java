@@ -4,6 +4,7 @@ import com.future.dao.po.ProjectInfo;
 import com.future.dao.service.ProjectInfoService;
 import com.future.dao4ora.po.GeAlipayAirinfo;
 import com.future.dao4ora.service.GeAlipayAirinfoService;
+import com.future.task.ReportEndorseTask;
 import com.future.task.ReportTask;
 import com.future.task.ReportTask4Mysql;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +31,7 @@ public class TestController {
     private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(TestController.class);
 
     @Autowired
-    private ReportTask reportTask;
+    private ReportEndorseTask reportEndorseTask;
 
     @Autowired
     private ProjectInfoService projectInfoService;
@@ -79,8 +80,8 @@ public class TestController {
     public ResponseEntity<List<ProjectInfo>> test2(@RequestParam String startDay)
     {
         LOGGER.info("startDay:{}",startDay);
-        reportTask.initDayScope(startDay,startDay);
-        reportTask.run();
+        reportEndorseTask.initDayScope(startDay,startDay);
+        reportEndorseTask.run();
 //        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
         return null;
 
