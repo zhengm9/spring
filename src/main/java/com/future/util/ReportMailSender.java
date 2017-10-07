@@ -25,7 +25,7 @@ public class ReportMailSender {
         try{
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("zmmason@163.com");
+            helper.setFrom("390241476@qq.com");
             helper.setTo("390241476@qq.com");
             helper.setSubject("test subject");
             helper.setText("this is test content");

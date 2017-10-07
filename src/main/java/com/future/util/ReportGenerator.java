@@ -104,7 +104,10 @@ public class ReportGenerator {
 
         FileOutputStream xlsStream = null;
         xlsStream = new FileOutputStream(xlsFile);
+        xlsStream.flush();
         workbook.write(xlsStream);
+        xlsStream.close();
+        workbook.close();
         LOGGER.info("write file finish.");
 
         return true;

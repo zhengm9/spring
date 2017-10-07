@@ -78,6 +78,7 @@ public abstract class AbstractReportTask<T> {
         {
             for(;curSqlPage<=curWorkBook*maxPageNumPerWorkBook;curSqlPage++)
             {
+                if(curSqlPage>sqlPageNum)break;
                 List<T> objects =  getSqlResults(curSqlPage, sqlReadPageSize);
                 try {
                     boolean result = reportGenerator.genWorkBook(filePath,workBookFileNames.get(curWorkBook-1),
@@ -99,13 +100,16 @@ public abstract class AbstractReportTask<T> {
                 }
             }
         }
+        LOGGER.info("file generated succeed");
 
 
-
-        try {
-            reportMailSender.send(filePath,"test.xls");
-        } catch (MessagingException e) {
-            LOGGER.error("file send failed,e:{}",e.getMessage());
+        for(String fileName : workBookFileNames)
+        {
+            try {
+                reportMailSender.send(filePath,fileName);
+            } catch (MessagingException e) {
+                LOGGER.error("file send failed,e:{}",e.getMessage());
+            }
         }
         LOGGER.info("file send succeed");
 

@@ -78,8 +78,7 @@
 	<!-- 通过AOP配置提供事务增强，让service包下所有Bean的所有方法拥有事务 -->
 	<aop:config proxy-target-class="true">
 		<aop:pointcut id="serviceMethod4ora"
-			expression=" execution(* com.future.dao4ora.service..*(..))
-                or execution(* com.future.controller..*(..))" />
+			expression=" execution(* com.future.dao4ora.service..*(..))" />
 		<aop:advisor pointcut-ref="serviceMethod4ora" advice-ref="txAdvice4ora" />
 	</aop:config>
 	<tx:advice id="txAdvice4ora" transaction-manager="transactionManager4ora">

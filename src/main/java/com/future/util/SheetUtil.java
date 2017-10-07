@@ -24,7 +24,7 @@ public class SheetUtil {
     {
 
         Integer curRowNum = sheet.getLastRowNum();
-        LOGGER.info("curRowNum:{}",curRowNum);
+        LOGGER.debug(":curRowNum{}",curRowNum);
         for(Object object : objects)
         {
             HSSFRow row = sheet.createRow(++curRowNum);
@@ -32,7 +32,7 @@ public class SheetUtil {
             for (String columnkey : columnkeys) {
                 String cellValue = getFiledValueString(object, columnkey);
                 row.createCell(curColumnNum++).setCellValue(cellValue);
-                LOGGER.info("write workbook, row:{},col:{},value:{}",curRowNum,curColumnNum,cellValue);
+                LOGGER.debug("write workbook, row:{},col:{},value:{}",curRowNum,curColumnNum,cellValue);
             }
         }
     }
@@ -127,12 +127,11 @@ public class SheetUtil {
                 ,mappingConfig.locationPath().length,mappingConfig.fileName().length
                 ,mappingConfig.mappingKey().length);
         String mappedKey = null;
-        int index = 0;
+        int index = -1;
         for(String key : mappingConfig.mappingKey())
         {
             if(key.equals(finalColumnkey))
             {
-                mappedKey=key;
 
                 break;
             }
