@@ -56,7 +56,7 @@ public class ReportTask extends AbstractReportTask<GeAlipayAirinfo>{
         return pageInfo.getList();
     }
 
-    public List<String> initColumnkeys() {
+    /*public List<String> initColumnkeys() {
         List<String> columnkeys = new ArrayList<String>();
 
         columnkeys.add("productname");
@@ -65,7 +65,7 @@ public class ReportTask extends AbstractReportTask<GeAlipayAirinfo>{
         columnkeys.add("makedate");
 
         return columnkeys;
-    }
+    }*/
 
     public List<String> initWorkBookFileName(int workBookNum) {
         List<String> workBookFileNames = new ArrayList<String>();

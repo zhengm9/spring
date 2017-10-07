@@ -119,6 +119,20 @@ public class SheetUtil {
         }
     }
 
+    public static Object getClassTypeConfigProperty(Class<?> clazz)
+            throws NoSuchFieldException, IllegalAccessException,
+            NoSuchMethodException, InvocationTargetException
+    {
+        MappingConfig mappingConfig = clazz.getAnnotation(MappingConfig.class);
+        if(mappingConfig == null)
+        {
+            LOGGER.debug("there is no mappingConfig annotaion in Class type [{}]",clazz);
+            return null;
+        }else{
+            return getConfigProperty(mappingConfig, null);
+        }
+    }
+
     public static Object getConfigProperty(MappingConfig mappingConfig, String finalColumnkey)
             throws NoSuchFieldException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException

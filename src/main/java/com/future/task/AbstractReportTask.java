@@ -3,6 +3,7 @@ package com.future.task;
 import com.future.util.DateConverter;
 import com.future.util.ReportGenerator;
 import com.future.util.ReportMailSender;
+import com.future.util.SheetUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ import org.springframework.web.context.ContextLoader;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zhengming on 17/10/1.
@@ -116,9 +117,40 @@ public abstract class AbstractReportTask<T> {
 
     }
 
+    public List<String> initColumnkeys() {
+        Class<T> entityClass = null;
+        Type t = getClass().getGenericSuperclass();
+        if(t instanceof ParameterizedType){
+            Type[] p = ((ParameterizedType)t).getActualTypeArguments();
+            entityClass = (Class<T>)p[0];
+        }
+        LOGGER.debug("entityClass:{}",entityClass.getName());
+
+        List<String> columnkeys = new ArrayList<String>();
+        Map<String,String> configPropertyMap = null;
+        try {
+             configPropertyMap = (Map)SheetUtil.getClassTypeConfigProperty(entityClass);
+        } catch (NoSuchFieldException e) {
+            LOGGER.error("getClassTypeConfigProperty,e:{}",e.getMessage());
+
+        } catch (IllegalAccessException e) {
+            LOGGER.error("getClassTypeConfigProperty,e:{}",e.getMessage());
+        } catch (NoSuchMethodException e) {
+            LOGGER.error("getClassTypeConfigProperty,e:{}",e.getMessage());
+        } catch (InvocationTargetException e) {
+            LOGGER.error("getClassTypeConfigProperty,e:{}",e.getMessage());
+        }
+
+        for(String key : configPropertyMap.keySet())
+        {
+            columnkeys.add(key);
+        }
+
+        return columnkeys;
+    }
+
     public abstract int getSqlCount();
     public abstract List<T> getSqlResults(int pageNum, int pageSize);
-    public abstract List<String> initColumnkeys();
     public abstract List<String> initWorkBookFileName(int workBookNum);
 
 }
