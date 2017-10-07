@@ -1,5 +1,6 @@
 package com.future.dao.po;
 
+import com.future.annotation.MappingConfig;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -39,6 +40,7 @@ public class ProjectInfo {
      *
      * @mbggenerated
      */
+    @MappingConfig(mappingKey={"hi","hello"})
     private String projectName;
 
     /**

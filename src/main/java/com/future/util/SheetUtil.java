@@ -38,8 +38,16 @@ public class SheetUtil {
     }
 
     public static String getFiledValueString(Object object, String columnkey) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
-        Object fieldObject = PropertyUtils.getProperty(object,columnkey);
-        Object configPropertyObject = getFieldConfigProperty(object,columnkey);
+        String[] columnkeyArray = splitColumnkey(columnkey);
+        Object fieldObject = null;
+        if(columnkeyArray.length>1)
+        {
+            fieldObject = PropertyUtils.getNestedProperty(object,columnkey);
+        }else {
+            fieldObject = PropertyUtils.getProperty(object,columnkey);
+        }
+        Object configPropertyObject = getFieldConfigProperty(object,columnkeyArray[0],
+                                                                    columnkey);
 
         if(configPropertyObject == null)
         {
@@ -75,19 +83,23 @@ public class SheetUtil {
 
     }
 
-    public static Object getFieldConfigProperty(Object object, String columnkey)
+    public static Object getFieldConfigProperty(Object object, String firstColumnkey,
+                                                String finalColumnkey)
             throws NoSuchFieldException, IllegalAccessException,
                     NoSuchMethodException, InvocationTargetException
     {
-        MappingConfig mappingConfig = object.getClass().getDeclaredField(columnkey)
+        LOGGER.debug("firstColumnkey:[{}], finalColumnkey:[{}]",firstColumnkey,finalColumnkey);
+
+        MappingConfig mappingConfig = object.getClass().getDeclaredField(firstColumnkey)
                 .getDeclaredAnnotation(MappingConfig.class);
 
+//        object.getClass().getDeclaredField(columnkey).getDeclaringClass().
         if(mappingConfig == null)
         {
-            LOGGER.debug("there is no mappingConfig annotaion in field [{}]",columnkey);
+            LOGGER.debug("there is no mappingConfig annotaion in field [{}]",firstColumnkey);
             return null;
         }else{
-            return getConfigProperty(mappingConfig);
+            return getConfigProperty(mappingConfig, finalColumnkey);
         }
     }
 
@@ -103,20 +115,40 @@ public class SheetUtil {
             LOGGER.debug("there is no mappingConfig annotaion in Class type [{}]",object.getClass());
             return null;
         }else{
-            return getConfigProperty(mappingConfig);
+            return getConfigProperty(mappingConfig, null);
         }
     }
 
-    public static Object getConfigProperty(MappingConfig mappingConfig)
+    public static Object getConfigProperty(MappingConfig mappingConfig, String finalColumnkey)
             throws NoSuchFieldException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException
     {
         LOGGER.debug("mappingConfig.locationPath:{}, mappingConfig.fileName:{}, mappingConfig.mappingKey:{}"
-                ,mappingConfig.locationPath(),mappingConfig.fileName()
-                ,mappingConfig.mappingKey());
+                ,mappingConfig.locationPath().length,mappingConfig.fileName().length
+                ,mappingConfig.mappingKey().length);
+        String mappedKey = null;
+        int index = 0;
+        for(String key : mappingConfig.mappingKey())
+        {
+            if(key.equals(finalColumnkey))
+            {
+                mappedKey=key;
 
+                break;
+            }
+            index++;
+        }
         Object configProperty = PropertiesMapUtil.getProperty
-                (mappingConfig.locationPath(), mappingConfig.fileName(), mappingConfig.mappingKey());
+                ((mappingConfig.locationPath().length<=1)?mappingConfig.locationPath()[0]:mappingConfig.locationPath()[index],
+                        (mappingConfig.fileName().length<=1)?mappingConfig.fileName()[0]:mappingConfig.fileName()[index],
+                            mappingConfig.mappingKey()[index]);
         return configProperty;
     }
+
+    private static String[] splitColumnkey(String columnkey)
+    {
+        String[] columnkeyArray = columnkey.split("\\.");
+        return columnkeyArray;
+    }
+
 }

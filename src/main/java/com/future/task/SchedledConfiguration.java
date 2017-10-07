@@ -10,7 +10,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 /**
  * Created by zhengming on 17/10/2.
  */
-@Configuration
+//@Configuration
 public class SchedledConfiguration {
 
     // 配置中设定了
@@ -33,7 +33,7 @@ public class SchedledConfiguration {
         CronTriggerFactoryBean tigger = new CronTriggerFactoryBean ();
         tigger.setJobDetail (detailFactoryBean.getObject ());
         try {
-            tigger.setCronExpression ("0/30 * * * * ? ");//每30秒执行一次
+            tigger.setCronExpression ("0 0/10 * * * ? ");
         } catch (ParseException e) {
             e.printStackTrace ();
         }

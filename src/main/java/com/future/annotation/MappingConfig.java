@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD,ElementType.TYPE})
 public @interface MappingConfig {
-    String locationPath() default "";
-    String fileName() default "";
-    String mappingKey() default "";
+    String[] locationPath() default "";
+    String[] fileName() default "";
+    String[] mappingKey() default "";
 }

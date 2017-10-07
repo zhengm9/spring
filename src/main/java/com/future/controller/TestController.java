@@ -2,6 +2,7 @@ package com.future.controller;
 
 import com.future.dao.po.ProjectInfo;
 import com.future.dao.service.ProjectInfoService;
+import com.future.task.ReportTask;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class TestController {
     private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(TestController.class);
 
+    @Autowired
+    private ReportTask reportTask;
     @Autowired
     private ProjectInfoService projectInfoService;
     @Value("${reportTaskStartOffset}")
@@ -68,8 +71,9 @@ public class TestController {
     @RequestMapping("testtask2")
     public ResponseEntity<List<ProjectInfo>> test2()
     {
-        List<ProjectInfo> projectInfoList = this.projectInfoService.selectByDate("2017-07-01","2017-07-14");
-        LOGGER.info("projectInfoList:{}",projectInfoList);
-        return new ResponseEntity<List<ProjectInfo>>(projectInfoList, HttpStatus.OK);
+        reportTask.run();
+//        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
+        return null;
+
     }
 }
