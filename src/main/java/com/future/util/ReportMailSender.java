@@ -31,7 +31,7 @@ public class ReportMailSender {
             helper.setFrom("390241476@qq.com");
             helper.setTo(receivers);
             helper.setSubject(fileName);
-//            helper.setText("this is test content");
+            helper.setText("请查收附件:"+fileName);
 
             FileSystemResource file = new FileSystemResource(filePath+ File.separator+fileName);
             helper.addAttachment(file.getFilename(), file);
