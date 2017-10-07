@@ -4,6 +4,7 @@ import com.future.dao4ora.po.GeAlipayAirinfo;
 import com.future.dao4ora.idao.GeAlipayAirinfoMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,10 @@ public class GeAlipayAirinfoService implements GeAlipayAirinfoMapper {
 
     public List<GeAlipayAirinfo> selectByMakedate(String startDay, String endDay) {
         return this.geAlipayAirinfoMapper.selectByMakedate(startDay, endDay);
+    }
+
+    public List<GeAlipayAirinfo> selectEndorseByMakedate(@Param("startDay") String startDay, @Param("endDay") String endDay) {
+        return this.selectEndorseByMakedate(startDay, endDay);
     }
 
     public PageInfo<GeAlipayAirinfo> selectByMakedateAndPage(String startDay, String endDay,

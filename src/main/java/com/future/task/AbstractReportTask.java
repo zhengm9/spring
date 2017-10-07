@@ -140,10 +140,12 @@ public abstract class AbstractReportTask<T> {
         } catch (InvocationTargetException e) {
             LOGGER.error("getClassTypeConfigProperty,e:{}",e.getMessage());
         }
-
-        for(String key : configPropertyMap.keySet())
+        if(configPropertyMap != null)
         {
-            columnkeys.add(key);
+            for(String key : configPropertyMap.keySet())
+            {
+                columnkeys.add(key);
+            }
         }
 
         return columnkeys;

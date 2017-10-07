@@ -39,7 +39,7 @@ public class GlobalExceptionController {
 
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    /*@ExceptionHandler(RuntimeException.class)
     public ModelAndView handleException(RuntimeException e) {
         LOGGER.error("RuntimeException handled, e:{}", e);
         String errorMsgShow = e.getMessage();
@@ -52,5 +52,5 @@ public class GlobalExceptionController {
             errorModelAndView.addObject("errormsg", errorMsgShow);
             return errorModelAndView;
 
-    }
+    }*/
 }

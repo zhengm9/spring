@@ -2,6 +2,8 @@ package com.future.controller;
 
 import com.future.dao.po.ProjectInfo;
 import com.future.dao.service.ProjectInfoService;
+import com.future.dao4ora.po.GeAlipayAirinfo;
+import com.future.dao4ora.service.GeAlipayAirinfoService;
 import com.future.task.ReportTask;
 import com.future.task.ReportTask4Mysql;
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +34,8 @@ public class TestController {
 
     @Autowired
     private ProjectInfoService projectInfoService;
+    @Autowired
+    private GeAlipayAirinfoService geAlipayAirinfoService;
     @Value("${reportTaskStartOffset}")
     private Long reportTaskStartOffset;
     @RequestMapping("testtask")
@@ -79,6 +83,15 @@ public class TestController {
         reportTask.run();
 //        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
         return null;
+
+    }
+
+    @RequestMapping("testtask3")
+    public ResponseEntity<List<GeAlipayAirinfo>> test3(@RequestParam String startDay)
+    {
+        LOGGER.info("startDay:{}",startDay);
+        List<GeAlipayAirinfo> list =   this.geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
+        return new ResponseEntity<List<GeAlipayAirinfo>>(list, HttpStatus.OK);
 
     }
 }
