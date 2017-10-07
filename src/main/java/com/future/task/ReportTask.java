@@ -58,6 +58,8 @@ public class ReportTask extends AbstractReportTask<GeAlipayAirinfo>{
 
     public List<String> initColumnkeys() {
         List<String> columnkeys = new ArrayList<String>();
+
+        columnkeys.add("productname");
         columnkeys.add("policyno");
         columnkeys.add("proposalno");
         columnkeys.add("makedate");
