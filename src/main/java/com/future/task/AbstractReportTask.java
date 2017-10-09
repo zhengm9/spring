@@ -116,7 +116,7 @@ public abstract class AbstractReportTask<T> {
                 try {
                     reportMailSender.send(filePath,fileName);
                     isSendSucceed = true;
-                } catch (MessagingException e) {
+                } catch (Exception e) {
                     LOGGER.error("file send failed,e:{}",e.getMessage());
                 }
                 ++sendRound;
