@@ -58,9 +58,9 @@ public interface GeAlipayAirinfoMapper {
     @Select({
             "select",
             "'蚂蚁航意险' as PRODUCTNAME, b.batchId, a.policyno as policyno, a.fee/100 as fee, b.finishtinme,",
-            "a.proposalno, a.airorderid, a.flightno, a.airtakeoff, a.bizorderid, a.merchantaccounttype, a.merchantaccountid, ",
-            "a.paytime, a.payflowid, a.holdercertname, a.holderphone, a.insuredcertname, a.insuredcerttype, a.insuredcertno, ",
-            "a.insuredbirthday, b.createstamp ",
+//            "a.proposalno, a.airorderid, a.flightno, a.airtakeoff, a.bizorderid, a.merchantaccounttype, a.merchantaccountid, ",
+//            "a.paytime, a.payflowid, a.holdercertname, a.holderphone, a.insuredcertname, a.insuredcerttype, a.insuredcertno, ",
+//            "a.insuredbirthday, b.createstamp ",
             "from chinalifeec.GE_ALIPAY_AIRINFO a",
             "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
             "on b.policyno=a.policyno ",

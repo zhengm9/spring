@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.future.dao4ora.idao.GeAlipayAirinfoMapper" >
-  <resultMap id="joinResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo" extends="BaseResultMap">
+  <resultMap id="joinResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo">
+    <result property="policyno" column="policyno"/>
+    <result property="fee" column="fee"/>
+    <result property="productname" column="productname"/>
     <association property="endorsementEndorse" javaType="com.future.dao4ora.po.EndorsementEndorse">
       <result property="batchid" column="batchid"/>
       <result property="finishtinme" column="finishtinme"/>
       <result property="createstamp" column="createstamp"/>
     </association>
+
   </resultMap>
 
   <resultMap id="BaseResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo" >
