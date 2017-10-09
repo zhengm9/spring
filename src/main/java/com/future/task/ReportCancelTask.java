@@ -15,13 +15,13 @@ import java.util.List;
  * Created by zhengming on 17/10/1.
  */
 @Component
-public class ReportEndorseTask extends AbstractReportTask<GeAlipayAirinfo>{
-    private static Logger LOGGER = LogManager.getLogger(ReportEndorseTask.class);
+public class ReportCancelTask extends AbstractReportTask<GeAlipayAirinfo>{
+    private static Logger LOGGER = LogManager.getLogger(ReportCancelTask.class);
     @Autowired
     private GeAlipayAirinfoService geAlipayAirinfoService;
 
 
-    public ReportEndorseTask()
+    public ReportCancelTask()
     {
         super();
 
@@ -70,7 +70,7 @@ public class ReportEndorseTask extends AbstractReportTask<GeAlipayAirinfo>{
         List<String> workBookFileNames = new ArrayList<String>();
         for(int i=0;i<workBookNum;i++)
         {
-            workBookFileNames.add("endorse-"+startDay+"-"+i+".xls");
+            workBookFileNames.add("cancel-"+startDay+"-"+i+".xls");
         }
         return workBookFileNames;
     }

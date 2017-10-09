@@ -4,9 +4,8 @@ import com.future.dao.po.ProjectInfo;
 import com.future.dao.service.ProjectInfoService;
 import com.future.dao4ora.po.GeAlipayAirinfo;
 import com.future.dao4ora.service.GeAlipayAirinfoService;
-import com.future.task.ReportEndorseTask;
+import com.future.task.ReportCancelTask;
 import com.future.task.ReportTask;
-import com.future.task.ReportTask4Mysql;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +30,7 @@ public class TestController {
     private static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(TestController.class);
 
     @Autowired
-    private ReportEndorseTask reportEndorseTask;
+    private ReportCancelTask reportCancelTask;
 
     @Autowired
     private ReportTask reportTask;
@@ -94,8 +93,8 @@ public class TestController {
     public ResponseEntity<List<GeAlipayAirinfo>> test3(@RequestParam String startDay)
     {
         LOGGER.info("startDay:{}",startDay);
-        reportEndorseTask.initDayScope(startDay,startDay);
-        reportEndorseTask.run();
+        reportCancelTask.initDayScope(startDay,startDay);
+        reportCancelTask.run();
 //        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
         return null;
 
