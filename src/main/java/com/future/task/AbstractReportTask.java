@@ -86,7 +86,7 @@ public abstract class AbstractReportTask<T> {
                 List<T> objects =  getSqlResults(curSqlPage, sqlReadPageSize);
                 try {
                     boolean result = reportGenerator.genWorkBook(filePath,workBookFileNames.get(curWorkBook-1),
-                            "testsheet",(List<Object>)objects,columnkeys);
+                            "reportsheet",(List<Object>)objects,columnkeys);
 
                     LOGGER.info("genWorkBook result:{}",result);
                     if(!result)return;

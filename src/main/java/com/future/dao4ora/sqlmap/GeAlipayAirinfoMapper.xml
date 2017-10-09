@@ -4,6 +4,8 @@
   <resultMap id="joinResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo" extends="BaseResultMap">
     <association property="endorsementEndorse" javaType="com.future.dao4ora.po.EndorsementEndorse">
       <result property="batchid" column="batchid"/>
+      <result property="finishtinme" column="finishtinme"/>
+      <result property="createstamp" column="createstamp"/>
     </association>
   </resultMap>
 
