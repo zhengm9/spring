@@ -38,6 +38,8 @@ public abstract class AbstractReportTask<T> {
     protected int sqlReadPageSize;
     @Value("${maxPageNumPerWorkBook}")
     protected int maxPageNumPerWorkBook;
+    @Value("${sendMailRetries}")
+    protected int sendMailRetries;
 
     protected int sqlCountAll;
     protected String startDay;
@@ -107,10 +109,17 @@ public abstract class AbstractReportTask<T> {
 
         for(String fileName : workBookFileNames)
         {
-            try {
-                reportMailSender.send(filePath,fileName);
-            } catch (MessagingException e) {
-                LOGGER.error("file send failed,e:{}",e.getMessage());
+            boolean isSendSucceed = false;
+            int sendRound = 0;
+            while (sendRound<sendMailRetries && !isSendSucceed)
+            {
+                try {
+                    reportMailSender.send(filePath,fileName);
+                    isSendSucceed = true;
+                } catch (MessagingException e) {
+                    LOGGER.error("file send failed,e:{}",e.getMessage());
+                }
+                ++sendRound;
             }
         }
         LOGGER.info("file send succeed");

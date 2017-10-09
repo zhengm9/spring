@@ -22,23 +22,20 @@ public class ReportMailSender {
     private JavaMailSender mailSender;
     @Value("${mail.receiver}")
     private String[] receivers;
+
     public void send(String filePath, String fileName) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
-        try{
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("390241476@qq.com");
-            helper.setTo(receivers);
-            helper.setSubject(fileName);
-            helper.setText("请查收附件:"+fileName);
+        helper.setFrom("390241476@qq.com");
+        helper.setTo(receivers);
+        helper.setSubject(fileName);
+        helper.setText("请查收附件:" + fileName);
 
-            FileSystemResource file = new FileSystemResource(filePath+ File.separator+fileName);
-            helper.addAttachment(file.getFilename(), file);
+        FileSystemResource file = new FileSystemResource(filePath + File.separator + fileName);
+        helper.addAttachment(file.getFilename(), file);
 
-        }catch (MessagingException e) {
-            throw new MailParseException(e);
-        }
         mailSender.send(message);
     }
 }
