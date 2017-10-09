@@ -18,6 +18,8 @@
     <result property="holderphone" column="holderphone"/>
     <result property="insuredcertno" column="insuredcertno"/>
     <result property="insuredbirthday" column="insuredbirthday"/>
+    <result property="insuredcertname" column="insuredcertname"/>
+    <result property="insuredcerttype" column="insuredcerttype"/>
 
     <association property="endorsementEndorse" javaType="com.future.dao4ora.po.EndorsementEndorse">
       <result property="batchid" column="batchid"/>
