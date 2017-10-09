@@ -250,6 +250,8 @@ public class GeAlipayAirinfo {
      *
      * @mbggenerated
      */
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.merchantaccounttype")
+
     private String merchantaccounttype;
 
     /**
@@ -418,6 +420,7 @@ public class GeAlipayAirinfo {
      *
      * @mbggenerated
      */
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.insuredcerttype")
     private String insuredcerttype;
 
     /**
