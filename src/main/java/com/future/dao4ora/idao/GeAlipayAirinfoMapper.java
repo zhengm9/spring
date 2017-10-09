@@ -14,7 +14,7 @@ public interface GeAlipayAirinfoMapper {
 //            "where a.MAKEDATE >=to_date(#{startDay,jdbcType=VARCHAR}\"00:00:00\",\"yyyy-mm-dd hh24:mi:ss\") ",
 //            "and a.MAKEDATE<=to_date(#{endDay,jdbcType=VARCHAR}\"00:00:00\",\"yyyy-mm-dd hh24:mi:ss\")"
             "where a.MAKEDATE >=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
-            "and a.MAKEDATE<=to_date('${endDay} 01:59:59','yyyy-mm-dd hh24:mi:ss')"
+            "and a.MAKEDATE<=to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss')"
 
     })
     Integer countAll(@Param("startDay")String startDay, @Param("endDay")String endDay);
@@ -36,7 +36,7 @@ public interface GeAlipayAirinfoMapper {
             "CITY, AREA, DETAILADDRESS, MOBILE, ZIP, NUM, REASON, SAVEERRORCOUNT",
             "from chinalifeec.GE_ALIPAY_AIRINFO a",
             "where a.MAKEDATE >=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
-            "and a.MAKEDATE<=to_date('${endDay} 01:59:59','yyyy-mm-dd hh24:mi:ss')",
+            "and a.MAKEDATE<=to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss')",
             " order by a.makedate,a.policyno"
     })
     @ResultMap("BaseResultMap")
@@ -48,7 +48,7 @@ public interface GeAlipayAirinfoMapper {
             "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
             "on b.policyno=a.policyno ",
             "where b.createstamp >=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
-            "and b.createstamp<=to_date('${endDay} 01:59:59','yyyy-mm-dd hh24:mi:ss')",
+            "and b.createstamp<=to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss')",
             " order by b.createstamp,a.policyno"
     })
     Integer countAllEndorse(@Param("startDay")String startDay, @Param("endDay")String endDay);
@@ -61,7 +61,7 @@ public interface GeAlipayAirinfoMapper {
             "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
             "on b.policyno=a.policyno ",
             "where b.createstamp >=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
-            "and b.createstamp<=to_date('${endDay} 01:59:59','yyyy-mm-dd hh24:mi:ss')",
+            "and b.createstamp<=to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss')",
             " order by b.createstamp,a.policyno"
     })
     @ResultMap("joinResultMap")
