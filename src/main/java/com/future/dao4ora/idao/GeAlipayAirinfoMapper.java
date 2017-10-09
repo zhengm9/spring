@@ -56,7 +56,7 @@ public interface GeAlipayAirinfoMapper {
 
     @Select({
             "select",
-            "'蚂蚁航意险' as PRODUCTNAME, b.batchId, a.*",
+            "'蚂蚁航意险' as PRODUCTNAME, b.batchId, a.policyno as policyno, a.fee/100 as fee, a.makedate as makedate",
             "from chinalifeec.GE_ALIPAY_AIRINFO a",
             "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
             "on b.policyno=a.policyno ",
