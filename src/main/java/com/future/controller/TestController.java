@@ -34,6 +34,9 @@ public class TestController {
     private ReportEndorseTask reportEndorseTask;
 
     @Autowired
+    private ReportTask reportTask;
+
+    @Autowired
     private ProjectInfoService projectInfoService;
     @Autowired
     private GeAlipayAirinfoService geAlipayAirinfoService;
@@ -80,8 +83,8 @@ public class TestController {
     public ResponseEntity<List<ProjectInfo>> test2(@RequestParam String startDay)
     {
         LOGGER.info("startDay:{}",startDay);
-        reportEndorseTask.initDayScope(startDay,startDay);
-        reportEndorseTask.run();
+        reportTask.initDayScope(startDay,startDay);
+        reportTask.run();
 //        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
         return null;
 
@@ -91,8 +94,10 @@ public class TestController {
     public ResponseEntity<List<GeAlipayAirinfo>> test3(@RequestParam String startDay)
     {
         LOGGER.info("startDay:{}",startDay);
-        List<GeAlipayAirinfo> list =   this.geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
-        return new ResponseEntity<List<GeAlipayAirinfo>>(list, HttpStatus.OK);
+        reportEndorseTask.initDayScope(startDay,startDay);
+        reportEndorseTask.run();
+//        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
+        return null;
 
     }
 }
