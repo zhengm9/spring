@@ -91,16 +91,9 @@ public abstract class AbstractReportTask<T> {
                     LOGGER.info("genWorkBook result:{}",result);
                     if(!result)return;
 
-                } catch (InvocationTargetException e) {
+                } catch (Exception e) {
                     LOGGER.error("genWorkBook,e:{}",e.getMessage());
-                } catch (NoSuchMethodException e) {
-                    LOGGER.error("genWorkBook,e:{}",e.getMessage());
-                } catch (NoSuchFieldException e) {
-                    LOGGER.error("genWorkBook,e:{}",e.getMessage());
-                } catch (IllegalAccessException e) {
-                    LOGGER.error("genWorkBook,e:{}",e.getMessage());
-                } catch (IOException e) {
-                    LOGGER.error("genWorkBook,e:{}",e.getMessage());
+                    return;
                 }
             }
         }

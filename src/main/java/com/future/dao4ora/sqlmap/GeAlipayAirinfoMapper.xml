@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.future.dao4ora.idao.GeAlipayAirinfoMapper" >
-  <resultMap id="joinResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo">
+  <resultMap id="reportResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo">
     <result property="policyno" column="policyno"/>
     <result property="fee" column="fee"/>
     <result property="productname" column="productname"/>
+    <result property="proposalno" column="proposalno"/>
+    <result property="airorderid" column="airorderid"/>
+    <result property="flightno" column="flightno"/>
+    <result property="airtakeoff" column="airtakeoff"/>
+    <result property="bizorderid" column="bizorderid"/>
+    <result property="merchantaccounttype" column="merchantaccounttype"/>
+    <result property="merchantaccountid" column="merchantaccountid"/>
+    <result property="paytime" column="paytime"/>
+    <result property="payflowid" column="payflowid"/>
+    <result property="holdercertname" column="holdercertname"/>
+    <result property="holderphone" column="holderphone"/>
+    <result property="insuredcertno" column="insuredcertno"/>
+    <result property="insuredbirthday" column="insuredbirthday"/>
+
     <association property="endorsementEndorse" javaType="com.future.dao4ora.po.EndorsementEndorse">
       <result property="batchid" column="batchid"/>
       <result property="finishtinme" column="finishtinme"/>
