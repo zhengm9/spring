@@ -10,7 +10,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 /**
  * Created by zhengming on 17/10/2.
  */
-//@Configuration
+@Configuration
 public class SchedledConfiguration {
 
     // 配置中设定了
@@ -20,10 +20,10 @@ public class SchedledConfiguration {
     // ③ cronExpression：0/10 * * * * ?表示每10秒执行一次，具体可参考附表。
     // ④ triggers：通过再添加其他的ref元素可在list中放置多个触发器。 scheduleInfoAction中的simpleJobTest()方法
     @Bean(name = "detailFactoryBean")
-    public MethodInvokingJobDetailFactoryBean detailFactoryBean(ReportTask reportTask){
+    public MethodInvokingJobDetailFactoryBean detailFactoryBean(QuartzMain quartzMain){
         MethodInvokingJobDetailFactoryBean bean = new MethodInvokingJobDetailFactoryBean ();
-        bean.setTargetObject (reportTask);
-        bean.setTargetMethod ("run");
+        bean.setTargetObject (quartzMain);
+        bean.setTargetMethod ("runTask");
         bean.setConcurrent (false);
         return bean;
     }
@@ -33,7 +33,7 @@ public class SchedledConfiguration {
         CronTriggerFactoryBean tigger = new CronTriggerFactoryBean ();
         tigger.setJobDetail (detailFactoryBean.getObject ());
         try {
-            tigger.setCronExpression ("0 0/10 * * * ? ");
+            tigger.setCronExpression ("0 0 3 * * ? ");
         } catch (ParseException e) {
             e.printStackTrace ();
         }

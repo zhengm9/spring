@@ -27,11 +27,11 @@ public class ReportCancelTask extends AbstractReportTask<GeAlipayAirinfo>{
 
     }
 
-    public void initDayScope(String startDay, String endDay)
+   /* public void initDayScope(String startDay, String endDay)
     {
         super.startDay=startDay;
         super.endDay=endDay;
-    }
+    }*/
 
     public int getSqlCount() {
         /*Date date = new Date();
@@ -66,13 +66,13 @@ public class ReportCancelTask extends AbstractReportTask<GeAlipayAirinfo>{
         return columnkeys;
     }*/
 
-    public List<String> initWorkBookFileName(int workBookNum) {
+   /* public List<String> initWorkBookFileName(int workBookNum) {
         List<String> workBookFileNames = new ArrayList<String>();
         for(int i=0;i<workBookNum;i++)
         {
             workBookFileNames.add("cancel-"+startDay+"-"+i+".xls");
         }
         return workBookFileNames;
-    }
+    }*/
 
 }

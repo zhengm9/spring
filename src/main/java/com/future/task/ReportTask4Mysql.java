@@ -55,11 +55,11 @@ public class ReportTask4Mysql extends AbstractReportTask<ProjectInfo>{
         return columnkeys;
     }
 
-    public List<String> initWorkBookFileName(int workBookNum) {
+    public List<String> initWorkBookFileName(int workBookNum, String reportName) {
         List<String> workBookFileNames = new ArrayList<String>();
         for(int i=0;i<workBookNum;i++)
         {
-            workBookFileNames.add("test-"+i+".xls");
+            workBookFileNames.add(reportName+"-"+i+".xls");
         }
         return workBookFileNames;
     }

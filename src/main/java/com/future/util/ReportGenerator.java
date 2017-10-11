@@ -29,7 +29,7 @@ import java.util.List;
 public class ReportGenerator {
     private static Logger LOGGER = LogManager.getLogger(ReportGenerator.class);
 
-    public boolean genWorkBook(String filePath, String fileName, String sheetName
+    public boolean genWorkBook(String filePath, String fileName, String reportName, String sheetName
                                                                 , List<Object> objects
                                                                 ,List<String> columnkeys)
             throws InvocationTargetException, NoSuchMethodException,
@@ -38,10 +38,10 @@ public class ReportGenerator {
         String pathName = filePath+File.separator+fileName;
         LOGGER.info("file path is:{}",pathName);
         File file = new File(pathName);
-        return genWorkBook(file.toURI(),sheetName,objects,columnkeys);
+        return genWorkBook(file.toURI(),reportName,sheetName,objects,columnkeys);
     }
 
-    public boolean genWorkBook(URI uri, String sheetName, List<Object> objects
+    public boolean genWorkBook(URI uri, String reportName, String sheetName, List<Object> objects
                                                         ,List<String> columnkeys)
                             throws InvocationTargetException, NoSuchMethodException,
                              NoSuchFieldException, IllegalAccessException, IOException
@@ -91,7 +91,7 @@ public class ReportGenerator {
             for(String columnkey : columnkeys)
             {
                 HSSFCell cell = row.createCell(curColumnNum++);
-                cell.setCellValue(SheetUtil.getSheetHead(notNullObject,columnkey));
+                cell.setCellValue(SheetUtil.getSheetHead(notNullObject,reportName,columnkey));
             }
 
         }else{

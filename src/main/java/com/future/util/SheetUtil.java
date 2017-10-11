@@ -67,8 +67,8 @@ public class SheetUtil {
 
     }
 
-    public static String getSheetHead(Object object, String columnkey) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
-        Object configPropertyObject = getClassTypeConfigProperty(object);
+    public static String getSheetHead(Object object,String reportNameInKey, String columnkey) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
+        Object configPropertyObject = getClassTypeConfigProperty(object.getClass(), reportNameInKey);
 
         if(configPropertyObject == null)
         {
@@ -99,11 +99,11 @@ public class SheetUtil {
             LOGGER.debug("there is no mappingConfig annotaion in field [{}]",firstColumnkey);
             return null;
         }else{
-            return getConfigProperty(mappingConfig, finalColumnkey);
+            return getFieldConfigProperty(mappingConfig, finalColumnkey);
         }
     }
 
-    public static Object getClassTypeConfigProperty(Object object)
+    /*public static Object getClassTypeConfigProperty(Object object, String reportNameInKey)
             throws NoSuchFieldException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException
     {
@@ -115,11 +115,11 @@ public class SheetUtil {
             LOGGER.debug("there is no mappingConfig annotaion in Class type [{}]",object.getClass());
             return null;
         }else{
-            return getConfigProperty(mappingConfig, null);
+            return getClassTypeConfigProperty(mappingConfig, reportNameInKey);
         }
-    }
+    }*/
 
-    public static Object getClassTypeConfigProperty(Class<?> clazz)
+    public static Object getClassTypeConfigProperty(Class<?> clazz, String reportNameInKey)
             throws NoSuchFieldException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException
     {
@@ -129,11 +129,11 @@ public class SheetUtil {
             LOGGER.debug("there is no mappingConfig annotaion in Class type [{}]",clazz);
             return null;
         }else{
-            return getConfigProperty(mappingConfig, null);
+            return getClassTypeConfigProperty(mappingConfig, reportNameInKey);
         }
     }
 
-    public static Object getConfigProperty(MappingConfig mappingConfig, String finalColumnkey)
+    public static Object getFieldConfigProperty(MappingConfig mappingConfig, String finalColumnkey)
             throws NoSuchFieldException, IllegalAccessException,
             NoSuchMethodException, InvocationTargetException
     {
@@ -155,6 +155,18 @@ public class SheetUtil {
                 ((mappingConfig.locationPath().length<=1)?mappingConfig.locationPath()[0]:mappingConfig.locationPath()[index],
                         (mappingConfig.fileName().length<=1)?mappingConfig.fileName()[0]:mappingConfig.fileName()[index],
                             mappingConfig.mappingKey()[index]);
+        return configProperty;
+    }
+
+    public static Object getClassTypeConfigProperty(MappingConfig mappingConfig, String reportNameInKey)
+            throws NoSuchFieldException, IllegalAccessException,
+            NoSuchMethodException, InvocationTargetException
+    {
+        LOGGER.debug("mappingConfig.locationPath:{}, mappingConfig.fileName:{}, mappingConfig.mappingKey:{}"
+                ,mappingConfig.locationPath().length,mappingConfig.fileName().length
+                ,mappingConfig.mappingKey().length);
+        Object configProperty = PropertiesMapUtil.getProperty
+                (mappingConfig.locationPath()[0],mappingConfig.fileName()[0], mappingConfig.mappingKey()[0]+"."+reportNameInKey);
         return configProperty;
     }
 

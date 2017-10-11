@@ -82,8 +82,7 @@ public class TestController {
     public ResponseEntity<List<ProjectInfo>> test2(@RequestParam String startDay)
     {
         LOGGER.info("startDay:{}",startDay);
-        reportTask.initDayScope(startDay,startDay);
-        reportTask.run();
+        reportTask.run(startDay,startDay,"insure");
 //        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
         return null;
 
@@ -93,8 +92,7 @@ public class TestController {
     public ResponseEntity<List<GeAlipayAirinfo>> test3(@RequestParam String startDay)
     {
         LOGGER.info("startDay:{}",startDay);
-        reportCancelTask.initDayScope(startDay,startDay);
-        reportCancelTask.run();
+        reportCancelTask.run(startDay,startDay,"cancel");
 //        return new ResponseEntity<List<ProjectInfo>>(null, HttpStatus.OK);
         return null;
 

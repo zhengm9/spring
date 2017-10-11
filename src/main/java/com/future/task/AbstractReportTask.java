@@ -44,6 +44,7 @@ public abstract class AbstractReportTask<T> {
     protected int sqlCountAll;
     protected String startDay;
     protected String endDay;
+    protected String reportName;
     protected List<String> columnkeys;
 
     public AbstractReportTask()
@@ -52,12 +53,15 @@ public abstract class AbstractReportTask<T> {
 
     }
 //    @Scheduled(cron="0/30 * *  * * ?")
-    public void run()
+    public void run(String startDay, String endDay, String reportName )
     {
         LOGGER.info("job start,time is {}", new Date());
+        this.reportName = reportName;
+        this.startDay = startDay;
+        this.endDay = endDay;
         String filePath = ContextLoader.getCurrentWebApplicationContext().getServletContext()
                 .getRealPath(reportDir);
-        LOGGER.info("reportDir:{},filename:test.xls", filePath);
+        LOGGER.info("reportDir:{}, reportName:{}, startDay:{}, endDay:{}", filePath, reportName, startDay, endDay);
 
         if(columnkeys == null || columnkeys.isEmpty())
         {
@@ -72,7 +76,7 @@ public abstract class AbstractReportTask<T> {
 
         int workBookNum = sqlCountAll/(sqlReadPageSize*maxPageNumPerWorkBook)+1;
         int sqlPageNum = sqlCountAll/sqlReadPageSize+1;
-        List<String> workBookFileNames =  initWorkBookFileName(workBookNum);
+        List<String> workBookFileNames =  initWorkBookFileName(workBookNum, reportName);
         LOGGER.info("workbookNum:{},pageNum:{},workBookFileNames:{}", workBookNum, sqlPageNum,
                                                                         workBookFileNames);
 
@@ -85,7 +89,7 @@ public abstract class AbstractReportTask<T> {
                 if(curSqlPage>sqlPageNum)break;
                 List<T> objects =  getSqlResults(curSqlPage, sqlReadPageSize);
                 try {
-                    boolean result = reportGenerator.genWorkBook(filePath,workBookFileNames.get(curWorkBook-1),
+                    boolean result = reportGenerator.genWorkBook(filePath,workBookFileNames.get(curWorkBook-1),reportName,
                             "reportsheet",(List<Object>)objects,columnkeys);
 
                     LOGGER.info("genWorkBook result:{}",result);
@@ -131,7 +135,7 @@ public abstract class AbstractReportTask<T> {
         List<String> columnkeys = new ArrayList<String>();
         Map<String,String> configPropertyMap = null;
         try {
-             configPropertyMap = (Map)SheetUtil.getClassTypeConfigProperty(entityClass);
+             configPropertyMap = (Map)SheetUtil.getClassTypeConfigProperty(entityClass, reportName);
         } catch (NoSuchFieldException e) {
             LOGGER.error("getClassTypeConfigProperty,e:{}",e.getMessage());
 
@@ -155,6 +159,14 @@ public abstract class AbstractReportTask<T> {
 
     public abstract int getSqlCount();
     public abstract List<T> getSqlResults(int pageNum, int pageSize);
-    public abstract List<String> initWorkBookFileName(int workBookNum);
+    public List<String> initWorkBookFileName(int workBookNum, String reportName)
+    {
+        List<String> workBookFileNames = new ArrayList<String>();
+        for(int i=0;i<workBookNum;i++)
+        {
+            workBookFileNames.add(reportName+"-"+startDay+"-"+i+".xls");
+        }
+        return workBookFileNames;
+    }
 
 }

@@ -25,6 +25,7 @@
       <result property="batchid" column="batchid"/>
       <result property="finishtinme" column="finishtinme"/>
       <result property="createstamp" column="createstamp"/>
+      <result property="amount" column="amount"/>
     </association>
 
   </resultMap>
