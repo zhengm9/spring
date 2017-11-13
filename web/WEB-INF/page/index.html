@@ -167,7 +167,7 @@
                                 </tbody>
                             </table>
                             <nav>
-                                <ul class="pagination">
+                                <ul th:if="${totalPages>=1}" class="pagination">
                                     <li>
                                         <a th:if="${not isFirstPage}" th:href="@{${'/projectCenter'}(pageNum=(${pageNum}-1),pageSize=${pageSize},isSelfish=${isSelfish?0:1})}">Previous</a>
                                         <a th:if="${isFirstPage}" href="javascript:void(0);">Previous</a>
