@@ -46,7 +46,7 @@ public class ReportCancelTask extends AbstractReportTask<GeAlipayAirinfo>{
 
 
         PageInfo<GeAlipayAirinfo> pageInfo =
-                this.geAlipayAirinfoService.selectEndorseByMakedateAndPage(startDay,endDay,
+                this.geAlipayAirinfoService.selectCancelByMakedateAndPage(startDay,endDay,
                 pageNum, pageSize);
         LOGGER.info("page info:pageNum-{},pageSize-{},isFirstPage-{},totalPages-{},isLastPage-{}",
                 pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.isIsFirstPage(), pageInfo.getPages(), pageInfo.isIsLastPage());

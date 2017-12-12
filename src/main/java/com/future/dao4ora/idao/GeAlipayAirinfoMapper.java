@@ -94,7 +94,7 @@ public interface GeAlipayAirinfoMapper {
 
     @Select({
             "select  ",
-            "a.policyno,tmp.batchid,a.premium/100 as premium,tmp.finishtinme,a.proposalno,a.bizorderid,a.holderphone, ",
+            "'蚂蚁航意险' as PRODUCTNAME, a.policyno,tmp.batchid,a.premium/100 as premium,tmp.finishtinme,a.proposalno,a.bizorderid,a.holderphone, ",
             "a.insuredcertname,a.insuredcerttype,a.insuredcertNo,tmp.createstamp,tmp.status as endorsestatus,tmp.reason as endorsereason, ",
             "tmp.newtimevalue,tmp.newflightvalue ",
             "from chinalifeec.ge_alipay_airinfo a  ",

@@ -32,6 +32,16 @@ public class DateConverter implements Converter<String, Date> {
         return null;
     }
 
+    public Date convert(String stringDate, String format) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        try {
+            return simpleDateFormat.parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String getDate(String format)
     {
         return formatDate(new Date(), format);

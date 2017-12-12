@@ -5,6 +5,7 @@ import com.future.dao.service.ProjectInfoService;
 import com.future.dao4ora.po.GeAlipayAirinfo;
 import com.future.dao4ora.service.GeAlipayAirinfoService;
 import com.future.task.ReportCancelTask;
+import com.future.task.ReportEndorseTask;
 import com.future.task.ReportTask;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ public class TestController {
 
     @Autowired
     private ReportCancelTask reportCancelTask;
-
+    @Autowired
+    private ReportEndorseTask reportEndorseTask;
     @Autowired
     private ReportTask reportTask;
 
@@ -102,10 +104,10 @@ public class TestController {
     public ResponseEntity<List<GeAlipayAirinfo>> test4(@RequestParam String startDay)
     {
         LOGGER.info("startDay:{}",startDay);
-        geAlipayAirinfoService.countAllEndorse(startDay,startDay);
-        List<GeAlipayAirinfo> list = geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
-        return new ResponseEntity<List<GeAlipayAirinfo>>(list, HttpStatus.OK);
-//        return null;
+//        geAlipayAirinfoService.countAllEndorse(startDay,startDay);
+//        List<GeAlipayAirinfo> list = geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
+        reportEndorseTask.run(startDay,startDay,"endorse");
+        return null;
 
     }
 }

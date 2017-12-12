@@ -23,7 +23,8 @@ public class QuartzMain {
     private ReportCancelTask reportCancelTask;
     @Autowired
     private ReportTask reportTask;
-
+    @Autowired
+    private ReportEndorseTask reportEndorseTask;
 
     public void runTask()
     {
@@ -31,6 +32,7 @@ public class QuartzMain {
         Date date = new Date();
         Long offsetTime = date.getTime()-24*60*60*1000;
         String startDay = DateConverter.formatDate(new Date(offsetTime),"yyyy-MM-dd");
+        reportEndorseTask.run(startDay,startDay,"endorse");
         reportTask.run(startDay,startDay,"insure");
         reportCancelTask.run(startDay,startDay,"cancel");
     }

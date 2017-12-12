@@ -51,14 +51,21 @@ public class GeAlipayAirinfoService implements GeAlipayAirinfoMapper {
         return new PageInfo(list);
     }
 
-    public PageInfo<GeAlipayAirinfo> selectEndorseByMakedateAndPage(String startDay, String endDay,
-                                                             Integer pageNum, Integer pageSize) {
+    public PageInfo<GeAlipayAirinfo> selectCancelByMakedateAndPage(String startDay, String endDay,
+                                                                   Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<GeAlipayAirinfo> list = this.selectCancelByMakedate(startDay, endDay);
 
         return new PageInfo(list);
     }
 
+    public PageInfo<GeAlipayAirinfo> selectEndorseByMakedateAndPage(String startDay, String endDay,
+                                                                   Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<GeAlipayAirinfo> list = this.selectEndorseByMakedate(startDay, endDay);
+
+        return new PageInfo(list);
+    }
 
     public int deleteByPrimaryKey(String serialno) {
         return 0;
