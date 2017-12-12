@@ -10,7 +10,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 /**
  * Created by zhengming on 17/10/2.
  */
-//@Configuration
+@Configuration
 public class SchedledConfiguration {
 
     // 配置中设定了

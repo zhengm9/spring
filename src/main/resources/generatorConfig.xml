@@ -105,13 +105,16 @@
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/-->
 
-        <table tableName="GE_ALIPAY_AIRINFO" domainObjectName="GeAlipayAirinfo" enableCountByExample="false"
+        <!--table tableName="GE_ALIPAY_AIRINFO" domainObjectName="GeAlipayAirinfo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
         <table tableName="ENDORSEMENT_ENDORSE" domainObjectName="EndorsementEndorse" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
         <table tableName="ge_flycua_air" domainObjectName="GeFlycuaAir" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/-->
+        <table tableName="ENDORSEMENT_ENDORSEITEMS" domainObjectName="EndorsementEndorseitems" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
         <!--<table tableName="user_t" schema="louis">
