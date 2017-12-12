@@ -33,7 +33,7 @@
 
     </association>
 
-    <collection property="endorsementEndorseitemsWithBLOBs" ofType="com.future.dao4ora.po.EndorsementEndorseitemsWithBLOBs">
+    <collection property="endorsementEndorseitemsWithBLOBsList" ofType="com.future.dao4ora.po.EndorsementEndorseitemsWithBLOBs">
       <result column="NEWVALUE" property="newvalue"/>
       <result column="ITEMTYPE" property="itemtype"/>
     </collection>
