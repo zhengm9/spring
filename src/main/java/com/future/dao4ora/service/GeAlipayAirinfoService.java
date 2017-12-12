@@ -27,6 +27,14 @@ public class GeAlipayAirinfoService implements GeAlipayAirinfoMapper {
         return this.geAlipayAirinfoMapper.selectByMakedate(startDay, endDay);
     }
 
+    public Integer countAllCancel(@Param("startDay") String startDay, @Param("endDay") String endDay) {
+        return this.geAlipayAirinfoMapper.countAllCancel(startDay, endDay);
+    }
+
+    public List<GeAlipayAirinfo> selectCancelByMakedate(@Param("startDay") String startDay, @Param("endDay") String endDay) {
+        return this.geAlipayAirinfoMapper.selectCancelByMakedate(startDay, endDay);
+    }
+
     public Integer countAllEndorse(@Param("startDay") String startDay, @Param("endDay") String endDay) {
         return this.geAlipayAirinfoMapper.countAllEndorse(startDay, endDay);
     }
@@ -46,7 +54,7 @@ public class GeAlipayAirinfoService implements GeAlipayAirinfoMapper {
     public PageInfo<GeAlipayAirinfo> selectEndorseByMakedateAndPage(String startDay, String endDay,
                                                              Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<GeAlipayAirinfo> list = this.selectEndorseByMakedate(startDay, endDay);
+        List<GeAlipayAirinfo> list = this.selectCancelByMakedate(startDay, endDay);
 
         return new PageInfo(list);
     }

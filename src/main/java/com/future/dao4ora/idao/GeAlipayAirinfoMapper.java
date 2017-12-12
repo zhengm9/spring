@@ -52,7 +52,7 @@ public interface GeAlipayAirinfoMapper {
             "and b.type='402' ",
             " order by b.createstamp,b.batchId"
     })
-    Integer countAllEndorse(@Param("startDay")String startDay, @Param("endDay")String endDay);
+    Integer countAllCancel(@Param("startDay")String startDay, @Param("endDay")String endDay);
 
 
     @Select({
@@ -74,6 +74,46 @@ public interface GeAlipayAirinfoMapper {
             "and b.type='402' ",
             "and ( p.partyflag is null or p.partyflag = '2')",
             " order by b.createstamp,b.batchId"
+    })
+    @ResultMap("reportResultMap")
+    List<GeAlipayAirinfo> selectCancelByMakedate(@Param("startDay")String startDay, @Param("endDay")String endDay);
+
+
+
+    @Select({
+            "select count(distinct e1.batchid) ",
+            "from chinalifeec.ge_alipay_airinfo a ",
+            "left join chinalifeec.ENDORSEMENT_ENDORSE e1 on a.policyno=e1.policyno ",
+            " left join chinalifeec.ENDORSEMENT_ENDORSEITEMS e2 on e2.batchid =e1.batchid ",
+            "where e1.createstamp>=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
+            "and e1.createstamp<to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss') ",
+            "and e1.type='301'  "
+    })
+    Integer countAllEndorse(@Param("startDay")String startDay, @Param("endDay")String endDay);
+
+
+    @Select({
+            "select  ",
+            "a.policyno,tmp.batchid,a.premium/100 as premium,tmp.finishtinme,a.proposalno,a.bizorderid,a.holderphone, ",
+            "a.insuredcertname,a.insuredcerttype,a.insuredcertNo,tmp.createstamp,tmp.status as endorsestatus,tmp.reason as endorsereason, ",
+            "tmp.newtimevalue,tmp.newflightvalue ",
+            "from chinalifeec.ge_alipay_airinfo a  ",
+            "right join   ",
+            "( ",
+            "select  ",
+            "e1.policyno,e1.batchid,max(e1.finishtinme) as finishtinme ",
+            ",min(e1.createstamp) as createstamp,max(e1.status) as status,max(e1.reason) as reason ",
+            ",max(case when e2.itemtype='303' then to_char(e2.newvalue) else null end) as newtimevalue ",
+            ",max(case when e2.itemtype='301' then to_char(e2.newvalue) else null end) as newflightvalue ",
+            "from chinalifeec.ENDORSEMENT_ENDORSE e1 ",
+            " left join chinalifeec.ENDORSEMENT_ENDORSEITEMS e2 on e2.batchid =e1.batchid ",
+            "where e1.createstamp>=to_date(to_char(trunc(sysdate-3),'yyyy-mm-dd') ||' 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
+            "and e1.createstamp<to_date(to_char(trunc(sysdate-1),'yyyy-mm-dd') ||' 23:59:59','yyyy-mm-dd hh24:mi:ss') ",
+            "and e1.type='301' ",
+            "group by e1.batchid,e1.policyno ",
+            ")tmp ",
+            "on tmp.policyno=a.policyno ",
+            "order by tmp.createstamp"
     })
     @ResultMap("reportResultMap")
     List<GeAlipayAirinfo> selectEndorseByMakedate(@Param("startDay")String startDay, @Param("endDay")String endDay);

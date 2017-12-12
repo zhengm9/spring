@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class ReportCancelTask extends AbstractReportTask<GeAlipayAirinfo>{
         Long offsetTime = date.getTime()-24*60*60*1000;
         startDay = DateConverter.formatDate(new Date(offsetTime),"yyyy-MM-dd");*/
 
-        Integer i = this.geAlipayAirinfoService.countAllEndorse(startDay,endDay);
+        Integer i = this.geAlipayAirinfoService.countAllCancel(startDay,endDay);
 
         return i;
     }

@@ -4,10 +4,21 @@ import com.future.annotation.MappingConfig;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.sheethead")
 public class GeAlipayAirinfo {
     @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.endorsementEndorse.batchid")
     private EndorsementEndorse endorsementEndorse;
+    private List<EndorsementEndorseitemsWithBLOBs> endorsementEndorseitemsWithBLOBsList;
+
+    public List<EndorsementEndorseitemsWithBLOBs> getEndorsementEndorseitemsWithBLOBsList() {
+        return endorsementEndorseitemsWithBLOBsList;
+    }
+
+    public void setEndorsementEndorseitemsWithBLOBsList(List<EndorsementEndorseitemsWithBLOBs> endorsementEndorseitemsWithBLOBsList) {
+        this.endorsementEndorseitemsWithBLOBsList = endorsementEndorseitemsWithBLOBsList;
+    }
 
     public EndorsementEndorse getEndorsementEndorse() {
         return endorsementEndorse;
@@ -15,6 +26,25 @@ public class GeAlipayAirinfo {
 
     public void setEndorsementEndorse(EndorsementEndorse endorsementEndorse) {
         this.endorsementEndorse = endorsementEndorse;
+    }
+
+    private String newtimevalue;
+    private String newflightvalue;
+
+    public String getNewtimevalue() {
+        return newtimevalue;
+    }
+
+    public void setNewtimevalue(String newtimevalue) {
+        this.newtimevalue = newtimevalue;
+    }
+
+    public String getNewflightvalue() {
+        return newflightvalue;
+    }
+
+    public void setNewflightvalue(String newflightvalue) {
+        this.newflightvalue = newflightvalue;
     }
 
     /**

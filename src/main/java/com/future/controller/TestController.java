@@ -97,4 +97,15 @@ public class TestController {
         return null;
 
     }
+
+    @RequestMapping("testtask4")
+    public ResponseEntity<List<GeAlipayAirinfo>> test4(@RequestParam String startDay)
+    {
+        LOGGER.info("startDay:{}",startDay);
+        geAlipayAirinfoService.countAllEndorse(startDay,startDay);
+        List<GeAlipayAirinfo> list = geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
+        return new ResponseEntity<List<GeAlipayAirinfo>>(list, HttpStatus.OK);
+//        return null;
+
+    }
 }

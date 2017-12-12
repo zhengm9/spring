@@ -20,14 +20,23 @@
     <result property="insuredbirthday" column="insuredbirthday"/>
     <result property="insuredcertname" column="insuredcertname"/>
     <result property="insuredcerttype" column="insuredcerttype"/>
+    <result property="newtimevalue" column="newtimevalue"/>
+    <result property="newflightvalue" column="newflightvalue"/>
 
     <association property="endorsementEndorse" javaType="com.future.dao4ora.po.EndorsementEndorse">
       <result property="batchid" column="batchid"/>
       <result property="finishtinme" column="finishtinme"/>
       <result property="createstamp" column="createstamp"/>
       <result property="amount" column="amount"/>
+      <result property="status" column="endorsestatus"/>
+      <result property="reason" column="endorsereason"/>
+
     </association>
 
+    <collection property="endorsementEndorseitemsWithBLOBs" ofType="com.future.dao4ora.po.EndorsementEndorseitemsWithBLOBs">
+      <result column="NEWVALUE" property="newvalue"/>
+      <result column="ITEMTYPE" property="itemtype"/>
+    </collection>
   </resultMap>
 
   <resultMap id="BaseResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo" >
