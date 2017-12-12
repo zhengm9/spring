@@ -94,7 +94,7 @@ public interface GeAlipayAirinfoMapper {
 
     @Select({
             "select  ",
-            "'蚂蚁航意险' as PRODUCTNAME, a.policyno,tmp.batchid,a.premium/100 as premium,tmp.finishtinme,a.proposalno,a.bizorderid,a.holderphone, ",
+            "'蚂蚁航意险' as PRODUCTNAME, a.policyno,tmp.batchid,a.premium/100 as premium,tmp.finishtinme,a.proposalno,a.payflowid,a.holderphone, ",
             "a.insuredcertname,a.insuredcerttype,a.insuredcertNo,tmp.createstamp,tmp.status as endorsestatus,tmp.reason as endorsereason, ",
             "tmp.newtimevalue,tmp.newflightvalue ",
             "from chinalifeec.ge_alipay_airinfo a  ",
@@ -107,8 +107,8 @@ public interface GeAlipayAirinfoMapper {
             ",max(case when e2.itemtype='301' then to_char(e2.newvalue) else null end) as newflightvalue ",
             "from chinalifeec.ENDORSEMENT_ENDORSE e1 ",
             " left join chinalifeec.ENDORSEMENT_ENDORSEITEMS e2 on e2.batchid =e1.batchid ",
-            "where e1.createstamp>=to_date(to_char(trunc(sysdate-3),'yyyy-mm-dd') ||' 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
-            "and e1.createstamp<to_date(to_char(trunc(sysdate-1),'yyyy-mm-dd') ||' 23:59:59','yyyy-mm-dd hh24:mi:ss') ",
+            "where e1.createstamp>=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
+            "and e1.createstamp<to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss') ",
             "and e1.type='301' ",
             "group by e1.batchid,e1.policyno ",
             ")tmp ",

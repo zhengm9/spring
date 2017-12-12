@@ -140,16 +140,20 @@ public class SheetUtil {
         LOGGER.debug("mappingConfig.locationPath:{}, mappingConfig.fileName:{}, mappingConfig.mappingKey:{}"
                 ,mappingConfig.locationPath().length,mappingConfig.fileName().length
                 ,mappingConfig.mappingKey().length);
-        String mappedKey = null;
-        int index = -1;
+        boolean mappedKey = false;
+        int index = 0;
         for(String key : mappingConfig.mappingKey())
         {
             if(key.equals(finalColumnkey))
             {
-
+                mappedKey=true;
                 break;
             }
             index++;
+        }
+        if(!mappedKey)
+        {
+            return null;
         }
         Object configProperty = PropertiesMapUtil.getProperty
                 ((mappingConfig.locationPath().length<=1)?mappingConfig.locationPath()[0]:mappingConfig.locationPath()[index],

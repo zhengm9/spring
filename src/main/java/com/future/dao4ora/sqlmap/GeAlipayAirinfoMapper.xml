@@ -4,6 +4,8 @@
   <resultMap id="reportResultMap" type="com.future.dao4ora.po.GeAlipayAirinfo">
     <result property="policyno" column="policyno"/>
     <result property="fee" column="fee"/>
+    <result property="premium" column="premium"/>
+
     <result property="productname" column="productname"/>
     <result property="proposalno" column="proposalno"/>
     <result property="airorderid" column="airorderid"/>

@@ -8,7 +8,7 @@ import java.util.List;
 
 @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.sheethead")
 public class GeAlipayAirinfo {
-    @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.endorsementEndorse.batchid")
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = {"airinfo.endorsementEndorse.batchid","endorsementEndorse.status"})
     private EndorsementEndorse endorsementEndorse;
     private List<EndorsementEndorseitemsWithBLOBs> endorsementEndorseitemsWithBLOBsList;
 
@@ -280,7 +280,7 @@ public class GeAlipayAirinfo {
      *
      * @mbggenerated
      */
-    @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.merchantaccounttype")
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = "merchantaccounttype")
 
     private String merchantaccounttype;
 
@@ -450,7 +450,7 @@ public class GeAlipayAirinfo {
      *
      * @mbggenerated
      */
-    @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.insuredcerttype")
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = "insuredcerttype")
     private String insuredcerttype;
 
     /**
@@ -491,7 +491,7 @@ public class GeAlipayAirinfo {
      *
      * @mbggenerated
      */
-    @MappingConfig(fileName = "reportmap.properties",mappingKey = "airinfo.status")
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = "status")
     private String status;
 
     /**
