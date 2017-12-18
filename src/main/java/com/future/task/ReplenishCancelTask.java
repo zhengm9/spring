@@ -75,7 +75,7 @@ public class ReplenishCancelTask {
                             "error data for " + tborderid + System.lineSeparator(), true);
                     continue;
                 }
-                if (i == null || i <= 1) {
+                if (i == null || i < 1) {
                     List<GeProposalMain> list = null;
                     try {
                         list = geProposalService.selectOmittedByOrderId(tborderid);
