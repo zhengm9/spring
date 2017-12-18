@@ -5,10 +5,15 @@
     <result property="tborderid" column="tborderid"/>
     <result property="status" column="status"/>
     <result property="reason" column="reason"/>
+    <result property="sumpremium" column="sumpremium"/>
+    <result property="policyno" column="policyno"/>
+
 
     <association property="geQuoteParty" javaType="com.future.dao4ora.po.GeQuoteParty">
       <id property="id" column="author_id"/>
       <result property="partyname" column="partyname"/>
+      <result property="identifynumber" column="identifynumber"/>
+      <result property="identifytype" column="identifytype"/>
     </association>
     <association property="geAirorder" javaType="com.future.dao4ora.po.GeAirorder">
     </association>

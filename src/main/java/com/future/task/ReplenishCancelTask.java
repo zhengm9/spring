@@ -94,8 +94,10 @@ public class ReplenishCancelTask{
                     {
                         for(GeProposalMain geProposalMain : list)
                         {
-                            FileUtils.writeStringToFile(outputFile,geProposalMain.getSumpremium()+","
-                                    +geProposalMain.getProposalno()+","+geProposalMain.getGeQuoteParty().getPartyname()+","
+                            FileUtils.writeStringToFile(outputFile,geProposalMain.getTborderid()+","
+                                    +geProposalMain.getPolicyno()+","
+                                    +geProposalMain.getSumpremium()+","
+                                    +geProposalMain.getGeQuoteParty().getPartyname()+","
                                     +geProposalMain.getGeQuoteParty().getIdentifynumber()+","
                                     +geProposalMain.getGeQuoteParty().getIdentifytype()
                                     +System.lineSeparator(),true);
