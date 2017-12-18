@@ -80,7 +80,7 @@ public class ReplenishCancelTask{
                 }
                 if(i==null || i<=1)
                 {
-                    List list = null;
+                    List<GeProposalMain> list = null;
                     try{
                         list = geProposalService.selectOmittedByOrderId(tborderid);
                     }catch (Exception e)
@@ -90,7 +90,17 @@ public class ReplenishCancelTask{
                                 "error data for "+tborderid+System.lineSeparator(),true);
                         continue;
                     }
-                    FileUtils.writeLines(outputFile,list,true);
+                    if(list != null)
+                    {
+                        for(GeProposalMain geProposalMain : list)
+                        {
+                            FileUtils.writeStringToFile(outputFile,geProposalMain.getSumpremium()+","
+                                    +geProposalMain.getProposalno()+","+geProposalMain.getGeQuoteParty().getPartyname()+","
+                                    +geProposalMain.getGeQuoteParty().getIdentifynumber()+","
+                                    +geProposalMain.getGeQuoteParty().getIdentifytype()
+                                    +System.lineSeparator(),true);
+                        }
+                    }
                 }else{
 
                     FileUtils.writeStringToFile(outputFile,
