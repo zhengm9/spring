@@ -27,7 +27,7 @@ import java.util.Map;
  * Created by zhengming on 17/10/1.
  */
 @Component
-public class ReplenishCancelTask{
+public class ReplenishCancelTask {
     private static Logger LOGGER = LogManager.getLogger(ReplenishCancelTask.class);
     @Autowired
     private GeProposalService geProposalService;
@@ -40,8 +40,7 @@ public class ReplenishCancelTask{
     @Value("${outputOmittedFileName}")
     private String outputOmittedFileName;
 
-    public ReplenishCancelTask()
-    {
+    public ReplenishCancelTask() {
         super();
 
     }
@@ -52,10 +51,10 @@ public class ReplenishCancelTask{
         super.endDay=endDay;
     }*/
 
-    public boolean run(){
+    public boolean run() {
         File inputFile = new File(
                 ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
-                + File.separator + inputOmittedFileName);
+                        + File.separator + inputOmittedFileName);
 
 
         File outputFile = new File(
@@ -63,52 +62,52 @@ public class ReplenishCancelTask{
                         + File.separator + outputOmittedFileName);
 
         try {
-            LineIterator iterator =  FileUtils.lineIterator(inputFile,"gbk");
-            while(iterator.hasNext())
-            {
-                String tborderid= iterator.next().split("\\,")[1];
+            LineIterator iterator = FileUtils.lineIterator(inputFile, "gbk");
+            while (iterator.hasNext()) {
+                String tborderid = iterator.next().split("\\,")[1];
                 Integer i = null;
 
-                try{
+                try {
                     i = geAlipayAirinfoService.countOmittedAll(tborderid);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     LOGGER.error("countOmittedAll error:{}", e.getMessage());
                     FileUtils.writeStringToFile(outputFile,
-                            "error data for "+tborderid+System.lineSeparator(),true);
+                            "error data for " + tborderid + System.lineSeparator(), true);
                     continue;
                 }
-                if(i==null || i<=1)
-                {
+                if (i == null || i <= 1) {
                     List<GeProposalMain> list = null;
-                    try{
+                    try {
                         list = geProposalService.selectOmittedByOrderId(tborderid);
-                    }catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         LOGGER.error("countOmittedAll error:{}", e.getMessage());
                         FileUtils.writeStringToFile(outputFile,
-                                "error data for "+tborderid+System.lineSeparator(),true);
+                                "error data for " + tborderid + System.lineSeparator(), true);
                         continue;
                     }
-                    if(list != null)
-                    {
-                        for(GeProposalMain geProposalMain : list)
-                        {
-                            FileUtils.writeStringToFile(outputFile,geProposalMain.getTborderid()+","
-                                    +geProposalMain.getPolicyno()+","
-                                    +geProposalMain.getSumpremium()+","
-                                    +geProposalMain.getGeQuoteParty().getPartyname()+","
-                                    +geProposalMain.getGeQuoteParty().getIdentifynumber()+","
-                                    +geProposalMain.getGeQuoteParty().getIdentifytype()
-                                    +System.lineSeparator(),true);
-                        }
+
+                    if (list == null || list.size() < 1) {
+                        FileUtils.writeStringToFile(outputFile,
+                                "no data for " + tborderid + System.lineSeparator(), true);
+                        continue;
+
                     }
-                }else{
+
+                    for (GeProposalMain geProposalMain : list) {
+                        FileUtils.writeStringToFile(outputFile, geProposalMain.getTborderid() + ","
+                                + geProposalMain.getPolicyno() + ","
+                                + geProposalMain.getSumpremium() + ","
+                                + geProposalMain.getGeQuoteParty().getPartyname() + ","
+                                + geProposalMain.getGeQuoteParty().getIdentifynumber() + ","
+                                + geProposalMain.getGeQuoteParty().getIdentifytype()
+                                + System.lineSeparator(), true);
+                    }
+                } else {
 
                     FileUtils.writeStringToFile(outputFile,
-                            "reported data for "+tborderid+System.lineSeparator(),true);
+                            "reported data for " + tborderid + System.lineSeparator(), true);
                 }
-                LOGGER.info("next line:{}",tborderid);
+                LOGGER.info("next line:{}", tborderid);
             }
         } catch (IOException e) {
             e.printStackTrace();
