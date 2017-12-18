@@ -67,10 +67,29 @@ public class ReplenishCancelTask{
             while(iterator.hasNext())
             {
                 String tborderid= iterator.next().split("\\,")[1];
-                Integer i = geAlipayAirinfoService.countOmittedAll(tborderid);
+                Integer i = null;
+
+                try{
+                    i = geAlipayAirinfoService.countOmittedAll(tborderid);
+                }catch (Exception e)
+                {
+                    LOGGER.error("countOmittedAll error:{}", e.getMessage());
+                    FileUtils.writeStringToFile(outputFile,
+                            "error data for "+tborderid+System.lineSeparator(),true);
+                    continue;
+                }
                 if(i==null || i<=1)
                 {
-                    List list = geProposalService.selectOmittedByOrderId(tborderid);
+                    List list = null;
+                    try{
+                        list = geProposalService.selectOmittedByOrderId(tborderid);
+                    }catch (Exception e)
+                    {
+                        LOGGER.error("countOmittedAll error:{}", e.getMessage());
+                        FileUtils.writeStringToFile(outputFile,
+                                "error data for "+tborderid+System.lineSeparator(),true);
+                        continue;
+                    }
                     FileUtils.writeLines(outputFile,list,true);
                 }else{
 

@@ -53,7 +53,7 @@ public interface GeProposalMainMapper {
 
     @Select({
             "select ",
-            " '蚂蚁航意险 as PRODUCTNAME,",
+            " '蚂蚁航意险' as PRODUCTNAME,",
             " m.SUMPREMIUM,  ",
             " p.identifynumber, ",
             " p.identifytype, ",
