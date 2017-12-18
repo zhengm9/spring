@@ -4,6 +4,7 @@ import com.future.dao.po.ProjectInfo;
 import com.future.dao.service.ProjectInfoService;
 import com.future.dao4ora.po.GeAlipayAirinfo;
 import com.future.dao4ora.service.GeAlipayAirinfoService;
+import com.future.task.ReplenishCancelTask;
 import com.future.task.ReportCancelTask;
 import com.future.task.ReportEndorseTask;
 import com.future.task.ReportTask;
@@ -36,6 +37,8 @@ public class TestController {
     private ReportEndorseTask reportEndorseTask;
     @Autowired
     private ReportTask reportTask;
+    @Autowired
+    private ReplenishCancelTask replenishCancelTask;
 
     @Autowired
     private ProjectInfoService projectInfoService;
@@ -107,6 +110,18 @@ public class TestController {
 //        geAlipayAirinfoService.countAllEndorse(startDay,startDay);
 //        List<GeAlipayAirinfo> list = geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
         reportEndorseTask.run(startDay,startDay,"endorse");
+        return null;
+
+    }
+
+
+    @RequestMapping("testtask5")
+    public ResponseEntity<List<GeAlipayAirinfo>> test5(@RequestParam String startDay)
+    {
+        LOGGER.info("startDay:{}",startDay);
+//        geAlipayAirinfoService.countAllEndorse(startDay,startDay);
+//        List<GeAlipayAirinfo> list = geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
+        replenishCancelTask.run();
         return null;
 
     }

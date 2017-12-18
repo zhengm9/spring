@@ -1,7 +1,9 @@
 package com.future.dao4ora.service;
 
 import com.future.dao4ora.idao.GeProposalMainMapper;
+import com.future.dao4ora.po.GeAlipayAirinfo;
 import com.future.dao4ora.po.GeProposalMain;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -47,6 +49,10 @@ private GeProposalMainMapper geProposalMainMapper;
 
     public GeProposalMain selectForAliAir(GeProposalMain geProposalMain) {
         return this.geProposalMainMapper.selectForAliAir(geProposalMain);
+    }
+
+    public List<GeProposalMain> selectOmittedByOrderId(String tborderid) {
+        return this.geProposalMainMapper.selectOmittedByOrderId(tborderid);
     }
 
 

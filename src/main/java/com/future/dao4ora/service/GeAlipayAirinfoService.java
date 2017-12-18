@@ -43,6 +43,10 @@ public class GeAlipayAirinfoService implements GeAlipayAirinfoMapper {
         return this.geAlipayAirinfoMapper.selectEndorseByMakedate(startDay, endDay);
     }
 
+    public Integer countOmittedAll(@Param("tborderid") String tborderid) {
+        return this.geAlipayAirinfoMapper.countOmittedAll(tborderid);
+    }
+
     public PageInfo<GeAlipayAirinfo> selectByMakedateAndPage(String startDay, String endDay,
                                                          Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
