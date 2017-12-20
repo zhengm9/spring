@@ -125,4 +125,14 @@ public class TestController {
         return null;
 
     }
+
+    @RequestMapping("testtask6")
+    public ResponseEntity<List<GeAlipayAirinfo>> test5()
+    {
+//        geAlipayAirinfoService.countAllEndorse(startDay,startDay);
+//        List<GeAlipayAirinfo> list = geAlipayAirinfoService.selectEndorseByMakedate(startDay,startDay);
+        replenishCancelTask.compare();
+        return null;
+
+    }
 }

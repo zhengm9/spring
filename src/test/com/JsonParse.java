@@ -1,6 +1,7 @@
 package com;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.future.task.ReplenishCancelTask;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -29,5 +30,14 @@ public class JsonParse {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @Test
+    public void test2()
+    {
+        ReplenishCancelTask replenishCancelTask = new ReplenishCancelTask();
+        System.out.println(replenishCancelTask.compareId("17111150352497610728", "17111250392999810731"));
+        System.out.println(Long.decode("171111503"));
+        System.out.println("17111150352497610728".hashCode());
+        System.out.println("17111250392999810731".hashCode());
     }
 }

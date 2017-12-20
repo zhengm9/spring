@@ -7,6 +7,7 @@ import com.future.dao4ora.service.GeAlipayAirinfoService;
 import com.future.dao4ora.service.GeProposalService;
 import com.future.util.DateConverter;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import org.apache.commons.io.FileSystemUtils;
 import org.apache.commons.io.FileUtils;
@@ -52,6 +53,7 @@ public class ReplenishCancelTask {
     }*/
 
     public boolean run() {
+        compare();
         File inputFile = new File(
                 ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
                         + File.separator + inputOmittedFileName);
@@ -64,7 +66,7 @@ public class ReplenishCancelTask {
         try {
             LineIterator iterator = FileUtils.lineIterator(inputFile, "gbk");
             while (iterator.hasNext()) {
-                String tborderid = iterator.next().split("\\,")[1];
+                String tborderid = iterator.next().split("\\,")[0];
                 Integer i = null;
 
                 try {
@@ -116,5 +118,93 @@ public class ReplenishCancelTask {
         return true;
     }
 
+    public boolean compare() {
+        File localFile = new File(
+                ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
+                        + File.separator + "local.txt");
+
+
+        File remoteFile = new File(
+                ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
+                        + File.separator + "remote.txt");
+
+
+        File outputFile = new File(
+                ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
+                        + File.separator + inputOmittedFileName);
+
+        try {
+            LineIterator localIterator = FileUtils.lineIterator(localFile, "gbk");
+            LineIterator remoteIterator = FileUtils.lineIterator(remoteFile, "gbk");
+            String localId = (localIterator.hasNext())?localIterator.next():null;
+            String remoteId = (remoteIterator.hasNext())?remoteIterator.next():null;
+            while(localId!=null && remoteId!=null)
+            {
+                if(compareId(localId,remoteId)<0)
+                {
+                    localId = (localIterator.hasNext())?localIterator.next():null;
+                }else if(compareId(localId,remoteId)>0){
+                    //remoteid写入输出文件
+                    FileUtils.writeStringToFile(outputFile,
+                            remoteId + System.lineSeparator(), true);
+                    //remoteFile下移一行
+                    remoteId = (remoteIterator.hasNext())?remoteIterator.next():null;
+                }else{
+                    //remoteFile下移一行
+                    remoteId = (remoteIterator.hasNext())?remoteIterator.next():null;
+                    localId = (localIterator.hasNext())?localIterator.next():null;
+                }
+            }
+
+            if(localId==null)
+            {
+                //遍历剩余的remoteIterator,写入输出文件
+                while(remoteIterator.hasNext())
+                {
+                    FileUtils.writeStringToFile(outputFile,
+                            remoteIterator.next() + System.lineSeparator(), true);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public int compareId(String id1, String id2)
+    {
+        boolean isId1Null = Strings.isNullOrEmpty(id1);
+        boolean isId2Null = Strings.isNullOrEmpty(id2);
+
+        if(isId1Null&&isId2Null)
+        {
+            return 0;
+        }else if(isId1Null&&!isId2Null)
+        {
+            return -1;
+        }else if(!isId1Null&&isId2Null)
+        {
+            return 1;
+        }
+        char[] ch1 = id1.toCharArray();
+        char[] ch2 = id2.toCharArray();
+        if(ch1.length>ch2.length)
+        {
+            return 1;
+        }else if(ch1.length<ch2.length)
+        {
+            return 2;
+        }else{
+            for(int i=0;i<ch1.length;i++)
+            {
+                if(ch1[i]==ch2[i])continue;
+                if(ch1[i]>ch2[i])
+                    return 1;
+                else
+                    return -1;
+            }
+        }
+        return 0;
+    }
 
 }
