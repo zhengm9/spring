@@ -43,37 +43,39 @@ public interface GeAlipayAirinfoMapper {
     List<GeAlipayAirinfo> selectByMakedate(@Param("startDay")String startDay, @Param("endDay")String endDay);
 
     @Select({
-            "select count(1)",
-            "from chinalifeec.GE_ALIPAY_AIRINFO a",
-            "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
-            "on b.policyno=a.policyno ",
+            "select count(distinct b.policyno)",
+            "from chinalifeec.ENDORSEMENT_ENDORSE  b ",
             "where b.createstamp >=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
             "and b.createstamp<=to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss')",
-            "and b.type='402' ",
-            " order by b.createstamp,b.batchId"
+            "and b.type='402' "
     })
     Integer countAllCancel(@Param("startDay")String startDay, @Param("endDay")String endDay);
 
 
     @Select({
-            "select",
-            "'蚂蚁航意险' as PRODUCTNAME, b.batchId, a.policyno as policyno, b.amount/100 as amount, b.finishtinme,",
-            "a.proposalno, a.airorderid, a.flightno, a.airtakeoff, a.bizorderid, a.merchantaccounttype, a.merchantaccountid, ",
-            "a.paytime, a.payflowid, a.holdercertname, a.holderphone, ",
-            "case when a.insuredcertNo is null then p.identifynumber else a.insuredcertNo  end as insuredcertNo,",
-            "case when a.insuredcerttype is null then p.identifytype else a.insuredcerttype end as insuredcerttype,",
-            "case when a.insuredcertname is null then p.partyname else a.insuredcertname end as insuredcertname,",
-            "a.insuredbirthday, b.createstamp ",
-            "from chinalifeec.GE_ALIPAY_AIRINFO a",
-            "right join chinalifeec.ENDORSEMENT_ENDORSE  b ",
-            "on b.policyno=a.policyno ",
-            "LEFT JOIN chinalifeec.ge_proposal_main  m  on m.proposalno=a.proposalno ",
-            "left join chinalifeec.ge_quote_party p on m.quoteno=p.quoteno ",
+            "select ",
+            " '蚂蚁航意险 as PRODUCTNAME, tmp.batchid, a.policyno as policyno, tmp.amount/100 as amount, tmp.finishtinme, ",
+            " a.proposalno, a.airorderid, a.flightno, a.airtakeoff, a.bizorderid, a.merchantaccounttype, a.merchantaccountid,  ",
+            " a.paytime, a.payflowid, a.holdercertname, a.holderphone,  ",
+            " case when a.insuredcertNo is null then p.identifynumber else a.insuredcertNo  end as insuredcertNo, ",
+            " case when a.insuredcerttype is null then p.identifytype else a.insuredcerttype end as insuredcerttype, ",
+            " case when a.insuredcertname is null then p.partyname else a.insuredcertname end as insuredcertname, ",
+            " a.insuredbirthday, tmp.createstamp  ",
+            " from chinalifeec.GE_ALIPAY_AIRINFO a ",
+            " right join ",
+            " (select b.policyno as policyno, max(b.batchid) as batchid, max(b.amount) as amount,",
+            "   max(b.finishtinme) as finishtinme, max(b.createstamp) as createstamp",
+            "from chinalifeec.ENDORSEMENT_ENDORSE  b ",
             "where b.createstamp >=to_date('${startDay} 00:00:00','yyyy-mm-dd hh24:mi:ss') ",
             "and b.createstamp<=to_date('${endDay} 23:59:59','yyyy-mm-dd hh24:mi:ss')",
             "and b.type='402' ",
-            "and ( p.partyflag is null or p.partyflag = '2')",
-            " order by b.createstamp,b.batchId"
+            "group by b.policyno) tmp   ",
+            " on tmp.policyno=a.policyno  ",
+            " LEFT JOIN chinalifeec.ge_proposal_main  m  on m.proposalno=a.proposalno  ",
+            " left join chinalifeec.ge_quote_party p on m.quoteno=p.quoteno  ",
+            "where ",
+            " ( p.partyflag is null or p.partyflag = '2') ",
+            "  order by tmp.createstamp,tmp.batchid"
     })
     @ResultMap("reportResultMap")
     List<GeAlipayAirinfo> selectCancelByMakedate(@Param("startDay")String startDay, @Param("endDay")String endDay);
