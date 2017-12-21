@@ -90,6 +90,7 @@ public abstract class AbstractReportTask<T> {
             File file = new File(pathName);
             if(file.exists()&&!file.delete())
             {
+                LOGGER.error("delete old file failed:{}",pathName);
                 return;
             }
             for(;curSqlPage<=curWorkBook*maxPageNumPerWorkBook;curSqlPage++)

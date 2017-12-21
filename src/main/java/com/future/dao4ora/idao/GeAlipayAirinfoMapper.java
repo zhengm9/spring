@@ -54,7 +54,7 @@ public interface GeAlipayAirinfoMapper {
 
     @Select({
             "select ",
-            " '蚂蚁航意险 as PRODUCTNAME, tmp.batchid, a.policyno as policyno, tmp.amount/100 as amount, tmp.finishtinme, ",
+            " '蚂蚁航意险' as PRODUCTNAME, tmp.batchid, a.policyno as policyno, tmp.amount/100 as amount, tmp.finishtinme, ",
             " a.proposalno, a.airorderid, a.flightno, a.airtakeoff, a.bizorderid, a.merchantaccounttype, a.merchantaccountid,  ",
             " a.paytime, a.payflowid, a.holdercertname, a.holderphone,  ",
             " case when a.insuredcertNo is null then p.identifynumber else a.insuredcertNo  end as insuredcertNo, ",
