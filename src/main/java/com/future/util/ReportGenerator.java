@@ -38,9 +38,6 @@ public class ReportGenerator {
         String pathName = filePath+File.separator+fileName;
         LOGGER.info("file path is:{}",pathName);
         File file = new File(pathName);
-        if(file.exists()&&!file.delete()){
-            return false;
-        }
         return genWorkBook(file.toURI(),reportName,sheetName,objects,columnkeys);
     }
 

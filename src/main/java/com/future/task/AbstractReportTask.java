@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 
 import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -84,6 +85,13 @@ public abstract class AbstractReportTask<T> {
         int curWorkBook=1;
         for(;curWorkBook<=workBookNum; curWorkBook++)
         {
+            String pathName = filePath+ File.separator+workBookFileNames.get(curWorkBook-1);
+            LOGGER.info("file path is:{}",pathName);
+            File file = new File(pathName);
+            if(file.exists()&&!file.delete())
+            {
+                return;
+            }
             for(;curSqlPage<=curWorkBook*maxPageNumPerWorkBook;curSqlPage++)
             {
                 if(curSqlPage>sqlPageNum)break;
