@@ -6,6 +6,7 @@ import com.future.dao4ora.po.GeProposalMain;
 import com.future.dao4ora.service.GeAlipayAirinfoService;
 import com.future.dao4ora.service.GeProposalService;
 import com.future.util.DateConverter;
+import com.future.util.PropertiesMapUtil;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
@@ -54,6 +55,7 @@ public class ReplenishCancelTask {
 
     public boolean run() {
         compare();
+        Map map = (Map) PropertiesMapUtil.getProperty(null,null,"insuredcerttype");
         File inputFile = new File(
                 ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadFileDir)
                         + File.separator + inputOmittedFileName);
@@ -89,21 +91,47 @@ public class ReplenishCancelTask {
                     }
 
                     if (list == null || list.size() < 1) {
-                        FileUtils.writeStringToFile(outputFile,
-                                "no data for " + tborderid + System.lineSeparator(), true);
-                        continue;
+                        List<GeAlipayAirinfo> airinfoList = null;
+                        try {
+                            airinfoList = geAlipayAirinfoService.selectOmittedByOrderId(tborderid);
+                        } catch (Exception e) {
+                            LOGGER.error("selectOmittedByOrderId error:{}", e.getMessage());
+                            FileUtils.writeStringToFile(outputFile,
+                                    "error data for " + tborderid + System.lineSeparator(), true);
+                            continue;
+                        }
+                        if(airinfoList == null || airinfoList.size() < 1)
+                        {
+                            FileUtils.writeStringToFile(outputFile,
+                                    "no data for " + tborderid + System.lineSeparator(), true);
+                            continue;
+                        }else{
+                            for(GeAlipayAirinfo geAlipayAirinfo : airinfoList)
+                            {
+                                FileUtils.writeStringToFile(outputFile, geAlipayAirinfo.getPolicyno() + ","
+                                        + geAlipayAirinfo.getProposalno() + ","
+                                        + geAlipayAirinfo.getPremium() + ","
+                                        + geAlipayAirinfo.getInsuredcertname() + ","
+                                        + geAlipayAirinfo.getInsuredcertno() + ","
+                                        + map.get(geAlipayAirinfo.getInsuredcerttype())
+                                        + System.lineSeparator(), true);
+                            }
+                        }
+
+
+                    }else {
+                        for (GeProposalMain geProposalMain : list) {
+                            FileUtils.writeStringToFile(outputFile, geProposalMain.getTborderid() + ","
+                                    + geProposalMain.getPolicyno() + ","
+                                    + geProposalMain.getSumpremium() + ","
+                                    + geProposalMain.getGeQuoteParty().getPartyname() + ","
+                                    + geProposalMain.getGeQuoteParty().getIdentifynumber() + ","
+                                    + geProposalMain.getGeQuoteParty().getIdentifytype()
+                                    + System.lineSeparator(), true);
+                        }
 
                     }
 
-                    for (GeProposalMain geProposalMain : list) {
-                        FileUtils.writeStringToFile(outputFile, geProposalMain.getTborderid() + ","
-                                + geProposalMain.getPolicyno() + ","
-                                + geProposalMain.getSumpremium() + ","
-                                + geProposalMain.getGeQuoteParty().getPartyname() + ","
-                                + geProposalMain.getGeQuoteParty().getIdentifynumber() + ","
-                                + geProposalMain.getGeQuoteParty().getIdentifytype()
-                                + System.lineSeparator(), true);
-                    }
                 } else {
 
                     FileUtils.writeStringToFile(outputFile,
@@ -114,7 +142,6 @@ public class ReplenishCancelTask {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        geProposalService.selectOmittedByOrderId("1");
         return true;
     }
 
