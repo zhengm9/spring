@@ -63,7 +63,6 @@ public class ReportEndorseTask extends AbstractReportTask<GeAlipayAirinfo>{
             try {
                 Map<String, String>  mapsFlightData = objectMapper.readValue(geAlipayAirinfo.getNewflightvalue(), Map.class);
                 Map<String, String>  mapsEffectData = objectMapper.readValue(geAlipayAirinfo.getNewtimevalue(), Map.class);
-
                 Map<String, String> mapsDetail = objectMapper.readValue(mapsFlightData.get("json_data"), Map.class);
                 geAlipayAirinfo.setFlightno(mapsDetail.get("flightNo"));
                 geAlipayAirinfo.setAirtakeoff(
@@ -75,8 +74,8 @@ public class ReportEndorseTask extends AbstractReportTask<GeAlipayAirinfo>{
                 geAlipayAirinfo.setEffectendtime(
                         dateConverter.convert(mapsEffectData.get("effect_end_time"),"yyyy-MM-dd HH:mm:ss")
                 );
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                LOGGER.info("geAlipayAirinfo:{},error:{}",geAlipayAirinfo.getPolicyno(),e);
             }
         }
         return pageInfo.getList();

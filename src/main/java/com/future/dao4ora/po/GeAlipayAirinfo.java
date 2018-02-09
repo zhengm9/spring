@@ -298,6 +298,8 @@ public class GeAlipayAirinfo {
      *
      * @mbggenerated
      */
+    @MappingConfig(fileName = "reportmap.properties",mappingKey = "otheraccounttype")
+
     private String otheraccounttype;
 
     /**
